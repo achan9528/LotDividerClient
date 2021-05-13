@@ -1,9 +1,10 @@
 import RegistrationForm from './views/registration'
+import {submitHandler} from './components/helpers'
 
 function App() {
   return (
     <div>
-      <RegistrationForm></RegistrationForm>
+      <RegistrationForm submitHandler={submitHandler}></RegistrationForm>
     </div>
   );
 }

@@ -1,11 +1,8 @@
 const InputGroup = (props) =>{
-    const changeHandler = (e)=>{
-        props.changeHandler(e.target.value);
-    }
     return (
         <div>
-            <label>{props.label}</label>
-            <input name={props.name} onChange={(e)=>{changeHandler(e)}}></input>
+            <label htmlFor={props.name}>{props.label}</label>
+            <input id={props.name} name={props.name} onChange={(e)=>{props.stateFunction(e.target.value)}}></input>
         </div>
     )
 }
