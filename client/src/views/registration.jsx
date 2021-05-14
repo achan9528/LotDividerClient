@@ -29,7 +29,7 @@ const RegistrationForm = (props) => {
                 <InputGroup label='Email' name='email' stateFunction={setEmail}></InputGroup>
                 <InputGroup label='Password' name='password' stateFunction={setPassword}></InputGroup>
                 <InputGroup label='Confirm Password' name='passwordConfirm' stateFunction={setPasswordConfirm}></InputGroup>
-                <button></button>
+                <button>Register</button>
             </form>
         </div>
 

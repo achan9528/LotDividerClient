@@ -20,7 +20,7 @@ const LoginForm = (props) => {
             <form onSubmit={(e) => props.submitHandler(e, data, url, props.setToken)} >
                 <InputGroup label='Email' name='email' stateFunction={setEmail}></InputGroup>
                 <InputGroup label='Password' name='password' stateFunction={setPassword}></InputGroup>
-                <button></button>
+                <button>Login</button>
             </form>
         </div>
 

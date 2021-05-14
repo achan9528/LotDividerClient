@@ -1,6 +1,7 @@
+import Button from 'react-bootstrap/Button'
 export const LogoutLink = (props) => {
     return(
-        <button onClick={e=>props.setToken('')}>Logout</button>
+        <Button onClick={e=>props.setToken('')}>Logout</Button>
     )
 }
 
