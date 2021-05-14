@@ -18,7 +18,7 @@ describe('Submit Handler Test', () => {
 
         const json = submitHandler(mockEvent, data, url)
         expect(fetchMock).toHaveBeenCalledWith(url, {
-            body: data,
+            body: JSON.stringify(data),
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

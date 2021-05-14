@@ -55,6 +55,5 @@ describe('Registration component', () =>{
         userEvent.click(button);
         expect(mockSubmit).toBeCalled();
     })
-
 })
 

@@ -1,7 +1,6 @@
 // registration form
 import React, { useState } from 'react'
 import InputGroup from '../components/inputGroup'
-import { changeHandler } from '../components/helpers'
 
 const RegistrationForm = (props) => {
 
