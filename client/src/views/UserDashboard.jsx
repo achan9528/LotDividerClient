@@ -1,4 +1,4 @@
-import { Row, Table, Button } from 'react-bootstrap'
+import { Row, Col, Table, Button } from 'react-bootstrap'
 import useToken from '../components/hooks/useToken'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -31,8 +31,12 @@ const UserDashboard = () => {
         tableData = projects.map((item,key) => {
             return(
                 <tr key={key}>
-                    <td>{item.name}</td>
-                    <td>{item.fractionalLotsAllowed}</td>
+                    <td>{item.id}</td>
+                    <td><Link to={'/projects/'+item.id+"/"}>{item.name}</Link></td>
+                    <td>
+                        <Link to={'/projects/'+item.id+"/edit"}>Edit Project | </Link>
+                        <Link to={'/projects/'+item.id+"/delete"}>Remove Project</Link>
+                    </td>
                 </tr>
             )
         })
@@ -40,20 +44,35 @@ const UserDashboard = () => {
 
     return (
         <div>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>Project Name</th>
-                        <th>Project Number</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {tableData}
-                </tbody>
-            </Table>
-            <Link to='/projects/new'>
-                <Button>New Project</Button>
-            </Link>
+            <Row>
+                <h1>Welcome back!</h1>
+            </Row>
+            <Row>
+                <Col>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Project ID</th>
+                                <th>Project Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {tableData}
+                        </tbody>
+                    </Table>
+                    <Link to='/projects/new'>
+                        <Button>New Project</Button>
+                    </Link>
+                    <Link to='/portfolios/new'>
+                        <Button>New Portfolio</Button>
+                    </Link>
+                </Col>
+                <Col>
+                    <h2>Latest Activity:</h2>
+                    <p>Go Go Squid is a good show (deep cuts)</p>
+                </Col>
+            </Row>
         </div>
     )
 }

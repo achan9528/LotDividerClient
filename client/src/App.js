@@ -1,7 +1,10 @@
 import RegistrationForm from './views/registration'
 import HomePage from './views/home'
+import ProjectView from './views/ProjectView'
 import UserDashboard from './views/UserDashboard'
 import NewProjectForm from './views/NewProjectForm'
+import NewProposalForm from './views/NewProposalForm'
+import NewPortfolioForm from './views/NewPortfolioForm'
 import LogoutLink from './components/logout'
 import useToken from './components/hooks/useToken'
 import {
@@ -41,11 +44,17 @@ function App() {
         <Route exact path="/dashboard">
           <UserDashboard></UserDashboard>
         </Route>
-        <Route exact path="/test">
-          <h1>Test Page</h1>
-        </Route>
         <Route exact path="/projects/new">
           <NewProjectForm></NewProjectForm>
+        </Route>
+        <Route exact path="/proposals/new">
+          <NewProposalForm></NewProposalForm>
+        </Route>
+        <Route exact path="/projects/:id">
+          <ProjectView></ProjectView>
+        </Route>
+        <Route exact path="/portfolios/new">
+          <NewPortfolioForm></NewPortfolioForm>
         </Route>
       </Switch>
       

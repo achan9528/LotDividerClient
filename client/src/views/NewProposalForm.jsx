@@ -5,9 +5,9 @@ import { useState, useEffect } from 'react'
 import useToken from '../components/hooks/useToken'
 import { useHistory } from 'react-router-dom'
 
-const NewProjectForm = (props) => {
+const NewProposalForm = (props) => {
     const [users, setUsers] = useState();
-    const [projectName, setProjectName] = useState();
+    const [proposalName, setProposalName] = useState();
     const [owners, setOwners] = useState([]);
     const {token, setToken} = useToken();
     let history = useHistory();
@@ -18,7 +18,7 @@ const NewProjectForm = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        const url = "http://localhost:8000/api/projects/";
+        const url = "http://localhost:8000/api/proposals/";
         const data = {
             method: 'POST',
             headers: {
@@ -26,7 +26,7 @@ const NewProjectForm = (props) => {
                 'Content-Type': "application/json"
             },
             body: JSON.stringify({
-                name: projectName,
+                name: proposalName,
                 owners: owners,
             })
         };
@@ -39,7 +39,6 @@ const NewProjectForm = (props) => {
         })
         .catch(err=>{
             console.log(err);
-            console.log(projectName);
         });
         
         // const url = "http://localhost:8000/api/users/";
@@ -58,22 +57,10 @@ const NewProjectForm = (props) => {
         <Row className="justify-content-md-center">
             <Form onSubmit={e=>submitHandler(e)}>
                 <Form.Group>
-                    <Form.Label>Project Name</Form.Label>
+                    <Form.Label>Proposal Name</Form.Label>
                     <Form.Control
-                        onChange={e=>setProjectName(e.target.value)}
+                        onChange={e=>setProposalName(e.target.value)}
                         ></Form.Control>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Owners</Form.Label>
-                    <Form.Control
-                        onChange={e=>setOwners(e.target.value)}
-                        as='select' multiple>
-                            {/* {
-                                users.map((item,key)=>{
-                                    <option value={item.id}>{item.alias}</option>
-                                })
-                            } */}
-                        </Form.Control>
                 </Form.Group>
                 <Button type="submit">Submit</Button>
             </Form>
@@ -81,4 +68,4 @@ const NewProjectForm = (props) => {
     )
 }
 
-export default NewProjectForm
+export default NewProposalForm
