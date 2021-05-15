@@ -1,6 +1,7 @@
 import { Row, Table, Button } from 'react-bootstrap'
 import useToken from '../components/hooks/useToken'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const UserDashboard = () => {
     const { token, setToken } = useToken()
@@ -50,6 +51,9 @@ const UserDashboard = () => {
                     {tableData}
                 </tbody>
             </Table>
+            <Link to='/projects/new'>
+                <Button>New Project</Button>
+            </Link>
         </div>
     )
 }
