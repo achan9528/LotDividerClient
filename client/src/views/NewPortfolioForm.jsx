@@ -81,6 +81,7 @@ const NewPortfolioForm = (props) => {
         content.push(
             <MultiStepFormHoldingsTable
             headers={[
+                
                 "Ticker",
                 "CUSIP",
                 "Tax Lot Number",
