@@ -26,7 +26,11 @@ const NewPortfolioForm = (props) => {
         formData.append('portfolioName', portfolioName);
         formData.append('accounts', accounts);
         formData.append('holdings', holdings);
-        formData.append('0', files[0]);
+        for (let i = 0; i < files.length; i++){
+            if (files[i]){
+                formData.append(`${accounts[i].name}__holdings`, files[i].file);
+            }
+        }
         let url = "http://localhost:8000/api/portfolios/"
         fetch(url, {
             method: 'POST',
@@ -41,12 +45,13 @@ const NewPortfolioForm = (props) => {
     }
     
     const fileHandler = (e, targetAccount) => {
-        console.log(e.target.files[0])
-        e.preventDefault();
         let updatedFiles = files;
-        updatedFiles[targetAccount] = e.target.files[0];
+        let accountName = accounts[targetAccount].name;
+        updatedFiles[targetAccount] = {
+            name: e.target.files[0].name,
+            file: e.target.files[0],
+        };
         setFiles([...updatedFiles])
-        console.log(files);
     }
 
     // step process

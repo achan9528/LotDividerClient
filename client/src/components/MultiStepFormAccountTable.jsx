@@ -13,7 +13,7 @@ const MultiStepFormAccountTable = (props)=>{
     const changeHandler = (e, key) =>{
         let tdata = props.accounts;
         tdata[key].name = e.target.value;
-        props.setAccounts(tdata);
+        props.setAccounts([...tdata]);
     }
 
     return (
@@ -58,21 +58,21 @@ const MultiStepFormAccountTable = (props)=>{
                             } else if (props.files[key]){
                                 holdingsColumn =
                                 <>
-                                    {props.files[key]}
+                                    {props.files[key].name}
                                     <Button variant="link"  
                                     onClick={e=>props.toHoldingsStep(e, key)}> 
                                         (File Uploaded, Click to Edit Holdings)
                                     </Button>
                                 </>
                             }
-
+                            console.log(props.accounts)
                             return(
                                 <tr key={key}>
                                     <td>
                                         <Form.Group>
-                                            <Form.Label>{item.name}</Form.Label>
                                             <Form.Control
-                                            onChange={(e)=>changeHandler(e, key)}></Form.Control>
+                                            onChange={(e)=>changeHandler(e, key)}
+                                            value={item.name}></Form.Control>
                                         </Form.Group>
                                     </td>
                                     <td>
