@@ -47,7 +47,7 @@ function App() {
         <Route exact path="/projects/new">
           <NewProjectForm></NewProjectForm>
         </Route>
-        <Route exact path="/proposals/new">
+        <Route exact path="/projects/:projectID/proposals/new">
           <NewProposalForm></NewProposalForm>
         </Route>
         <Route exact path="/projects/:id">

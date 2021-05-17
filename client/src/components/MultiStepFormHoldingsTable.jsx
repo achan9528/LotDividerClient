@@ -43,26 +43,27 @@ const MultiStepFormHoldingsTable = (props)=>{
     }
 
     return (
-        <Form.Group>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        {
-                            props.headers.map((item,key)=>{
-                                return (
-                                    <th key={key}>{item}</th>
-                                )
-                            })
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    {tdata}
-                </tbody>
-            </Table>
-            <Button onClick={e=>addRow(e)}>+</Button>
-        </Form.Group>
-        
+        <Form>
+            <Form.Group>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            {
+                                props.headers.map((item,key)=>{
+                                    return (
+                                        <th key={key}>{item}</th>
+                                    )
+                                })
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {tdata}
+                    </tbody>
+                </Table>
+                <Button onClick={e=>addRow(e)}>+</Button>
+            </Form.Group>
+        </Form>
     )
 }
 

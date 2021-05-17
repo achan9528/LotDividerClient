@@ -84,7 +84,9 @@ const NewPortfolioForm = (props) => {
             </Form.Group>
         );
         content.push(
-            <Button onClick={e=>nextStep(e)}>
+            <Button 
+            onClick={e=>nextStep(e)}
+            variant="link">
                 Next
             </Button>
         )
@@ -103,8 +105,16 @@ const NewPortfolioForm = (props) => {
             files={files}></MultiStepFormAccountTable>
         )
         content.push(
-            <Button onClick={e=>prevStep(e)}>
+            <Button 
+            onClick={e=>prevStep(e)}
+            variant="link">
                 Previous
+            </Button>
+        )
+        content.push(
+            <Button 
+            type="submit">
+                Submit
             </Button>
         )
     } else if (step == 2){
@@ -134,13 +144,10 @@ const NewPortfolioForm = (props) => {
             setHoldings={setHoldings}></MultiStepFormHoldingsTable>
         )
         content.push(
-            <Button onClick={e=>prevStep(e)}>
+            <Button 
+            onClick={e=>prevStep(e)}
+            variant="link">
                 Previous
-            </Button>
-        )
-        content.push(
-            <Button type="submit">
-                Submit
             </Button>
         )
     }

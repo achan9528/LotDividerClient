@@ -60,7 +60,7 @@ export const ProjectView = () =>{
                     {tableData}
                 </tbody>
             </Table>
-            <Link to="/proposals/new/">  
+            <Link to={`proposals/new`}>  
                 <Button>New Proposal</Button>
             </Link>
         </div>
