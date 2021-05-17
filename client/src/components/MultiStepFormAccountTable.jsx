@@ -28,12 +28,44 @@ const MultiStepFormAccountTable = (props)=>{
                                 )
                             })
                         }
-                        <th></th>
+                        <th>Holdings</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         props.accounts.map((item,key)=>{
+                            let holdingsColumn;
+                            if (props.holdings[key].length==0 &&
+                                props.files[key] == undefined){
+                                holdingsColumn = 
+                                <Button 
+                                    variant="link"
+                                    onClick={e=>props.toHoldingsStep(e, key)}>
+                                    Add Holdings / Tax Lots
+                                </Button>
+                            }
+                            else if (props.holdings[key].length > 0 &&
+                                props.files[key] == ""){
+                                holdingsColumn = 
+                                <>
+                                    Manually Entered
+                                    <Button 
+                                        variant="link"
+                                        onClick={e=>props.toHoldingsStep(e, key)}>
+                                        Add Holdings / Tax Lots
+                                    </Button>
+                                </>
+                            } else if (props.files[key]){
+                                holdingsColumn =
+                                <>
+                                    {props.files[key]}
+                                    <Button variant="link"  
+                                    onClick={e=>props.toHoldingsStep(e, key)}> 
+                                        (File Uploaded, Click to Edit Holdings)
+                                    </Button>
+                                </>
+                            }
+
                             return(
                                 <tr key={key}>
                                     <td>
@@ -44,12 +76,7 @@ const MultiStepFormAccountTable = (props)=>{
                                         </Form.Group>
                                     </td>
                                     <td>
-                                        <Button 
-                                        variant="link"
-                                        onClick={e=>props.toHoldingsStep(e, key)}>
-                                        Add Holdings / Tax Lots
-                                        </Button>
-                                        
+                                        {holdingsColumn}
                                     </td>
                                 </tr>
                             )

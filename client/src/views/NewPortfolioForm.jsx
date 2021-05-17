@@ -12,16 +12,43 @@ const NewPortfolioForm = (props) => {
     const [portfolioName, setPortfolioName] = useState("");
     const [holdings, setHoldings] = useState([]);
     const [accounts, setAccounts] = useState([]);
+    const [files, setFiles] = useState([]);
     const [currentAccount, setCurrentAccount] = useState();
+    const {token, setToken} = useToken();
 
     useEffect(()=>{
         setStep(0);
     }, [])
-
+    
     const submitHandler = (e) => {
         e.preventDefault();
+        let formData = new FormData();
+        formData.append('portfolioName', portfolioName);
+        formData.append('accounts', accounts);
+        formData.append('holdings', holdings);
+        formData.append('0', files[0]);
+        let url = "http://localhost:8000/api/portfolios/"
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${token}`,
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data=> console.log(data))
+        .catch(err=> console.log(err));
     }
     
+    const fileHandler = (e, targetAccount) => {
+        console.log(e.target.files[0])
+        e.preventDefault();
+        let updatedFiles = files;
+        updatedFiles[targetAccount] = e.target.files[0];
+        setFiles([...updatedFiles])
+        console.log(files);
+    }
+
     // step process
     const nextStep = (e) => {
         setStep(step+1);
@@ -67,7 +94,8 @@ const NewPortfolioForm = (props) => {
             setAccounts={setAccounts}
             setHoldings={setHoldings}
             holdings={holdings}
-            toHoldingsStep={toHoldingsStep}></MultiStepFormAccountTable>
+            toHoldingsStep={toHoldingsStep}
+            files={files}></MultiStepFormAccountTable>
         )
         content.push(
             <Button onClick={e=>prevStep(e)}>
@@ -78,6 +106,14 @@ const NewPortfolioForm = (props) => {
         content.push(
             <h2>Add Holdings and Tax Lots In "{accounts[currentAccount].name}"</h2>
         );
+        content.push(
+            <Form.Group>
+                <Form.Label>Upload Holdings</Form.Label>
+                <Form.File 
+                name={"account-" + currentAccount + "-holdings"}
+                onChange={e=>fileHandler(e, currentAccount)}></Form.File>
+            </Form.Group>
+        )
         content.push(
             <MultiStepFormHoldingsTable
             headers={[
