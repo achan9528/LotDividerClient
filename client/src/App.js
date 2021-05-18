@@ -5,6 +5,7 @@ import UserDashboard from './views/UserDashboard'
 import NewProjectForm from './views/NewProjectForm'
 import NewProposalForm from './views/NewProposalForm'
 import NewPortfolioForm from './views/NewPortfolioForm'
+import ProposalView from './views/ProposalView'
 import LogoutLink from './components/logout'
 import useToken from './components/hooks/useToken'
 import {
@@ -56,6 +57,15 @@ function App() {
         <Route exact path="/portfolios/new">
           <NewPortfolioForm></NewPortfolioForm>
         </Route>
+        <Route exact path="/proposals/:id">
+          <ProposalView></ProposalView>
+        </Route>
+        {/* <Route exact path="/proposals/:id/edit">
+          <EditProposalView></EditProposalView>
+        </Route>
+        <Route exact path="/proposals/:id/delete">
+          <DeleteProposalView></DeleteProposalView>
+        </Route> */}
       </Switch>
       
     </Router>

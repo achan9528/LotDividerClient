@@ -65,7 +65,6 @@ const MultiStepFormAccountTable = (props)=>{
                                     </Button>
                                 </>
                             }
-                            console.log(props.accounts)
                             return(
                                 <tr key={key}>
                                     <td>

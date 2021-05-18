@@ -19,6 +19,12 @@ const MultiStepFormHoldingsSelectTable = (props)=>{
         setHoldings([...accountHoldings]);
     }, [])
 
+    const changeHandler = (e, item) => {
+        let updatedTargetHoldings = props.targetHoldings;
+        updatedTargetHoldings[[item.security.ticker]] = e.target.value;
+        props.setTargetHoldings({...updatedTargetHoldings});
+    }
+
     return (
         <Form>
             <Form.Group>
@@ -40,9 +46,9 @@ const MultiStepFormHoldingsSelectTable = (props)=>{
                                         <td>{item.security.cusip}</td>
                                         <td>{item.totalUnits}</td>
                                         <td>
-                                            <Form.Check
-                                            type='checkbox'>
-                                            </Form.Check>
+                                            <Form.Control
+                                            onChange={e=>changeHandler(e,item)}
+                                            value={props.targetHoldings[[item.security.ticker]]}></Form.Control>
                                         </td>
                                     </tr>
                                 )

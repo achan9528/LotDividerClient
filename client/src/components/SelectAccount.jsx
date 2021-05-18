@@ -23,7 +23,7 @@ const SelectAccount = (props) => {
                                     <td>
                                         <Button
                                         variant='link'
-                                        onClick={e=>props.getHoldings(e, item.id)}>Select</Button>
+                                        onClick={e=>props.getHoldings(e, item)}>Select</Button>
                                     </td>
                                 </tr>
                             )

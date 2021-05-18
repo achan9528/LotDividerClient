@@ -7,6 +7,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import SelectAccount from '../components/SelectAccount'
 import MultiStepFormHoldingsSelectTable from '../components/MultiStepFormHoldingsSelectTable'
 import TaxLotSelectionDetails from '../components/TaxLotSelectionDetails'
+import ProposalConfirmationPage from '../components/ProposalConfirmationPage'
 
 const NewProposalForm = (props) => {
     const [proposalName, setProposalName] = useState();
@@ -16,6 +17,9 @@ const NewProposalForm = (props) => {
     const [accounts, setAccounts] = useState();
     const [targetAccount, setTargetAccount] = useState();
     const [holdings, setHoldings] = useState([]);
+    const [targetHoldings, setTargetHoldings] = useState({});
+    const [numberOfPortfolios, setNumberOfPortfolios] = useState();
+    const [method, setMethod] = useState("HIFO");
     let history = useHistory();
 
     useEffect(()=>{
@@ -34,8 +38,8 @@ const NewProposalForm = (props) => {
         .catch(err=> console.log(err));
     }, [])
 
-    const getHoldings = (e, targetAccountID) => {
-        let url = `http://localhost:8000/api/accounts/${targetAccountID}/`
+    const getHoldings = (e, targetAccount) => {
+        let url = `http://localhost:8000/api/accounts/${targetAccount.id}/`
         let data = {
             headers:{
                 Authorization: `Token ${token}`
@@ -45,7 +49,7 @@ const NewProposalForm = (props) => {
         .then(res=>res.json())
         .then(data=>{
             setHoldings([...data.holdings]);
-            setTargetAccount(targetAccountID);
+            setTargetAccount(targetAccount);
             setStep(step+1);
         })
         .catch(err=>console.log(err))
@@ -54,6 +58,15 @@ const NewProposalForm = (props) => {
     const submitHandler = (e) => {
         e.preventDefault();
         const url = "http://localhost:8000/api/proposals/";
+        console.log({
+            projectID: parseInt(projectID),
+            proposalName: proposalName,
+            autoCalculate: 'true',
+            accountID: targetAccount.id,                
+            numberOfPortfolios: numberOfPortfolios,
+            targetShares: targetHoldings,
+            method: method,
+        })
         const data = {
             method: 'POST',
             headers: {
@@ -61,11 +74,15 @@ const NewProposalForm = (props) => {
                 'Content-Type': "application/json"
             },
             body: JSON.stringify({
-                name: proposalName,
-                project: projectID,
+                projectID: projectID,
+                proposalName: proposalName,
+                autoCalculate: 'true',
+                accountID: targetAccount.id,                
+                numberOfPortfolios: numberOfPortfolios,
+                targetShares: targetHoldings,
+                method: method,
             })
         };
-        console.log(data);
         fetch(url, data)
         .then(res=>res.json())
         .then(data=>{
@@ -125,7 +142,9 @@ const NewProposalForm = (props) => {
         )
         content.push(
             <MultiStepFormHoldingsSelectTable
-            holdings={holdings}></MultiStepFormHoldingsSelectTable>
+            holdings={holdings}
+            targetHoldings={targetHoldings}
+            setTargetHoldings={setTargetHoldings}></MultiStepFormHoldingsSelectTable>
         )
         content.push(
             <Row>
@@ -146,8 +165,12 @@ const NewProposalForm = (props) => {
             </h2>
         )
         content.push(
-            <TaxLotSelectionDetails>
-            </TaxLotSelectionDetails>
+            <TaxLotSelectionDetails
+            numberOfPortfolios={numberOfPortfolios}
+            setNumberOfPortfolios={setNumberOfPortfolios}
+            setMethod = {setMethod}
+            method= {method}
+            ></TaxLotSelectionDetails>
         )
         content.push(
             <Row>
@@ -155,9 +178,37 @@ const NewProposalForm = (props) => {
                     <Button
                     variant="link"
                     onClick={e=>setStep(step-1)}>Back</Button>
+
+                </Col>
+                <Col>
+                    <Button
+                        variant="link"
+                        onClick={e=>setStep(step+1)}>Next</Button>
+                </Col>
+            </Row>
+        )
+    } else if (step == 4) { // Step 5: Confirmation Step
+        content.push(
+            <h2>Confirm Proposal Details</h2>
+        )
+        content.push(
+            <ProposalConfirmationPage
+            proposalName={proposalName}
+            account={targetAccount}
+            holdings={targetHoldings}
+            selectionMethod={method}
+            numberOfPortfolios={numberOfPortfolios}></ProposalConfirmationPage>
+        )
+        content.push(
+            <Row>
+                <Col lg={10}>
                     <Button
                     variant="link"
-                    onClick={e=>setStep(step+1)}>Next</Button>
+                    onClick={e=>setStep(step-1)}>Back</Button>
+                </Col>
+                <Col>
+                    <Button
+                        onClick={e=>submitHandler(e)}>Submit</Button>
                 </Col>
             </Row>
         )

@@ -1,4 +1,4 @@
-import { Row, Col, Table, Button } from 'react-bootstrap'
+import { Row, Col, Table, Button, Container } from 'react-bootstrap'
 import useToken from '../components/hooks/useToken'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -43,9 +43,11 @@ const UserDashboard = () => {
     }
 
     return (
-        <div>
+        <Container>
             <Row>
-                <h1>Welcome back!</h1>
+                <Col>
+                    <h1>Welcome back!</h1>
+                </Col>
             </Row>
             <Row>
                 <Col>
@@ -73,7 +75,7 @@ const UserDashboard = () => {
                     <p>Go Go Squid is a good show (deep cuts)</p>
                 </Col>
             </Row>
-        </div>
+        </Container>
     )
 }
 
