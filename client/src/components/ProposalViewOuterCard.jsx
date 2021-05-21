@@ -12,7 +12,7 @@ export const ProposalViewOuterCard = (props) =>{
                 <Row>
                     <Col>
                         <Accordion.Toggle
-                        as={Button} variant={"link"} eventKey={"0"}>
+                        as={Button} variant={"link"} eventKey={`${props.eventKey}`}>
                         {props.heading}
                         </Accordion.Toggle>
                     </Col>
@@ -24,7 +24,7 @@ export const ProposalViewOuterCard = (props) =>{
                     </Col>
                 </Row>
             </Card.Header>
-            <Accordion.Collapse eventKey={props.eventKey}>
+            <Accordion.Collapse eventKey={`${props.eventKey}`}>
                 <Card.Body>
                     {
                         Object.keys(props.holdings).map((item,key)=>{

@@ -110,20 +110,20 @@ export const ProposalView = (props) =>{
                 </Row>
                 <Row>
                     <Col>
-                        <Accordion>
                             {
                                 Object.keys(holdings).map((item,key)=>{
                                     return(
-                                        <ProposalViewOuterCard
-                                        heading={productTypes[[item]]}
-                                        eventKey={`${key}`}
-                                        key={key}
-                                        accounts={accounts}
-                                        holdings={holdings[[item]]}></ProposalViewOuterCard>
+                                        <Accordion>
+                                            <ProposalViewOuterCard
+                                            heading={productTypes[[item]]}
+                                            eventKey={`${key}`}
+                                            key={key}
+                                            accounts={accounts}
+                                            holdings={holdings[[item]]}></ProposalViewOuterCard>
+                                        </Accordion>
                                     )
                                 })
                             }
-                        </Accordion>
                         <Link to={`proposals/${id}/edit`}>Edit Proposal</Link>
                     </Col>
                 </Row>

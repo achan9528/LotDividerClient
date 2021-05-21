@@ -10,11 +10,11 @@ const ProposalViewInnerCard = (props) => {
             <Card>
                 <Card.Header>
                     <Accordion.Toggle
-                    as={Button} variant={"link"} eventKey={`${props.key}`}>
+                    as={Button} variant={"link"} eventKey={`${props.eventKey}`}>
                         {props.header}
                     </Accordion.Toggle>
                 </Card.Header>
-                <Accordion.Collapse eventKey={`${props.key}`}>
+                <Accordion.Collapse eventKey={`${props.eventKey}`}>
                     <Card.Body>
                         <Table striped bordered hover>
                             <thead>
@@ -61,12 +61,12 @@ const ProposalViewInnerCard = (props) => {
                                         let taxLot = item;
                                         let unitColumns = props.accounts.map((item,key)=>{
                                             return(
-                                                <td>{props.taxLots[[taxLot]][[item]].units}</td>
+                                                <td key={key}>{props.taxLots[[taxLot]][[item]].units}</td>
                                             )
                                         })
                                         let marketValueColumns = props.accounts.map((item,key)=>{
                                             return(
-                                                <td>{props.taxLots[[taxLot]][[item]].marketValue}</td>
+                                                <td key={key}>{props.taxLots[[taxLot]][[item]].marketValue}</td>
                                             )
                                         })
                                         return(
