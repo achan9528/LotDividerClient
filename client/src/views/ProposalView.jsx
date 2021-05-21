@@ -5,7 +5,8 @@ import useToken from '../components/hooks/useToken'
 import ProposalViewOuterCard from '../components/ProposalViewOuterCard'
 
 export const ProposalView = (props) =>{
-    const [proposal, setProposal] = useState({})
+    const [loading, setLoading] = useState(true)
+    const [proposal, setProposal] = useState()
     const [accounts, setAccounts] = useState([])
     const [holdings, setHoldings] = useState({})
     const { id } = useParams()
@@ -13,20 +14,26 @@ export const ProposalView = (props) =>{
 
 
     useEffect(()=>{
-        const url = `http://localhost:8000/api/proposals/${id}/`
-        const data = {
-            method: 'GET',
-            headers: {
-                'Authorization': `Token ${token}`
-            }
+        if (loading){
+            // const url = `http://localhost:8000/api/proposals/${id}/`
+            // const data = {
+            //     method: 'GET',
+            //     headers: {
+            //         'Authorization': `Token ${token}`
+            //     }
+            // }
+            // fetch(url, data)
+            // .then(res => res.json())
+            // .then(data => {
+            //     setProposal(data)
+            // })
+            // .catch(err => console.log(err));
+            test();
+        } else {
+            getSections(proposal)
         }
-        fetch(url, data)
-        .then(res => res.json())
-        .then(data => setProposal(data))
-        // .then(data=> console.log(proposal))
-        .then(res => getSections(proposal))
-        .catch(err => console.log(err));
-    }, [])
+    }, [loading])
+
 
     const productTypes = {
         stocks: 'Stocks',
@@ -34,7 +41,22 @@ export const ProposalView = (props) =>{
         bonds: 'Bonds',
     }
 
-    const getSections = (proposal) =>{
+    const test = async () => {
+        const url = `http://localhost:8000/api/proposals/${id}/`
+        const data = {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        }
+        let response = await fetch(url, data)
+        let json = await response.json()
+        console.log(json)
+        setProposal(json)
+        setLoading(false)
+    }
+
+    const getSections =  (proposal) =>{
         let holdings = {
             stocks: {},
             mutualFunds: {},
@@ -78,34 +100,44 @@ export const ProposalView = (props) =>{
         setAccounts([...accounts])
     }
 
-    return (
-        <Container>
-            <Row>
-                <Col>
-                    <h2>{proposal.name}</h2>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Accordion>
-                        {
-                            Object.keys(holdings).map((item,key)=>{
-                                return(
-                                    <ProposalViewOuterCard
-                                    heading={productTypes[[item]]}
-                                    eventKey={`${key}`}
-                                    key={key}
-                                    accounts={accounts}
-                                    holdings={holdings[[item]]}></ProposalViewOuterCard>
-                                )
-                            })
-                        }
-                    </Accordion>
-                    <Link to={`proposals/${id}/edit`}>Edit Proposal</Link>
-                </Col>
-            </Row>
-        </Container>
-    )
+    if (!loading){
+        return (
+            <Container>
+                <Row>
+                    <Col>
+                        <h2>{proposal.name}</h2>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Accordion>
+                            {
+                                Object.keys(holdings).map((item,key)=>{
+                                    return(
+                                        <ProposalViewOuterCard
+                                        heading={productTypes[[item]]}
+                                        eventKey={`${key}`}
+                                        key={key}
+                                        accounts={accounts}
+                                        holdings={holdings[[item]]}></ProposalViewOuterCard>
+                                    )
+                                })
+                            }
+                        </Accordion>
+                        <Link to={`proposals/${id}/edit`}>Edit Proposal</Link>
+                    </Col>
+                </Row>
+            </Container>
+        )
+    } else {
+        console.log(proposal)
+        return (
+            <div>
+                <h1>Loading Proposal...</h1>
+            </div>
+        )
+    }
+    
 }
 
 export default ProposalView;

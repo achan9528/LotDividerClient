@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import useToken from '../components/hooks/useToken'
 
 const ProposalViewInnerCard = (props) => {
+
     return(
         <Accordion>
             <Card>
