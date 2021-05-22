@@ -1,4 +1,5 @@
 export const submitHandler = (e, data, url, setToken) => {
+
     // prevent default form submission
     e.preventDefault()
     console.log(data);
@@ -12,7 +13,6 @@ export const submitHandler = (e, data, url, setToken) => {
     }).then(res => res.json())
     .then(data => {
         setToken(data);
-        console.log(data);
     }).catch(err => {
         console.log(err);
     })
