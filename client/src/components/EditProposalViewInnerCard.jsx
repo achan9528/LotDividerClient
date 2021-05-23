@@ -1,9 +1,9 @@
-import { Table, Button, Col, Row, Container, Accordion, Card } from 'react-bootstrap'
+import { Table, Button, Accordion, Card, Form } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useToken from '../components/hooks/useToken'
 
-const ProposalViewInnerCard = (props) => {
+const EditProposalViewInnerCard = (props) => {
 
     return(
         <Accordion>
@@ -29,51 +29,25 @@ const ProposalViewInnerCard = (props) => {
                                             )
                                         })
                                     }
-                                    {
-                                        props.accounts.map((item,key)=>{
-                                            return(
-                                                <th key={key}>
-                                                    Market Value in Draft Account {item}
-                                                </th>
-                                            )
-                                        })
-                                    }
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* {
-                                    Object.keys(props.holdings).map((item,key)=>{
-                                        let taxLot = item;
-                                        let component = props.accounts.map((item,key)=>{
-                                            return(
-                                                <tr>
-                                                    <td>{taxLot}</td>
-                                                    <td>{props.holdings[[taxLot]][[item]].units}</td>
-                                                    <td>{props.holdings[[taxLot]][[item]].marketValue}</td>
-                                                </tr>
-                                            )
-                                        })
-                                        return component
-                                    })
-                                } */}
                                 {
                                     Object.keys(props.taxLots).map((item,key)=>{
                                         let taxLot = item;
                                         let unitColumns = props.accounts.map((item,key)=>{
                                             return(
-                                                <td>{props.taxLots[[taxLot]][[item]].units}</td>
-                                            )
-                                        })
-                                        let marketValueColumns = props.accounts.map((item,key)=>{
-                                            return(
-                                                <td>{props.taxLots[[taxLot]][[item]].marketValue}</td>
+                                                <td>
+                                                    <Form.Control
+                                                    value={props.taxLots[[taxLot]][[item]].units}></Form.Control>
+                                                    
+                                                </td>
                                             )
                                         })
                                         return(
                                             <tr key={key}>
                                                 <td>{item}</td>
                                                 {unitColumns}
-                                                {marketValueColumns}
                                             </tr>
                                         )
                                     })
@@ -87,4 +61,4 @@ const ProposalViewInnerCard = (props) => {
     )
 }
 
-export default ProposalViewInnerCard;
+export default EditProposalViewInnerCard;

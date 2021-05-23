@@ -6,6 +6,8 @@ import NewProjectForm from './views/NewProjectForm'
 import NewProposalForm from './views/NewProposalForm'
 import NewPortfolioForm from './views/NewPortfolioForm'
 import ProposalView from './views/ProposalView'
+import DeleteProposalView from './views/DeleteProposalView'
+import EditProposalView from './views/EditProposalView'
 import LogoutLink from './components/logout'
 import NavBar from './components/NavBar'
 import useToken from './components/hooks/useToken'
@@ -44,21 +46,12 @@ const AuthenticatedApplication = (props) => {
                 <Route exact path="/proposals/:id">
                     <ProposalView></ProposalView>
                 </Route>
-                {/* <Route exact path="/">
-                    <HomePage></HomePage>
+                <Route exact path="/proposals/:id/edit">
+                    <EditProposalView></EditProposalView>
                 </Route>
-                <Route exact path="/login">
-                    <Login></Login>
+                <Route exact path="/proposals/:id/delete">
+                    <DeleteProposalView></DeleteProposalView>
                 </Route>
-                <Route exact path="/registration">
-                    <RegistrationForm></RegistrationForm>
-                </Route> */}
-                {/* <Route exact path="/proposals/:id/edit">
-            <EditProposalView></EditProposalView>
-            </Route>
-            <Route exact path="/proposals/:id/delete">
-            <DeleteProposalView></DeleteProposalView>
-            </Route> */}
             </Switch>
 
         </Router>

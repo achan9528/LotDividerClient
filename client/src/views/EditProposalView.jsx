@@ -1,26 +1,26 @@
 import { Table, Button, Col, Row, Container, Accordion, Card } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, Redirect } from 'react-router-dom'
 import useToken from '../components/hooks/useToken'
-import ProposalViewOuterCard from '../components/ProposalViewOuterCard'
+import EditProposalViewOuterCard from '../components/EditProposalViewOuterCard'
 
-export const ProposalView = (props) =>{
+export const EditProposalView = (props) =>{
     const [loading, setLoading] = useState(true)
     const [proposal, setProposal] = useState()
     const [accounts, setAccounts] = useState([])
     const [holdings, setHoldings] = useState({})
+    const [deleted, setDeleted] = useState(false)
+    const [message, setMessage] = useState()
     const { id } = useParams()
     const { token, setToken } = useToken()
 
-
     useEffect(()=>{
         if (loading){
-            test();
+            getData();
         } else {
             getSections(proposal)
         }
     }, [loading])
-
 
     const productTypes = {
         stocks: 'Stocks',
@@ -28,7 +28,7 @@ export const ProposalView = (props) =>{
         bonds: 'Bonds',
     }
 
-    const test = async () => {
+    const getData = () => {
         const url = `http://localhost:8000/api/proposals/${id}/`
         const data = {
             method: 'GET',
@@ -36,11 +36,28 @@ export const ProposalView = (props) =>{
                 'Authorization': `Token ${token}`
             }
         }
-        let response = await fetch(url, data)
-        let json = await response.json()
-        console.log(json)
-        setProposal(json)
-        setLoading(false)
+        fetch(url, data)
+        .then(res=> res.json())
+        .then(data=>setProposal(data))
+        .then(data=>setLoading(false))
+        .catch(err=>{console.log(err)})
+    }
+
+    const deleteProject = (e) => {
+        const url = `http://localhost:8000/api/proposals/${id}/`
+        const data = {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        }
+        fetch(url, data)
+        .then(res=> {
+            res.status == 204
+            ? setDeleted(true)
+            : setMessage(res.statusText)
+        })
+        .catch(err=>{console.log(err)})
     }
 
     const getSections =  (proposal) =>{
@@ -87,12 +104,20 @@ export const ProposalView = (props) =>{
         setAccounts([...accounts])
     }
 
+    console.log(deleted)
+    if (deleted) {
+        console.log('deleted')
+        return (
+            <Redirect to="/dashboard"></Redirect>
+        )
+    }
+
     if (!loading){
         return (
             <Container>
                 <Row>
                     <Col>
-                        <h2>{proposal.name}</h2>
+                        <h2>Edit {proposal.name}</h2>
                     </Col>
                 </Row>
                 <Row>
@@ -101,16 +126,26 @@ export const ProposalView = (props) =>{
                                 Object.keys(holdings).map((item,key)=>{
                                     return(
                                         <Accordion>
-                                            <ProposalViewOuterCard
+                                            <EditProposalViewOuterCard
                                             heading={productTypes[[item]]}
                                             eventKey={`${key}`}
                                             key={key}
                                             accounts={accounts}
-                                            holdings={holdings[[item]]}></ProposalViewOuterCard>
+                                            holdings={holdings[[item]]}></EditProposalViewOuterCard>
                                         </Accordion>
                                     )
                                 })
                             }
+
+                    </Col>
+                </Row>
+                <Row className="justify-content-md-center">
+                    <Col>
+                        <Link to={`proposals/${id}/edit`}>Back</Link>
+                    </Col>
+                    <Col>
+                        <Button 
+                        onClick={e=>{deleteProject(e)}}>Update</Button>
                     </Col>
                 </Row>
             </Container>
@@ -123,7 +158,6 @@ export const ProposalView = (props) =>{
             </div>
         )
     }
-    
 }
 
-export default ProposalView;
+export default EditProposalView;
