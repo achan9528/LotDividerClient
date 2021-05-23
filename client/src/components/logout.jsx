@@ -1,7 +1,11 @@
-import Button from 'react-bootstrap/Button'
+import { useState } from 'react'
+import { Button } from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
+
 export const LogoutLink = (props) => {
+
     return(
-        <Button onClick={e=>props.setToken('')}>Logout</Button>
+        <Button variant="link" onClick={e=>props.setToken('')}>Logout</Button>
     )
 }
 

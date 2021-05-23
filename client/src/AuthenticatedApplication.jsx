@@ -52,6 +52,9 @@ const AuthenticatedApplication = (props) => {
                 <Route exact path="/proposals/:id/delete">
                     <DeleteProposalView></DeleteProposalView>
                 </Route>
+                <Route exact path="/">
+                    <Redirect to="/dashboard"></Redirect>
+                </Route>
             </Switch>
 
         </Router>

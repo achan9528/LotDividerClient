@@ -43,47 +43,39 @@ const UserDashboard = (props) => {
     }
 
     return (
-        <>
-        {
-            token
-            ? (
-                <Container>
-                    <Row>
-                        <Col>
-                            <h1>Welcome back!</h1>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Table striped bordered hover>
-                                <thead>
-                                    <tr>
-                                        <th>Project ID</th>
-                                        <th>Project Name</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {tableData}
-                                </tbody>
-                            </Table>
-                            <Link to='/projects/new'>
-                                <Button>New Project</Button>
-                            </Link>
-                            <Link to='/portfolios/new'>
-                                <Button>New Portfolio</Button>
-                            </Link>
-                        </Col>
-                        <Col>
-                            <h2>Latest Activity:</h2>
-                            <p>Go Go Squid is a good show (deep cuts)</p>
-                        </Col>
-                    </Row>
-                </Container>
-            )
-            : <Redirect to="/"></Redirect>
-        }
-        </>
+        <Container>
+            <Row>
+                <Col>
+                    <h1>Welcome back!</h1>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Project ID</th>
+                                <th>Project Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {tableData}
+                        </tbody>
+                    </Table>
+                    <Link to='/projects/new'>
+                        <Button>New Project</Button>
+                    </Link>
+                    <Link to='/portfolios/new'>
+                        <Button>New Portfolio</Button>
+                    </Link>
+                </Col>
+                <Col>
+                    <h2>Latest Activity:</h2>
+                    <p>Go Go Squid is a good show (deep cuts)</p>
+                </Col>
+            </Row>
+        </Container>
     )
 }
 

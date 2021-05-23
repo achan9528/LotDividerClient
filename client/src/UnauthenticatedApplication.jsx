@@ -15,6 +15,7 @@ import {
     Switch,
     Route,
     Link,
+    Redirect,
 } from "react-router-dom";
 import { Navbar, Nav, Row, Button } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -32,12 +33,9 @@ const UnauthenticatedApplication = (props) => {
                 <Route exact path="/registration">
                     <RegistrationForm setToken={props.setToken}></RegistrationForm>
                 </Route>
-                {/* <Route exact path="/proposals/:id/edit">
-            <EditProposalView></EditProposalView>
-            </Route>
-            <Route exact path="/proposals/:id/delete">
-            <DeleteProposalView></DeleteProposalView>
-            </Route> */}
+                <Route path="*">
+                    <Redirect to="/"></Redirect>
+                </Route>
             </Switch>
         </Router>
     )
