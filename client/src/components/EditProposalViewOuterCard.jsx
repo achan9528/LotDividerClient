@@ -27,14 +27,17 @@ export const EditProposalViewOuterCard = (props) =>{
             <Accordion.Collapse eventKey={`${props.eventKey}`}>
                 <Card.Body>
                     {
-                        Object.keys(props.holdings).map((item,key)=>{
+                        Object.keys(props.tickers).map((item,key)=>{
                             return(
                                 <EditProposalViewInnerCard
                                 key={key}
                                 eventKey={key}
                                 header={item}
                                 accounts={props.accounts}
-                                taxLots={props.holdings[[item]]}></EditProposalViewInnerCard>
+                                taxLots={props.tickers[[item]]}
+                                productType={props.productType}
+                                ticker={item}
+                                changeHandler={props.changeHandler}></EditProposalViewInnerCard>
                             )
                             
                         })

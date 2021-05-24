@@ -5,6 +5,8 @@ import useToken from '../components/hooks/useToken'
 
 const EditProposalViewInnerCard = (props) => {
 
+    const [taxLots, setTaxLots] = useState(props.taxLots)
+
     return(
         <Accordion>
             <Card>
@@ -16,44 +18,44 @@ const EditProposalViewInnerCard = (props) => {
                 </Card.Header>
                 <Accordion.Collapse eventKey={`${props.eventKey}`}>
                     <Card.Body>
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>Tax Lot Number</th>
+                            <Table striped bordered hover>
+                                <thead>
+                                    <tr>
+                                        <th>Tax Lot Number</th>
+                                        {
+                                            props.accounts.map((item,key)=>{
+                                                return(
+                                                    <th key={key}>
+                                                        Units in Draft Account {item}
+                                                    </th>
+                                                )
+                                            })
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     {
-                                        props.accounts.map((item,key)=>{
+                                        Object.keys(props.taxLots).map((item,key)=>{
+                                            let taxLot = item;
+                                            let unitColumns = props.accounts.map((item,key)=>{
+                                                return(
+                                                    <td>
+                                                        <Form.Control
+                                                        value={props.taxLots[[taxLot]][[item]].units}
+                                                        onChange={e => props.changeHandler(e, props.productType, props.ticker, taxLot, item)}></Form.Control>
+                                                    </td>
+                                                )
+                                            })
                                             return(
-                                                <th key={key}>
-                                                    Units in Draft Account {item}
-                                                </th>
+                                                <tr key={key}>
+                                                    <td>{item}</td>
+                                                    {unitColumns}
+                                                </tr>
                                             )
                                         })
                                     }
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    Object.keys(props.taxLots).map((item,key)=>{
-                                        let taxLot = item;
-                                        let unitColumns = props.accounts.map((item,key)=>{
-                                            return(
-                                                <td>
-                                                    <Form.Control
-                                                    value={props.taxLots[[taxLot]][[item]].units}></Form.Control>
-                                                    
-                                                </td>
-                                            )
-                                        })
-                                        return(
-                                            <tr key={key}>
-                                                <td>{item}</td>
-                                                {unitColumns}
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </Table>
+                                </tbody>
+                            </Table>
                     </Card.Body>
                 </Accordion.Collapse>
             </Card>

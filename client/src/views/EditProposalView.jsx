@@ -1,4 +1,4 @@
-import { Table, Button, Col, Row, Container, Accordion, Card } from 'react-bootstrap'
+import { Form, Button, Col, Row, Container, Accordion } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import { Link, useParams, Redirect } from 'react-router-dom'
 import useToken from '../components/hooks/useToken'
@@ -9,10 +9,10 @@ export const EditProposalView = (props) =>{
     const [proposal, setProposal] = useState()
     const [accounts, setAccounts] = useState([])
     const [holdings, setHoldings] = useState({})
-    const [deleted, setDeleted] = useState(false)
-    const [message, setMessage] = useState()
+    const [messages, setMessages] = useState({})
     const { id } = useParams()
     const { token, setToken } = useToken()
+    const [successfulUpdate, setSuccessfulUpdate] = useState()
 
     useEffect(()=>{
         if (loading){
@@ -43,21 +43,33 @@ export const EditProposalView = (props) =>{
         .catch(err=>{console.log(err)})
     }
 
-    const deleteProject = (e) => {
-        const url = `http://localhost:8000/api/proposals/${id}/`
-        const data = {
-            method: 'DELETE',
+    const submitChanges = (e) => {
+        e.preventDefault()
+        let url = ('http://localhost:8000/api/draft-taxlots/batch/')
+        let data = {
+            method: 'PATCH',
             headers: {
-                'Authorization': `Token ${token}`
-            }
+                'Authorization': `Token ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(holdings)
         }
         fetch(url, data)
-        .then(res=> {
-            res.status == 204
-            ? setDeleted(true)
-            : setMessage(res.statusText)
+        .then(res => {
+            if (res.status == 200){
+                setSuccessfulUpdate(true)
+            } else {
+                let errorMessages = res.json()
+                setMessages({...errorMessages})
+            }
         })
-        .catch(err=>{console.log(err)})
+        .catch(err => console.log(err))
+    }
+
+    const changeHandler = (e, productType, ticker, taxLot, accountNumber) => {
+        let updatedHoldings = holdings
+        updatedHoldings[[productType]][[ticker]][[taxLot]][[accountNumber]].units = e.target.value
+        setHoldings({...updatedHoldings})
     }
 
     const getSections =  (proposal) =>{
@@ -92,6 +104,7 @@ export const EditProposalView = (props) =>{
                             holdings['stocks'][ticker][[referencedLot]][[accountNumber]] = 
                                 {
                                     units: draftTaxLots[j].units,
+                                    draftTaxLotID: draftTaxLots[j].id,
                                     marketValue: draftTaxLots[j].marketValue
                                 }
                         }
@@ -104,11 +117,9 @@ export const EditProposalView = (props) =>{
         setAccounts([...accounts])
     }
 
-    console.log(deleted)
-    if (deleted) {
-        console.log('deleted')
-        return (
-            <Redirect to="/dashboard"></Redirect>
+    if (successfulUpdate){
+        return(
+            <Redirect to={`/proposals/${id}`}></Redirect>
         )
     }
 
@@ -122,6 +133,7 @@ export const EditProposalView = (props) =>{
                 </Row>
                 <Row>
                     <Col>
+                        <Form onSubmit={e => submitChanges(e)}>
                             {
                                 Object.keys(holdings).map((item,key)=>{
                                     return(
@@ -131,12 +143,14 @@ export const EditProposalView = (props) =>{
                                             eventKey={`${key}`}
                                             key={key}
                                             accounts={accounts}
-                                            holdings={holdings[[item]]}></EditProposalViewOuterCard>
+                                            tickers={holdings[[item]]}
+                                            productType={item}
+                                            changeHandler={changeHandler}></EditProposalViewOuterCard>
                                         </Accordion>
                                     )
                                 })
                             }
-
+                        </Form>
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">
@@ -144,8 +158,7 @@ export const EditProposalView = (props) =>{
                         <Link to={`proposals/${id}/edit`}>Back</Link>
                     </Col>
                     <Col>
-                        <Button 
-                        onClick={e=>{deleteProject(e)}}>Update</Button>
+                        <Button onClick={e=>submitChanges(e)}>Update</Button>
                     </Col>
                 </Row>
             </Container>
