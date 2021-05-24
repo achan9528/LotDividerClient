@@ -10,7 +10,7 @@ export const EditProposalView = (props) =>{
     const [accounts, setAccounts] = useState([])
     const [holdings, setHoldings] = useState({})
     const [messages, setMessages] = useState({})
-    const { id } = useParams()
+    const { projectID, proposalID } = useParams()
     const { token, setToken } = useToken()
     const [successfulUpdate, setSuccessfulUpdate] = useState()
 
@@ -29,7 +29,7 @@ export const EditProposalView = (props) =>{
     }
 
     const getData = () => {
-        const url = `http://localhost:8000/api/proposals/${id}/`
+        const url = `http://localhost:8000/api/proposals/${proposalID}/`
         const data = {
             method: 'GET',
             headers: {
@@ -119,7 +119,7 @@ export const EditProposalView = (props) =>{
 
     if (successfulUpdate){
         return(
-            <Redirect to={`/proposals/${id}`}></Redirect>
+            <Redirect to={`/projects/${projectID}/proposals/${proposalID}`}></Redirect>
         )
     }
 
@@ -155,7 +155,10 @@ export const EditProposalView = (props) =>{
                 </Row>
                 <Row className="justify-content-md-center">
                     <Col>
-                        <Link to={`proposals/${id}/edit`}>Back</Link>
+                        <Link to={`/projects/${projectID}/`}>Back to Project</Link>
+                    </Col>
+                    <Col>
+                        <Link to={`/dashboard`}>Back to Dashboard</Link>
                     </Col>
                     <Col>
                         <Button onClick={e=>submitChanges(e)}>Update</Button>

@@ -1,6 +1,8 @@
 import RegistrationForm from './views/registration'
 import HomePage from './views/home'
 import ProjectView from './views/ProjectView'
+import EditProjectView from './views/EditProjectView'
+import DeleteProjectView from './views/DeleteProjectView'
 import UserDashboard from './views/UserDashboard'
 import NewProjectForm from './views/NewProjectForm'
 import NewProposalForm from './views/NewProposalForm'
@@ -36,19 +38,25 @@ const AuthenticatedApplication = (props) => {
                 <Route exact path="/projects/:projectID/proposals/new">
                     <NewProposalForm></NewProposalForm>
                 </Route>
-                <Route exact path="/projects/:id">
+                <Route exact path="/projects/:projectID">
                     <ProjectView></ProjectView>
+                </Route>
+                <Route exact path="/projects/:projectID/edit">
+                    <EditProjectView></EditProjectView>
+                </Route>
+                <Route exact path="/projects/:projectID/delete">
+                    <DeleteProjectView></DeleteProjectView>
                 </Route>
                 <Route exact path="/portfolios/new">
                     <NewPortfolioForm></NewPortfolioForm>
                 </Route>
-                <Route exact path="/proposals/:id">
+                <Route exact path="/projects/:projectID/proposals/:proposalID">
                     <ProposalView></ProposalView>
                 </Route>
-                <Route exact path="/proposals/:id/edit">
+                <Route exact path="/projects/:projectID/proposals/:proposalID/edit">
                     <EditProposalView></EditProposalView>
                 </Route>
-                <Route exact path="/proposals/:id/delete">
+                <Route exact path="/projects/:projectID/proposals/:proposalID/delete">
                     <DeleteProposalView></DeleteProposalView>
                 </Route>
                 <Route exact path="/">

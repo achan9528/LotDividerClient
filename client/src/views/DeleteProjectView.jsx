@@ -1,10 +1,12 @@
 import { Table, Button, Col, Row, Container } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, Redirect } from 'react-router-dom'
 import useToken from '../components/hooks/useToken'
 
-export const ProjectView = (props) =>{
+export const DeleteProjectView = (props) =>{
     const [project, setProject] = useState({})
+    const [projectDeleted, setProjectDeleted] = useState(false)
+    const [messages, setMessages] = useState({})
     const { projectID } = useParams()
     const { token, setToken } = useToken()
 
@@ -21,13 +23,34 @@ export const ProjectView = (props) =>{
         .then(data => setProject(data))
         .catch(err => console.log(err));
     }, [])
+
+    const deleteProject = (e) => {
+        const url = `http://localhost:8000/api/projects/${projectID}/`
+        const data = {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        }
+        fetch(url, data)
+        .then(res => {
+            console.log(res)
+            if (res.status == 204){
+                setProjectDeleted(true)
+            } else {
+                setMessages({...res.json()})
+            }
+        })
+        .catch(err => console.log(err));
+    }
+
+
     let tableData;
     console.log(project);
     if (!project.proposals){
         tableData = 
             <tr>
                 <td>No Proposals</td>
-                <td></td>
                 <td></td>
             </tr>
     } else {
@@ -41,15 +64,7 @@ export const ProjectView = (props) =>{
                             <Row>
                                 <Col>
                                     <Link 
-                                    to={`/projects/${projectID}/proposals/${item.id}`}>View</Link>
-                                </Col>
-                                <Col>
-                                    <Link
-                                    to={`/projects/${projectID}/proposals/${item.id}/edit`}>Edit</Link>
-                                </Col>
-                                <Col>
-                                    <Link
-                                    to={`/projects/${projectID}/proposals/${item.id}/delete`}>Delete</Link>
+                                    to={`/proposals/${item.projectID}`}>View</Link>
                                 </Col>
                             </Row>
                         </td>
@@ -58,10 +73,16 @@ export const ProjectView = (props) =>{
             })
     }
 
+    if (projectDeleted){
+        return <Redirect to="/dashboard"></Redirect>
+    }
+
     return (
         <Container>
             <Row>
-                <h2>Proposals in Project "{project.name}"</h2>
+                <Col>
+                    <h2>Are you sure you want to delete Project "{project.name}"?</h2>
+                </Col>
             </Row>
             <Row>
                 <Col>
@@ -77,20 +98,13 @@ export const ProjectView = (props) =>{
                             {tableData}
                         </tbody>
                     </Table>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Link to={`/dashboard`}>Back to Dashboard</Link>
-                </Col>
-                <Col>
-                    <Link to={`proposals/new`}>  
-                        <Button>New Proposal</Button>
-                    </Link>
+                    <Button 
+                    variant="danger"
+                    onClick={e=>deleteProject(e)}>Delete Project</Button>
                 </Col>
             </Row>
         </Container>
     )
 }
 
-export default ProjectView;
+export default DeleteProjectView;

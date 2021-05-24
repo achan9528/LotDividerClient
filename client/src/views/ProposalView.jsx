@@ -9,7 +9,7 @@ export const ProposalView = (props) =>{
     const [proposal, setProposal] = useState()
     const [accounts, setAccounts] = useState([])
     const [holdings, setHoldings] = useState({})
-    const { id } = useParams()
+    const { projectID, proposalID } = useParams()
     const { token, setToken } = useToken()
 
 
@@ -29,7 +29,7 @@ export const ProposalView = (props) =>{
     }
 
     const test = async () => {
-        const url = `http://localhost:8000/api/proposals/${id}/`
+        const url = `http://localhost:8000/api/proposals/${proposalID}/`
         const data = {
             method: 'GET',
             headers: {
@@ -111,6 +111,14 @@ export const ProposalView = (props) =>{
                                     )
                                 })
                             }
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Link to={`/dashboard`}>Back to Dashboard</Link>
+                    </Col>
+                    <Col>
+                        <Link to={`/projects/${projectID}`}>Back to Project</Link>
                     </Col>
                 </Row>
             </Container>
