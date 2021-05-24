@@ -20,7 +20,6 @@ import {
     Redirect,
 } from "react-router-dom";
 import { Navbar, Nav, Row, Button } from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect } from 'react'
 
 const AuthenticatedApplication = (props) => {
@@ -53,6 +52,12 @@ const AuthenticatedApplication = (props) => {
                     <DeleteProposalView></DeleteProposalView>
                 </Route>
                 <Route exact path="/">
+                    <Redirect to="/dashboard"></Redirect>
+                </Route>
+                <Route exact path="/login">
+                    <Redirect to="/dashboard"></Redirect>
+                </Route>
+                <Route exact path="/registration">
                     <Redirect to="/dashboard"></Redirect>
                 </Route>
             </Switch>

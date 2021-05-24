@@ -3,6 +3,7 @@ import UnauthenticatedApplication from './UnauthenticatedApplication'
 import ProjectView from './views/ProjectView'
 import useToken from './components/hooks/useToken'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const {token, setToken} = useToken();

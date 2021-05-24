@@ -1,5 +1,7 @@
 // registration form
 import React, { useState } from 'react'
+import { Button, Container, Form, Row, Col } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import InputGroup from '../components/inputGroup'
 
 const RegistrationForm = (props) => {
@@ -21,18 +23,66 @@ const RegistrationForm = (props) => {
     const url = 'http://localhost:8000/api/rest-auth/registration/'
 
     return (
-        <div>
-            <h1>Please Register</h1>
-            <form onSubmit={(e) => { props.submitHandler(e, data, url) }} >
-                <InputGroup label='Name' name='name' stateFunction={setName}></InputGroup>
-                <InputGroup label='Alias' name='alias' stateFunction={setAlias}></InputGroup>
-                <InputGroup label='Email' name='email' stateFunction={setEmail}></InputGroup>
-                <InputGroup label='Password' name='password' stateFunction={setPassword}></InputGroup>
-                <InputGroup label='Confirm Password' name='passwordConfirm' stateFunction={setPasswordConfirm}></InputGroup>
-                <button>Register</button>
-            </form>
-        </div>
-
+        <Container>
+            <Row className="justify-content-md-center">
+                <Col md="auto">
+                    <Row>
+                        <Col>
+                            <h1>Register For An Account</h1>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <h4>Come join the club!</h4>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+            <Row className="justify-content-md-center">
+                <Col md="auto">
+                    <Form>
+                        <Form.Group>
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control
+                            value={name}
+                            onChange={e=>setName(e.target.value)}></Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Alias</Form.Label>
+                            <Form.Control
+                            value={alias}
+                            onChange={e=>setAlias(e.target.value)}></Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control
+                            value={email}
+                            onChange={e=>setEmail(e.target.value)}></Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                            value={password}
+                            onChange={e=>setPassword(e.target.value)}></Form.Control>
+                        </Form.Group> 
+                        <Form.Group>
+                            <Form.Label>Confirm Password</Form.Label>
+                            <Form.Control
+                            value={passwordConfirm}
+                            onChange={e=>setPasswordConfirm(e.target.value)}></Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Button type="submit" block>Register</Button>
+                        </Form.Group>        
+                    </Form>
+                </Col>
+            </Row>
+            <Row className="justify-content-md-center">
+                <Col md="auto">
+                    <Link to="/login">Already have an account? Sign in here</Link>
+                </Col>
+            </Row>
+        </Container>
     )
 }
 

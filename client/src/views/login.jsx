@@ -1,14 +1,13 @@
 // registration form
 import React, { useState } from 'react'
 import InputGroup from '../components/inputGroup'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import {useToken} from '../components/hooks/useToken'
+import { Row, Col, Container, Button, Form } from 'react-bootstrap'
 
 const LoginForm = (props) => {
-    const {token, setToken} = useToken()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [gotUser, setGotUser] = useState(false)
 
     const submitHandler = (e) => {
         // prevent default form submission
@@ -28,30 +27,52 @@ const LoginForm = (props) => {
         fetch(url, data)
         .then(res => res.json())
         .then(data => {
-            setGotUser(true);
             props.setToken(data);
         }).catch(err => {
             console.log(err);
         })
     }
-    console.log(gotUser)
+
     return (
-        <>
-            {
-                gotUser
-                ? <Redirect to="/dashboard"></Redirect>
-                : (
-                    <div>
+        <Container>
+            <Row className="justify-content-md-center">
+                <Col md="auto">
+                    <Row>
                         <h1>Welcome Back!</h1>
-                        <form onSubmit={(e) => submitHandler(e)} >
-                            <InputGroup label='Email' name='email' stateFunction={setEmail}></InputGroup>
-                            <InputGroup label='Password' name='password' stateFunction={setPassword}></InputGroup>
-                            <button>Login</button>
-                        </form>
-                    </div>
-                )
-            }
-        </>
+                    </Row>
+                    <Row>
+                        <h4>Please sign in</h4>
+                    </Row>
+                    
+                </Col>
+            </Row>
+            <Row className="justify-content-md-center">
+                <Col md="auto">
+                    <Form onSubmit={(e) => submitHandler(e)} >
+                        <Form.Group>
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control
+                            value={email}
+                            onChange={e=>setEmail(e.target.value)}></Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                            value={password}
+                            onChange={e=>setPassword(e.target.value)}></Form.Control>
+                        </Form.Group>
+                        <Form.Group className="justify-content-md-center">
+                            <Button type="submit" block>Login</Button>
+                        </Form.Group>
+                    </Form>
+                </Col>
+            </Row>
+            <Row className="justify-content-md-center">
+                <Col md="auto">
+                    <Link to="/registration">Don't have an account? Register for one here</Link>
+                </Col>
+            </Row>
+        </Container>
     )
 }
 

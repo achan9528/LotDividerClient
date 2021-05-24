@@ -18,7 +18,6 @@ import {
     Redirect,
 } from "react-router-dom";
 import { Navbar, Nav, Row, Button } from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const UnauthenticatedApplication = (props) => {
     return(
