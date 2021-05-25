@@ -84,7 +84,7 @@ export const ProjectView = (props) =>{
                     <Link to={`/dashboard`}>Back to Dashboard</Link>
                 </Col>
                 <Col>
-                    <Link to={`proposals/new`}>  
+                    <Link to={`/projects/${projectID}/proposals/new`}>  
                         <Button>New Proposal</Button>
                     </Link>
                 </Col>

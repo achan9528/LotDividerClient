@@ -100,11 +100,10 @@ export const ProposalView = (props) =>{
                             {
                                 Object.keys(holdings).map((item,key)=>{
                                     return(
-                                        <Accordion>
+                                        <Accordion key={key}>
                                             <ProposalViewOuterCard
                                             heading={productTypes[[item]]}
                                             eventKey={`${key}`}
-                                            key={key}
                                             accounts={accounts}
                                             holdings={holdings[[item]]}></ProposalViewOuterCard>
                                         </Accordion>

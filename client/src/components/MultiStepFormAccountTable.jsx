@@ -16,19 +16,21 @@ const MultiStepFormAccountTable = (props)=>{
         props.setAccounts([...tdata]);
     }
 
+    const removeAccountFromTable = (e, key) => {
+        e.preventDefault()
+        let updatedAccounts = props.accounts;
+        updatedAccounts.splice(key, 1)
+        props.setAccounts([...updatedAccounts])
+    }
+
     return (
         <Form.Group>
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        {
-                            props.headers.map((item,key)=>{
-                                return (
-                                    <th key={key}>{item}</th>
-                                )
-                            })
-                        }
+                        <th>Name</th>
                         <th>Holdings</th>
+                        <th>Remove</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,6 +78,11 @@ const MultiStepFormAccountTable = (props)=>{
                                     </td>
                                     <td>
                                         {holdingsColumn}
+                                    </td>
+                                    <td>
+                                        <Button
+                                        variant="danger"
+                                        onClick={e=>removeAccountFromTable(e,key)}>-</Button>
                                     </td>
                                 </tr>
                             )

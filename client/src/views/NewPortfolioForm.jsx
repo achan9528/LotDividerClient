@@ -3,7 +3,7 @@ import InputGroup from '../components/inputGroup'
 import { Button, Row, Form, Table } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import useToken from '../components/hooks/useToken'
-import { useHistory } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import MultiStepFormHoldingsTable from '../components/MultiStepFormHoldingsTable'
 import MultiStepFormAccountTable from '../components/MultiStepFormAccountTable'
 
@@ -15,6 +15,8 @@ const NewPortfolioForm = (props) => {
     const [files, setFiles] = useState([]);
     const [currentAccount, setCurrentAccount] = useState();
     const {token, setToken} = useToken();
+    const [successfulCreation, setSuccessfulCreation] = useState(false)
+    const [messages, setMessages] = useState({})
 
     useEffect(()=>{
         setStep(0);
@@ -39,8 +41,13 @@ const NewPortfolioForm = (props) => {
             },
             body: formData
         })
-        .then(res => res.json())
-        .then(data=> console.log(data))
+        .then(res => {
+            if (res.status == 200 || res.status == 204){
+                setSuccessfulCreation(true)
+            } else {
+                setMessages({...res.json()})
+            }
+        })
         .catch(err=> console.log(err));
     }
     
@@ -56,6 +63,7 @@ const NewPortfolioForm = (props) => {
 
     // step process
     const nextStep = (e) => {
+        e.preventDefault()
         setStep(step+1);
     }
 
@@ -64,6 +72,7 @@ const NewPortfolioForm = (props) => {
         setStep(step+1);
     }
     const prevStep = (e) => {
+        e.preventDefault()
         setStep(step-1);
     }
 
@@ -96,7 +105,6 @@ const NewPortfolioForm = (props) => {
         );
         content.push(
             <MultiStepFormAccountTable
-            headers={["Name"]}
             accounts={accounts}
             setAccounts={setAccounts}
             setHoldings={setHoldings}
@@ -150,6 +158,10 @@ const NewPortfolioForm = (props) => {
                 Previous
             </Button>
         )
+    }
+
+    if (successfulCreation){
+        return <Redirect to="/dashboard"></Redirect>
     }
 
     return(

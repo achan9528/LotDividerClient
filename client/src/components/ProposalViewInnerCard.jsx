@@ -61,12 +61,12 @@ const ProposalViewInnerCard = (props) => {
                                         let taxLot = item;
                                         let unitColumns = props.accounts.map((item,key)=>{
                                             return(
-                                                <td>{props.taxLots[[taxLot]][[item]].units}</td>
+                                                <td key={key}>{props.taxLots[[taxLot]][[item]].units}</td>
                                             )
                                         })
                                         let marketValueColumns = props.accounts.map((item,key)=>{
                                             return(
-                                                <td>{props.taxLots[[taxLot]][[item]].marketValue}</td>
+                                                <td key={key}>{props.taxLots[[taxLot]][[item]].marketValue}</td>
                                             )
                                         })
                                         return(
