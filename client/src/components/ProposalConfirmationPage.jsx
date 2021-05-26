@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import {Button, Table, Form} from 'react-bootstrap';
+import {Table, Form} from 'react-bootstrap';
 
 const ProposalConfirmationPage = (props)=>{
 

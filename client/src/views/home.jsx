@@ -1,14 +1,6 @@
-import {
-    BrowserRouter as Router,
-    Link,
-    Switch,
-    Route,
-    Redirect
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { submitHandler } from '../components/helpers'
-import useToken from '../components/hooks/useToken';
-import { Navbar, Nav, Row, Button, Container, Jumbotron, Col } from 'react-bootstrap'
+import { Row, Container, Jumbotron, Col } from 'react-bootstrap'
 
 export const HomePage = (props) => {
     return (

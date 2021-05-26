@@ -8,7 +8,7 @@ export const DeleteProjectView = (props) =>{
     const [projectDeleted, setProjectDeleted] = useState(false)
     const [messages, setMessages] = useState({})
     const { projectID } = useParams()
-    const { token, setToken } = useToken()
+    const { token } = useToken()
 
     useEffect(()=>{
         const url = `http://localhost:8000/api/projects/${projectID}/`
@@ -22,7 +22,7 @@ export const DeleteProjectView = (props) =>{
         .then(res => res.json())
         .then(data => setProject(data))
         .catch(err => console.log(err));
-    }, [])
+    }, [projectID, token])
 
     const deleteProject = (e) => {
         const url = `http://localhost:8000/api/projects/${projectID}/`
@@ -35,7 +35,7 @@ export const DeleteProjectView = (props) =>{
         fetch(url, data)
         .then(res => {
             console.log(res)
-            if (res.status == 204){
+            if (res.status === 204){
                 setProjectDeleted(true)
             } else {
                 setMessages({...res.json()})

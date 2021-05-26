@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import {Form, InputGroup, Dropdown, DropdownButton} from 'react-bootstrap';
-import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 
 const TaxLotSelectionDetails = (props)=>{
 

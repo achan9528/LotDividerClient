@@ -1,10 +1,10 @@
 import { Row, Col, Table, Button, Container } from 'react-bootstrap'
 import useToken from '../components/hooks/useToken'
 import { useEffect, useState } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const UserDashboard = (props) => {
-    const { token, setToken } = useToken()
+    const { token } = useToken()
     const [ projects, setProjects ] = useState([])
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const UserDashboard = (props) => {
     }, [])
 
     let tableData;
-    if (projects.length == 0){
+    if (projects.length === 0){
         tableData = <tr><td>No projects</td><td></td></tr>
     } else {
         tableData = projects.map((item,key) => {

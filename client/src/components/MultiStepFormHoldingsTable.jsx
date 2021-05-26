@@ -18,7 +18,7 @@ const MultiStepFormHoldingsTable = (props)=>{
     }
 
     let tdata;
-    if (props.holdings.length == 0){
+    if (props.holdings.length === 0){
         tdata = 
         <tr>
             <td>No Holdings</td>

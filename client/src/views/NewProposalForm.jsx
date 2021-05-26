@@ -1,5 +1,3 @@
-import { submitHandler } from '../components/helpers'
-import InputGroup from '../components/inputGroup'
 import { Button, Row, Form, Col, Container } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import useToken from '../components/hooks/useToken'
@@ -11,7 +9,7 @@ import ProposalConfirmationPage from '../components/ProposalConfirmationPage'
 
 const NewProposalForm = (props) => {
     const [proposalName, setProposalName] = useState();
-    const {token, setToken} = useToken();
+    const {token} = useToken();
     const [step, setStep] = useState(0);
     const {projectID} = useParams();
     const [accounts, setAccounts] = useState();
@@ -95,7 +93,7 @@ const NewProposalForm = (props) => {
     }
 
     let content = [];
-    if (step == 0){ // step 1: new proposal name
+    if (step === 0){ // step 1: new proposal name
         content.push(
             <h2>
                 Name Your Proposal
@@ -114,7 +112,7 @@ const NewProposalForm = (props) => {
             variant="link"
             onClick={e=>setStep(step+1)}>Next</Button>
         )
-    } else if (step == 1){  // step 2: select account to work with
+    } else if (step === 1){  // step 2: select account to work with
         content.push(
             <h2>
                 Select Account
@@ -134,7 +132,7 @@ const NewProposalForm = (props) => {
                 </Col>
             </Row>
         )
-    } else if (step == 2) { // step 3: select holdings and methods
+    } else if (step === 2) { // step 3: select holdings and methods
         content.push(
             <h2>
                 Select Holdings
@@ -158,7 +156,7 @@ const NewProposalForm = (props) => {
                 </Col>
             </Row>
         )
-    } else if (step == 3) { // Step 4: Tax Lot Selection Details
+    } else if (step === 3) { // Step 4: Tax Lot Selection Details
         content.push(
             <h2>
                 Tax Lot Selection Details
@@ -187,7 +185,7 @@ const NewProposalForm = (props) => {
                 </Col>
             </Row>
         )
-    } else if (step == 4) { // Step 5: Confirmation Step
+    } else if (step === 4) { // Step 5: Confirmation Step
         content.push(
             <h2>Confirm Proposal Details</h2>
         )

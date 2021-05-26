@@ -1,6 +1,4 @@
-import { submitHandler } from '../components/helpers'
-import InputGroup from '../components/inputGroup'
-import { Button, Row, Form, Table } from 'react-bootstrap'
+import { Button, Row, Form } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import useToken from '../components/hooks/useToken'
 import { Redirect } from 'react-router-dom'
@@ -14,7 +12,7 @@ const NewPortfolioForm = (props) => {
     const [accounts, setAccounts] = useState([]);
     const [files, setFiles] = useState([]);
     const [currentAccount, setCurrentAccount] = useState();
-    const {token, setToken} = useToken();
+    const {token} = useToken();
     const [successfulCreation, setSuccessfulCreation] = useState(false)
     const [messages, setMessages] = useState({})
 
@@ -42,7 +40,7 @@ const NewPortfolioForm = (props) => {
             body: formData
         })
         .then(res => {
-            if (res.status == 200 || res.status == 204){
+            if (res.status === 200 || res.status === 204){
                 setSuccessfulCreation(true)
             } else {
                 setMessages({...res.json()})
@@ -53,7 +51,6 @@ const NewPortfolioForm = (props) => {
     
     const fileHandler = (e, targetAccount) => {
         let updatedFiles = files;
-        let accountName = accounts[targetAccount].name;
         updatedFiles[targetAccount] = {
             name: e.target.files[0].name,
             file: e.target.files[0],
@@ -80,7 +77,7 @@ const NewPortfolioForm = (props) => {
 
     let content = [];
 
-    if (step==0){
+    if (step===0){
         content.push(
             <h2>Add A Portfolio Name</h2>
         )
@@ -99,7 +96,7 @@ const NewPortfolioForm = (props) => {
                 Next
             </Button>
         )
-    } else if (step == 1){
+    } else if (step === 1){
         content.push(
             <h2>Add Accounts in "{portfolioName}"</h2>
         );
@@ -125,7 +122,7 @@ const NewPortfolioForm = (props) => {
                 Submit
             </Button>
         )
-    } else if (step == 2){
+    } else if (step === 2){
         content.push(
             <h2>Add Holdings and Tax Lots In "{accounts[currentAccount].name}"</h2>
         );

@@ -1,8 +1,6 @@
 // registration form
 import React, { useState } from 'react'
-import InputGroup from '../components/inputGroup'
-import { Redirect, Link } from 'react-router-dom'
-import {useToken} from '../components/hooks/useToken'
+import { Link } from 'react-router-dom'
 import { Row, Col, Container, Button, Form } from 'react-bootstrap'
 
 const LoginForm = (props) => {

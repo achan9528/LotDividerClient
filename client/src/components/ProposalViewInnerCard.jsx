@@ -1,7 +1,5 @@
-import { Table, Button, Col, Row, Container, Accordion, Card } from 'react-bootstrap'
-import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import useToken from '../components/hooks/useToken'
+import { Table, Button, Accordion, Card } from 'react-bootstrap'
+
 
 const ProposalViewInnerCard = (props) => {
 

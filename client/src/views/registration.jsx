@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import { Button, Container, Form, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import InputGroup from '../components/inputGroup'
 
 const RegistrationForm = (props) => {
 
@@ -11,16 +10,33 @@ const RegistrationForm = (props) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
+    const [messages, setMessages ] = useState({})
 
-    const data = {
-        name: name,
-        alias: alias,
-        email: email,
-        password: password,
-        passwordConfirm: passwordConfirm,
+    const submitHandler = (e) => {
+        e.preventDefault()
+        const data = {
+            name: name,
+            alias: alias,
+            email: email,
+            password: password,
+            passwordConfirm: passwordConfirm,
+        }
+    
+        const url = 'http://localhost:8000/api/rest-auth/registration/'
+
+        fetch(data, url)
+        .then(res => {
+            if (res.status === 200 || res.status === 204) {
+                const token = res.json()
+                props.setToken(token.key)
+            } else {
+                setMessages({...res.json()})
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
-
-    const url = 'http://localhost:8000/api/rest-auth/registration/'
 
     return (
         <Container>
@@ -40,7 +56,7 @@ const RegistrationForm = (props) => {
             </Row>
             <Row className="justify-content-md-center">
                 <Col md="auto">
-                    <Form>
+                    <Form onSubmit={e=>submitHandler(e)}>
                         <Form.Group>
                             <Form.Label>Name</Form.Label>
                             <Form.Control

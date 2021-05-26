@@ -37,8 +37,8 @@ const MultiStepFormAccountTable = (props)=>{
                     {
                         props.accounts.map((item,key)=>{
                             let holdingsColumn;
-                            if (props.holdings[key].length==0 &&
-                                props.files[key] == undefined){
+                            if (props.holdings[key].length===0 &&
+                                props.files[key] === undefined){
                                 holdingsColumn = 
                                 <Button 
                                     variant="link"
@@ -47,7 +47,7 @@ const MultiStepFormAccountTable = (props)=>{
                                 </Button>
                             }
                             else if (props.holdings[key].length > 0 &&
-                                props.files[key] == ""){
+                                props.files[key] === ""){
                                 holdingsColumn = 
                                 <>
                                     Manually Entered

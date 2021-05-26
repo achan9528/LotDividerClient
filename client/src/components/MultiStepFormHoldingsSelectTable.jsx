@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {Button, Table, Form} from 'react-bootstrap';
+import { Table, Form} from 'react-bootstrap';
 
 const MultiStepFormHoldingsSelectTable = (props)=>{
 
@@ -8,7 +8,6 @@ const MultiStepFormHoldingsSelectTable = (props)=>{
     useEffect(()=>{
         
         let accountHoldings = props.holdings;
-        console.log(props.holdings);
         for (let i = 0; i < accountHoldings.length; i++){
             let totalUnits = 0;
             for (let n = 0; n < accountHoldings[i].taxLots.length; n++){
@@ -17,7 +16,7 @@ const MultiStepFormHoldingsSelectTable = (props)=>{
             accountHoldings[i].totalUnits = totalUnits
         }
         setHoldings([...accountHoldings]);
-    }, [])
+    }, [props.holdings])
 
     const changeHandler = (e, item) => {
         let updatedTargetHoldings = props.targetHoldings;

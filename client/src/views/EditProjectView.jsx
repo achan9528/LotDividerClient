@@ -1,6 +1,6 @@
 import { Table, Button, Col, Row, Container, Form } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
-import { Link, useParams, Redirect } from 'react-router-dom'
+import { useParams, Redirect } from 'react-router-dom'
 import useToken from '../components/hooks/useToken'
 
 export const EditProjectView = (props) =>{
@@ -9,7 +9,7 @@ export const EditProjectView = (props) =>{
     const [projectUpdated, setProjectUpdated] = useState()
     const [messages, setMessages] = useState()
     const { projectID } = useParams()
-    const { token, setToken } = useToken()
+    const { token } = useToken()
 
     useEffect(()=>{
         const url = `http://localhost:8000/api/projects/${projectID}/`
@@ -43,7 +43,7 @@ export const EditProjectView = (props) =>{
         }
         fetch(url, data)
         .then(res => {
-            if (res.status == 200 || res.status == 204){
+            if (res.status === 200 || res.status === 204){
                 setProjectUpdated(true)
             } else {
                 setMessages({...res.json()})

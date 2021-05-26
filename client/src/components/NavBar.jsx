@@ -1,10 +1,7 @@
-import { Redirect } from 'react-router-dom'
-import {useToken} from '../components/hooks/useToken'
-import { Navbar, Nav, Row, Button, Container } from 'react-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
 import LogoutLink from './logout'
 
 const NavBar = (props) => {
-    const {token, setToken} = useToken()
     return(
         <Navbar bg="light" expand="lg">
             <Navbar.Brand href='/dashboard'>Lot Divider</Navbar.Brand>

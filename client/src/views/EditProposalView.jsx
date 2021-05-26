@@ -11,7 +11,7 @@ export const EditProposalView = (props) =>{
     const [holdings, setHoldings] = useState({})
     const [messages, setMessages] = useState({})
     const { projectID, proposalID } = useParams()
-    const { token, setToken } = useToken()
+    const { token } = useToken()
     const [successfulUpdate, setSuccessfulUpdate] = useState()
 
     useEffect(()=>{
@@ -56,7 +56,7 @@ export const EditProposalView = (props) =>{
         }
         fetch(url, data)
         .then(res => {
-            if (res.status == 200){
+            if (res.status === 200){
                 setSuccessfulUpdate(true)
             } else {
                 let errorMessages = res.json()
@@ -92,7 +92,7 @@ export const EditProposalView = (props) =>{
                     let ticker = draftHolding.security.ticker
                     let accountNumber = draftHolding.draftAccount
                     let draftTaxLots = draftHolding.draftTaxLots
-                    if (productType=='stock'){
+                    if (productType==='stock'){
                         if (!holdings['stocks'].hasOwnProperty(ticker)){
                             holdings['stocks'][[ticker]] = {}
                         }

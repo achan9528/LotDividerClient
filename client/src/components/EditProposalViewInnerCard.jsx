@@ -1,11 +1,6 @@
 import { Table, Button, Accordion, Card, Form } from 'react-bootstrap'
-import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import useToken from '../components/hooks/useToken'
 
 const EditProposalViewInnerCard = (props) => {
-
-    const [taxLots, setTaxLots] = useState(props.taxLots)
 
     return(
         <Accordion>

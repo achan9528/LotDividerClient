@@ -6,7 +6,7 @@ import useToken from '../components/hooks/useToken'
 export const ProjectView = (props) =>{
     const [project, setProject] = useState({})
     const { projectID } = useParams()
-    const { token, setToken } = useToken()
+    const { token } = useToken()
 
     useEffect(()=>{
         const url = `http://localhost:8000/api/projects/${projectID}/`

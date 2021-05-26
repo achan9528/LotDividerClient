@@ -1,15 +1,12 @@
-import { submitHandler } from '../components/helpers'
-import InputGroup from '../components/inputGroup'
 import { Button, Row, Form } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import useToken from '../components/hooks/useToken'
 import { useHistory } from 'react-router-dom'
 
 const NewProjectForm = (props) => {
-    const [users, setUsers] = useState();
     const [projectName, setProjectName] = useState();
     const [owners, setOwners] = useState([]);
-    const {token, setToken} = useToken();
+    const {token} = useToken();
     let history = useHistory();
 
     useEffect(()=>{

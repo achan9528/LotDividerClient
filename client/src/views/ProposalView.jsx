@@ -1,4 +1,4 @@
-import { Table, Button, Col, Row, Container, Accordion, Card } from 'react-bootstrap'
+import { Col, Row, Container, Accordion } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useToken from '../components/hooks/useToken'
@@ -10,7 +10,7 @@ export const ProposalView = (props) =>{
     const [accounts, setAccounts] = useState([])
     const [holdings, setHoldings] = useState({})
     const { projectID, proposalID } = useParams()
-    const { token, setToken } = useToken()
+    const { token } = useToken()
 
 
     useEffect(()=>{
@@ -63,7 +63,7 @@ export const ProposalView = (props) =>{
                     let ticker = draftHolding.security.ticker
                     let accountNumber = draftHolding.draftAccount
                     let draftTaxLots = draftHolding.draftTaxLots
-                    if (productType=='stock'){
+                    if (productType==='stock'){
                         if (!holdings['stocks'].hasOwnProperty(ticker)){
                             holdings['stocks'][[ticker]] = {}
                         }

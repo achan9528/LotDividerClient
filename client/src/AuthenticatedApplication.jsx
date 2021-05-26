@@ -1,5 +1,3 @@
-import RegistrationForm from './views/registration'
-import HomePage from './views/home'
 import ProjectView from './views/ProjectView'
 import EditProjectView from './views/EditProjectView'
 import DeleteProjectView from './views/DeleteProjectView'
@@ -10,19 +8,13 @@ import NewPortfolioForm from './views/NewPortfolioForm'
 import ProposalView from './views/ProposalView'
 import DeleteProposalView from './views/DeleteProposalView'
 import EditProposalView from './views/EditProposalView'
-import LogoutLink from './components/logout'
 import NavBar from './components/NavBar'
-import useToken from './components/hooks/useToken'
-import Login from './views/login'
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     Redirect,
 } from "react-router-dom";
-import { Navbar, Nav, Row, Button } from 'react-bootstrap'
-import { useEffect } from 'react'
 
 const AuthenticatedApplication = (props) => {
     return(
