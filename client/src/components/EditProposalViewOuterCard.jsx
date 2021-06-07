@@ -1,5 +1,6 @@
 import { Button, Col, Row, Accordion, Card } from 'react-bootstrap'
 import EditProposalViewInnerCard from './EditProposalViewInnerCard'
+import React from 'react';
 
 export const EditProposalViewOuterCard = (props) =>{
 

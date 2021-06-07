@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const submitHandler = (e, data, url, setToken) => {
 
     // prevent default form submission

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-
+import React from 'react';
 import { Row, Container, Jumbotron, Col } from 'react-bootstrap'
 
 export const HomePage = (props) => {

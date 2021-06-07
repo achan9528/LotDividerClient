@@ -1,6 +1,6 @@
 import { Row, Col, Table, Button, Container } from 'react-bootstrap'
 import useToken from '../components/hooks/useToken'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const UserDashboard = (props) => {

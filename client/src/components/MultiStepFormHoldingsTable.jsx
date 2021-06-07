@@ -1,4 +1,5 @@
 import {Button, Table, Form} from 'react-bootstrap';
+import React from 'react';
 
 const MultiStepFormHoldingsTable = (props)=>{
 

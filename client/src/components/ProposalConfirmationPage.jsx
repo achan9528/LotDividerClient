@@ -1,4 +1,5 @@
 import {Table, Form} from 'react-bootstrap';
+import React from 'react';
 
 const ProposalConfirmationPage = (props)=>{
 

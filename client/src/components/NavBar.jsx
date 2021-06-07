@@ -1,5 +1,6 @@
 import { Navbar, Nav } from 'react-bootstrap'
 import LogoutLink from './logout'
+import React from 'react';
 
 const NavBar = (props) => {
     return(

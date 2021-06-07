@@ -1,4 +1,5 @@
 import { Table, Button, Accordion, Card, Form } from 'react-bootstrap'
+import React from 'react';
 
 const EditProposalViewInnerCard = (props) => {
 

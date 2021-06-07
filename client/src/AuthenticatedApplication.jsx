@@ -9,6 +9,7 @@ import ProposalView from './views/ProposalView'
 import DeleteProposalView from './views/DeleteProposalView'
 import EditProposalView from './views/EditProposalView'
 import NavBar from './components/NavBar'
+import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,

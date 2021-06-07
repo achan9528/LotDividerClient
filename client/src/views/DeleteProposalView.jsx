@@ -1,5 +1,5 @@
 import { Button, Col, Row, Container, Accordion } from 'react-bootstrap'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useParams, Redirect } from 'react-router-dom'
 import useToken from '../components/hooks/useToken'
 import ProposalViewOuterCard from '../components/ProposalViewOuterCard'

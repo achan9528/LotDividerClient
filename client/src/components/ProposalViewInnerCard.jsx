@@ -1,5 +1,5 @@
 import { Table, Button, Accordion, Card } from 'react-bootstrap'
-
+import React from 'react';
 
 const ProposalViewInnerCard = (props) => {
 

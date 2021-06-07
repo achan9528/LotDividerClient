@@ -1,6 +1,7 @@
 import RegistrationForm from './views/registration'
 import HomePage from './views/home'
 import Login from './views/login'
+import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
