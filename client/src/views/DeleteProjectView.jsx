@@ -25,7 +25,7 @@ export const DeleteProjectView = (props) =>{
     }, [projectID, token])
 
     const deleteProject = (e) => {
-        const url = `http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com/:8000/api/projects/${projectID}/`
+        const url = `http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/projects/${projectID}/`
         const data = {
             method: 'DELETE',
             headers: {

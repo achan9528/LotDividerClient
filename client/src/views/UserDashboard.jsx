@@ -8,7 +8,7 @@ const UserDashboard = (props) => {
     const [ projects, setProjects ] = useState([])
 
     useEffect(() => {
-        const url = 'http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000:8000/api/projects/';
+        const url = 'http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/projects/';
         const data = {
             headers: {
                 'Authorization': `Token ${token}`
