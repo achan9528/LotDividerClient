@@ -5,7 +5,8 @@
             "name": "frontend",
             "image": "achan9528/lot-divider-client:latest",
             "cpu": 0,
-            "memory": 1280,
+            "memory": 300, 
+            "memoryReservation": 128,
             "portMappings": [
                 {
                     "containerPort": 80,
