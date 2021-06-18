@@ -15,22 +15,28 @@ const RegistrationForm = (props) => {
     const submitHandler = (e) => {
         e.preventDefault()
         const data = {
-            name: name,
-            alias: alias,
-            email: email,
-            password: password,
-            passwordConfirm: passwordConfirm,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                alias: alias,
+                email: email,
+                password: password,
+                passwordConfirm: passwordConfirm,
+            })
         }
-    
-        const url = 'http://localhost:8000/api/rest-auth/registration/'
 
-        fetch(data, url)
+        const url = 'http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/rest-auth/registration/'
+        // const url = 'http://localhost:8000/api/rest-auth/registration/'
+
+        fetch(url, data)
         .then(res => {
-            if (res.status === 200 || res.status === 204) {
-                const token = res.json()
-                props.setToken(token.key)
+            if (res.status === 200 || res.status == 201 || res.status === 204) {
+                props.setToken(res.json())
             } else {
-                setMessages({...res.json()})
+                console.log(res.json())
             }
         })
         .catch(err => {

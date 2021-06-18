@@ -21,7 +21,7 @@ const NewProposalForm = (props) => {
     let history = useHistory();
 
     useEffect(()=>{
-        let url = 'http://localhost:8000/api/accounts/'
+        let url = 'http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/accounts/'
         let data = {
             headers:{
                 Authorization: `Token ${token}`
@@ -37,7 +37,7 @@ const NewProposalForm = (props) => {
     }, [])
 
     const getHoldings = (e, targetAccount) => {
-        let url = `http://localhost:8000/api/accounts/${targetAccount.id}/`
+        let url = `http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/accounts/${targetAccount.id}/`
         let data = {
             headers:{
                 Authorization: `Token ${token}`
@@ -55,7 +55,7 @@ const NewProposalForm = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        const url = "http://localhost:8000/api/proposals/";
+        const url = "http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/proposals/";
         console.log({
             projectID: parseInt(projectID),
             proposalName: proposalName,

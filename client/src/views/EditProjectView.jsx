@@ -12,7 +12,7 @@ export const EditProjectView = (props) =>{
     const { token } = useToken()
 
     useEffect(()=>{
-        const url = `http://localhost:8000/api/projects/${projectID}/`
+        const url = `http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/projects/${projectID}/`
         const data = {
             method: 'GET',
             headers: {
@@ -30,7 +30,7 @@ export const EditProjectView = (props) =>{
 
     const submitHandler = (e) => {
         e.preventDefault()
-        const url = `http://localhost:8000/api/projects/${projectID}/`
+        const url = `http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/projects/${projectID}/`
         const data = {
             method: 'PATCH',
             headers: {

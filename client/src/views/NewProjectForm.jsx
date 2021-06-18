@@ -15,7 +15,7 @@ const NewProjectForm = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        const url = "http://localhost:8000/api/projects/";
+        const url = "http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/projects/";
         const data = {
             method: 'POST',
             headers: {
@@ -39,7 +39,7 @@ const NewProjectForm = (props) => {
             console.log(projectName);
         });
         
-        // const url = "http://localhost:8000/api/users/";
+        // const url = "http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/users/";
         // const data = {
         //     method: 'GET',
         //     headers: {

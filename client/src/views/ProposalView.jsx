@@ -29,7 +29,7 @@ export const ProposalView = (props) =>{
     }
 
     const test = async () => {
-        const url = `http://localhost:8000/api/proposals/${proposalID}/`
+        const url = `http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/proposals/${proposalID}/`
         const data = {
             method: 'GET',
             headers: {
