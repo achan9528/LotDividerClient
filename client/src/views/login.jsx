@@ -11,8 +11,7 @@ const LoginForm = (props) => {
         // prevent default form submission
         e.preventDefault()
         // send AJAX call with fetch API
-        const url = 'http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/rest-auth/login/'
-        // const url = 'http://localhost:8000/api/rest-auth/login/'
+        const url = `${process.env.REACT_APP_API_URL}:8000/api/rest-auth/login/`
         const data = {
             method: 'POST',
             headers: {

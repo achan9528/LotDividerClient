@@ -31,7 +31,7 @@ const NewPortfolioForm = (props) => {
                 formData.append(`${accounts[i].name}__holdings`, files[i].file);
             }
         }
-        let url = "http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/portfolios/"
+        let url = `${process.env.REACT_APP_API_URL}:8000/api/portfolios/`
         fetch(url, {
             method: 'POST',
             headers: {

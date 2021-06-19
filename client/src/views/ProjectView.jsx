@@ -9,7 +9,7 @@ export const ProjectView = (props) =>{
     const { token } = useToken()
 
     useEffect(()=>{
-        const url = `http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/projects/${projectID}/`
+        const url = `${process.env.REACT_APP_API_URL}:8000/api/projects/${projectID}/`
         const data = {
             method: 'GET',
             headers: {

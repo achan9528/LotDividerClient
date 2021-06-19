@@ -9,13 +9,9 @@ const NewProjectForm = (props) => {
     const {token} = useToken();
     let history = useHistory();
 
-    useEffect(()=>{
-        console.log(token);
-    }, [])
-
     const submitHandler = (e) => {
         e.preventDefault();
-        const url = "http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/projects/";
+        const url = `${process.env.REACT_APP_API_URL}:8000/api/projects/`
         const data = {
             method: 'POST',
             headers: {
@@ -39,7 +35,6 @@ const NewProjectForm = (props) => {
             console.log(projectName);
         });
         
-        // const url = "http://ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000/api/users/";
         // const data = {
         //     method: 'GET',
         //     headers: {
