@@ -1,7 +1,7 @@
 FROM node as build
 WORKDIR /LotDividerClient
 ENV PATH /node_modules/.bin:$PATH
-ENV API_URL .env.production:REACT_APP_API_URL
+ENV API_URL $REACT_APP_API_URL
 COPY package.json .
 COPY package-lock.json .
 RUN npm install
