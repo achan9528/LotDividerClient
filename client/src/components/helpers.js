@@ -4,7 +4,7 @@ export const authenticate = (e, method, payload, setMessages, setToken) => {
     // prevent default form submission
     e.preventDefault()
     // send AJAX call with fetch API
-    const url = `${process.env.REACT_APP_API_URL}:8000/api/rest-auth/${method}/`
+    const url = `http://${process.env.REACT_APP_API_URL}/api/rest-auth/${method}/`
     const data = {
         method: 'POST',
         headers: {
@@ -70,7 +70,7 @@ export const aggregateFormData = (data) => {
 }
 
 export const getEntry = (model, modelID, setLoading, setEntry, setMessage, token) => {
-    const url = `${process.env.REACT_APP_API_URL}:8000/api/${model}/${modelID}/`
+    const url = `http://${process.env.REACT_APP_API_URL}:8000/api/${model}/${modelID}/`
     const data = {
         method: 'GET',
         headers: {
@@ -89,7 +89,7 @@ export const getEntry = (model, modelID, setLoading, setEntry, setMessage, token
 
 
 export const getEntries = (model, setEntries, setLoading, setMessages, token) => {
-    const url=`${process.env.REACT_APP_API_URL}:8000/api/${model}/`
+    const url=`http://${process.env.REACT_APP_API_URL}:8000/api/${model}/`
     const data = {
         headers: {
             'Authorization': `Token ${token}`
@@ -110,7 +110,7 @@ export const getEntries = (model, setEntries, setLoading, setMessages, token) =>
 
 export const createEntry = (e, model, payload, setSuccessfulCreate, setMessages, token, stringify=true) => {
     e.preventDefault();
-    const url = `${process.env.REACT_APP_API_URL}:8000/api/${model}/`
+    const url = `http://${process.env.REACT_APP_API_URL}:8000/api/${model}/`
     let body;
     stringify
     ? body=JSON.stringify(payload)
@@ -134,7 +134,7 @@ export const createEntry = (e, model, payload, setSuccessfulCreate, setMessages,
 
 export const deleteEntry = (e, model, modelID, setDeleted, setMessages, token) => {
     e.preventDefault()
-    const url = `${process.env.REACT_APP_API_URL}:8000/api/${model}/${modelID}/`
+    const url = `http://${process.env.REACT_APP_API_URL}:8000/api/${model}/${modelID}/`
     const data = {
         method: 'DELETE',
         headers: {
@@ -152,7 +152,7 @@ export const deleteEntry = (e, model, modelID, setDeleted, setMessages, token) =
 
 export const editEntry = (e, model, modelID, updatedData, setSuccessfulUpdate, setMessages, token) => {
     e.preventDefault()
-    const url = `${process.env.REACT_APP_API_URL}:8000/api/${model}/${modelID}/`
+    const url = `http://${process.env.REACT_APP_API_URL}:8000/api/${model}/${modelID}/`
     const data = {
         method: 'PATCH',
         headers: {
@@ -174,7 +174,7 @@ export const editEntry = (e, model, modelID, updatedData, setSuccessfulUpdate, s
 
 export const batchEdit = (e, model, updatedEntries, setSuccessfulUpdate, setMessages, token) => {
     e.preventDefault()
-    let url = `${process.env.REACT_APP_API_URL}:8000/api/${model}/batch/`
+    let url = `http://${process.env.REACT_APP_API_URL}:8000/api/${model}/batch/`
     let data = {
         method: 'PATCH',
         headers: {
