@@ -21,26 +21,6 @@ export const authenticate = (e, method, payload, setMessages, setToken) => {
     })
 }
 
-// export const submitHandler = (e, data, url, setToken) => {
-
-//     // prevent default form submission
-//     e.preventDefault()
-//     console.log(data);
-//     // send AJAX call with fetch API
-//     fetch(url, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(data),
-//     }).then(res => res.json())
-//     .then(data => {
-//         setToken(data);
-//     }).catch(err => {
-//         console.log(err);
-//     })
-// }
-
 export const fileHandler = (e, targetAccount, files, setFiles) => {
     let updatedFiles = files;
     updatedFiles[targetAccount] = {
@@ -70,7 +50,7 @@ export const aggregateFormData = (data) => {
 }
 
 export const getEntry = (model, modelID, setLoading, setEntry, setMessage, token) => {
-    const url = `http://${process.env.REACT_APP_API_URL}:8000/api/${model}/${modelID}/`
+    const url = `http://${process.env.REACT_APP_API_URL}/api/${model}/${modelID}/`
     const data = {
         method: 'GET',
         headers: {
@@ -89,7 +69,7 @@ export const getEntry = (model, modelID, setLoading, setEntry, setMessage, token
 
 
 export const getEntries = (model, setEntries, setLoading, setMessages, token) => {
-    const url=`http://${process.env.REACT_APP_API_URL}:8000/api/${model}/`
+    const url=`http://${process.env.REACT_APP_API_URL}/api/${model}/`
     const data = {
         headers: {
             'Authorization': `Token ${token}`
@@ -110,7 +90,7 @@ export const getEntries = (model, setEntries, setLoading, setMessages, token) =>
 
 export const createEntry = (e, model, payload, setSuccessfulCreate, setMessages, token, stringify=true) => {
     e.preventDefault();
-    const url = `http://${process.env.REACT_APP_API_URL}:8000/api/${model}/`
+    const url = `http://${process.env.REACT_APP_API_URL}/api/${model}/`
     let body;
     stringify
     ? body=JSON.stringify(payload)
@@ -134,7 +114,7 @@ export const createEntry = (e, model, payload, setSuccessfulCreate, setMessages,
 
 export const deleteEntry = (e, model, modelID, setDeleted, setMessages, token) => {
     e.preventDefault()
-    const url = `http://${process.env.REACT_APP_API_URL}:8000/api/${model}/${modelID}/`
+    const url = `http://${process.env.REACT_APP_API_URL}/api/${model}/${modelID}/`
     const data = {
         method: 'DELETE',
         headers: {
@@ -152,7 +132,7 @@ export const deleteEntry = (e, model, modelID, setDeleted, setMessages, token) =
 
 export const editEntry = (e, model, modelID, updatedData, setSuccessfulUpdate, setMessages, token) => {
     e.preventDefault()
-    const url = `http://${process.env.REACT_APP_API_URL}:8000/api/${model}/${modelID}/`
+    const url = `http://${process.env.REACT_APP_API_URL}/api/${model}/${modelID}/`
     const data = {
         method: 'PATCH',
         headers: {
@@ -174,7 +154,7 @@ export const editEntry = (e, model, modelID, updatedData, setSuccessfulUpdate, s
 
 export const batchEdit = (e, model, updatedEntries, setSuccessfulUpdate, setMessages, token) => {
     e.preventDefault()
-    let url = `http://${process.env.REACT_APP_API_URL}:8000/api/${model}/batch/`
+    let url = `http://${process.env.REACT_APP_API_URL}/api/${model}/batch/`
     let data = {
         method: 'PATCH',
         headers: {
@@ -196,26 +176,26 @@ export const batchEdit = (e, model, updatedEntries, setSuccessfulUpdate, setMess
     .catch(err => console.log(err))
 }
 
-export const getProposalSections =  (proposal, setHoldings, setAccounts) =>{
+export const getProposalSections =  (proposal, setHoldings, setDraftAccounts) =>{
     let holdings = {
         stocks: {},
         mutualFunds: {},
         bonds: {},
         etfs: {}
     };
-    let accounts = [];
+    let draftAccounts = [];
     // for each draftAccoumt, go through the holdings and add the 
     // tax lots for each holding to a dictionary. Add this
     // dictionary to the master dictionary
     proposal.draftPortfolios.forEach((draftPortfolio)=>{
         draftPortfolio.draftAccounts.forEach((draftAccount)=>{
             let draftHoldings = draftAccount.draftHoldings
-            accounts.push(draftAccount.id)
+            draftAccounts.push(draftAccount.id)
             for (let i =0; i < draftHoldings.length; i++){
                 let draftHolding  = draftHoldings[i]
                 let productType = draftHolding.security.productType.name
                 let ticker = draftHolding.security.ticker
-                let accountNumber = draftHolding.draftAccount
+                let draftAccountNumber = draftHolding.draftAccount
                 let draftTaxLots = draftHolding.draftTaxLots
                 if (productType==='stock'){
                     if (!holdings['stocks'].hasOwnProperty(ticker)){
@@ -226,7 +206,7 @@ export const getProposalSections =  (proposal, setHoldings, setAccounts) =>{
                         if (!holdings['stocks'][ticker].hasOwnProperty(referencedLot)){
                             holdings['stocks'][ticker][[referencedLot]] = {}
                         }
-                        holdings['stocks'][ticker][[referencedLot]][[accountNumber]] = 
+                        holdings['stocks'][ticker][[referencedLot]][[draftAccountNumber]] = 
                             {
                                 units: draftTaxLots[j].units,
                                 marketValue: draftTaxLots[j].marketValue,
@@ -239,7 +219,7 @@ export const getProposalSections =  (proposal, setHoldings, setAccounts) =>{
         })
     })
     setHoldings({...holdings});
-    setAccounts([...accounts])
+    setDraftAccounts([...draftAccounts])
 }
 
 export const draftTaxLotChangeHandler = (e, productType, ticker, taxLot, accountNumber, originalHoldings, setHoldings) => {

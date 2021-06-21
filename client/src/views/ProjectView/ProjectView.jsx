@@ -2,27 +2,22 @@ import { Table, Button, Col, Row, Container } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useToken from '../../components/hooks/useToken'
+import { getEntry } from '../../components/helpers'
 
 export const ProjectView = (props) =>{
     const [project, setProject] = useState({})
+    const [loading, setLoading] = useState(true)
+    const [messages, setMessages] = useState()
     const { projectID } = useParams()
     const { token } = useToken()
 
     useEffect(()=>{
-        const url = `${process.env.REACT_APP_API_URL}:8000/api/projects/${projectID}/`
-        const data = {
-            method: 'GET',
-            headers: {
-                'Authorization': `Token ${token}`
-            }
-        }
-        fetch(url, data)
-        .then(res => res.json())
-        .then(data => setProject(data))
-        .catch(err => console.log(err));
+        loading
+        ? getEntry('projects', projectID, setLoading, setProject, setMessages, token)
+        : setLoading(false)
     }, [])
+    
     let tableData;
-    console.log(project);
     if (!project.proposals){
         tableData = 
             <tr>
