@@ -1,7 +1,7 @@
 import { Table, Button, Col, Row, Container } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import useToken from '../components/hooks/useToken'
+import useToken from '../../components/hooks/useToken'
 
 export const ProjectView = (props) =>{
     const [project, setProject] = useState({})

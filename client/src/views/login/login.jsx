@@ -2,34 +2,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Container, Button, Form } from 'react-bootstrap'
+import { authenticate } from '../../components/helpers'
 
 const LoginForm = (props) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-
-    const submitHandler = (e) => {
-        // prevent default form submission
-        e.preventDefault()
-        // send AJAX call with fetch API
-        const url = `${process.env.REACT_APP_API_URL}:8000/api/rest-auth/login/`
-        const data = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-            })
-        }
-        fetch(url, data)
-        .then(res => res.json())
-        .then(data => {
-            props.setToken(data);
-        }).catch(err => {
-            console.log(err);
-        })
-    }
+    const [messages, setMessages] = useState()
 
     return (
         <Container>
@@ -46,7 +24,16 @@ const LoginForm = (props) => {
             </Row>
             <Row className="justify-content-md-center">
                 <Col md="auto">
-                    <Form onSubmit={(e) => submitHandler(e)} >
+                    <Form onSubmit={(e) => authenticate(
+                        e,
+                        'login',
+                        {
+                            email: email,
+                            password: password
+                        },
+                        setMessages,
+                        props.setToken
+                    )} >
                         <Form.Group>
                             <Form.Label>Email</Form.Label>
                             <Form.Control

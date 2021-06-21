@@ -1,56 +1,23 @@
 import { Table, Button, Col, Row, Container, Form } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
 import { useParams, Redirect } from 'react-router-dom'
-import useToken from '../components/hooks/useToken'
+import useToken from '../../components/hooks/useToken'
+import { editEntry, getEntry } from '../../components/helpers'
 
 export const EditProjectView = (props) =>{
     const [project, setProject] = useState({})
     const [projectName, setProjectName] = useState()
-    const [projectUpdated, setProjectUpdated] = useState()
+    const [successfulUpdate, setSuccessfulUpdate] = useState()
+    const [loading, setLoading] = useState(true)
     const [messages, setMessages] = useState()
     const { projectID } = useParams()
     const { token } = useToken()
 
     useEffect(()=>{
-        const url = `${process.env.REACT_APP_API_URL}:8000/api/projects/${projectID}/`
-        const data = {
-            method: 'GET',
-            headers: {
-                'Authorization': `Token ${token}`
-            }
-        }
-        fetch(url, data)
-        .then(res => res.json())
-        .then(data => {
-            setProject(data)
-            setProjectName(data.name)
-        })
-        .catch(err => console.log(err));
+        if (loading){
+            getEntry('projects', projectID, setLoading, setProject, setMessages, token)
+        } 
     }, [])
-
-    const submitHandler = (e) => {
-        e.preventDefault()
-        const url = `${process.env.REACT_APP_API_URL}:8000/api/projects/${projectID}/`
-        const data = {
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Token ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name: projectName
-            })
-        }
-        fetch(url, data)
-        .then(res => {
-            if (res.status === 200 || res.status === 204){
-                setProjectUpdated(true)
-            } else {
-                setMessages({...res.json()})
-            }
-        })
-        .catch(err => console.log(err));
-    }
 
     let tableData;
     if (!project.proposals){
@@ -72,7 +39,7 @@ export const EditProjectView = (props) =>{
             })
     }
 
-    if (projectUpdated){
+    if (successfulUpdate){
         return <Redirect to="/dashboard"></Redirect>
     }
 
@@ -80,7 +47,7 @@ export const EditProjectView = (props) =>{
         <Container>
             <Row>
                 <Col>
-                    <Form onSubmit={e=>submitHandler(e)}>
+                    <Form onSubmit={e=>editEntry(e, 'projects', projectID, {name: projectName},setSuccessfulUpdate, setMessages, token)}>
                         <Form.Group>
                             <Form.Label>Project Name</Form.Label>
                             <Form.Control

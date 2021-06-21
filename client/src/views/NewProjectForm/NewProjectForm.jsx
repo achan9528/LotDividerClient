@@ -1,54 +1,33 @@
 import { Button, Row, Form } from 'react-bootstrap'
 import React, { useState, useEffect } from 'react'
-import useToken from '../components/hooks/useToken'
-import { useHistory } from 'react-router-dom'
+import useToken from '../../components/hooks/useToken'
+import { createEntry } from '../../components/helpers'
+import { Redirect } from 'react-router-dom'
 
 const NewProjectForm = (props) => {
     const [projectName, setProjectName] = useState();
     const [owners, setOwners] = useState([]);
     const {token} = useToken();
-    let history = useHistory();
+    const [messages, setMessages] = useState();
+    const [successfulCreate, setSuccessfulCreate] = useState();
 
-    const submitHandler = (e) => {
-        e.preventDefault();
-        const url = `${process.env.REACT_APP_API_URL}:8000/api/projects/`
-        const data = {
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${token}`,
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({
-                name: projectName,
-                owners: owners,
-            })
-        };
-        console.log(data);
-        fetch(url, data)
-        .then(res=>res.json())
-        .then(data=>{
-            console.log(data)
-            history.push('/dashboard')
-        })
-        .catch(err=>{
-            console.log(err);
-            console.log(projectName);
-        });
-        
-        // const data = {
-        //     method: 'GET',
-        //     headers: {
-        //         'Authorization': `Token ${token}`,
-        //     },
-        // }
-        // fetch(url, data)
-        // .then(res => res.json())
-        // .then(data => setUsers(data))
+    if (successfulCreate){
+        return <Redirect to='/dashboard'></Redirect>
     }
 
     return(
         <Row className="justify-content-md-center">
-            <Form onSubmit={e=>submitHandler(e)}>
+            <Form onSubmit={e=>createEntry(
+                e, 
+                'projects', 
+                {
+                    name: projectName, 
+                    owners: owners
+                },
+                setSuccessfulCreate,
+                setMessages,
+                token
+            )}>
                 <Form.Group>
                     <Form.Label>Project Name</Form.Label>
                     <Form.Control

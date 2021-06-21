@@ -1,27 +1,19 @@
 import { Row, Col, Table, Button, Container } from 'react-bootstrap'
-import useToken from '../components/hooks/useToken'
+import useToken from '../../components/hooks/useToken'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getEntries } from '../../components/helpers'
 
 const UserDashboard = (props) => {
     const { token } = useToken()
     const [ projects, setProjects ] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [ messages, setMessages ] = useState()
 
     useEffect(() => {
-        const url=`${process.env.REACT_APP_API_URL}:8000/api/projects/`
-        const data = {
-            headers: {
-                'Authorization': `Token ${token}`
-            }
-        };
-        fetch(url, data)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            setProjects(data);
-        }).catch(err => {
-            return err;
-        })
+        loading
+        ? getEntries('projects', setProjects, setLoading, setMessages, token)
+        : setLoading(false)
     }, [])
 
     let tableData;

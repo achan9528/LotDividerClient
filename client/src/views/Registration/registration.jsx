@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { Button, Container, Form, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { authenticate } from '../../components/helpers'
 
 const RegistrationForm = (props) => {
 
@@ -11,36 +12,6 @@ const RegistrationForm = (props) => {
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
     const [messages, setMessages ] = useState({})
-
-    const submitHandler = (e) => {
-        e.preventDefault()
-        const data = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name: name,
-                alias: alias,
-                email: email,
-                password: password,
-                passwordConfirm: passwordConfirm,
-            })
-        }
-        const url = `${process.env.REACT_APP_API_URL}:8000/api/rest-auth/registration/`
-
-        fetch(url, data)
-        .then(res => {
-            if (res.status === 200 || res.status == 201 || res.status === 204) {
-                props.setToken(res.json())
-            } else {
-                console.log(res.json())
-            }
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
 
     return (
         <Container>
@@ -60,7 +31,19 @@ const RegistrationForm = (props) => {
             </Row>
             <Row className="justify-content-md-center">
                 <Col md="auto">
-                    <Form onSubmit={e=>submitHandler(e)}>
+                    <Form onSubmit={e=>authenticate(
+                            e,
+                            'registration',
+                            {
+                                name: name,
+                                alias: alias,
+                                email: email,
+                                password: password,
+                                passwordConfirm: passwordConfirm,
+                            },
+                            setMessages,
+                            props.setToken
+                        )}>
                         <Form.Group>
                             <Form.Label>Name</Form.Label>
                             <Form.Control

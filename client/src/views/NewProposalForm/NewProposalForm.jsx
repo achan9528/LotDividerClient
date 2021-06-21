@@ -1,11 +1,11 @@
 import { Button, Row, Form, Col, Container } from 'react-bootstrap'
 import React, { useState, useEffect } from 'react'
-import useToken from '../components/hooks/useToken'
+import useToken from '../../components/hooks/useToken'
 import { useHistory, useParams } from 'react-router-dom'
-import SelectAccount from '../components/SelectAccount'
-import MultiStepFormHoldingsSelectTable from '../components/MultiStepFormHoldingsSelectTable'
-import TaxLotSelectionDetails from '../components/TaxLotSelectionDetails'
-import ProposalConfirmationPage from '../components/ProposalConfirmationPage'
+import SelectAccount from '../../components/SelectAccount/SelectAccount'
+import MultiStepFormHoldingsSelectTable from '../../components/MultiStepFormHoldingsSelectTable/MultiStepFormHoldingsSelectTable'
+import TaxLotSelectionDetails from '../../components/TaxLotSelectionDetails/TaxLotSelectionDetails'
+import ProposalConfirmationPage from '../../components/ProposalConfirmationPage/ProposalConfirmationPage'
 
 const NewProposalForm = (props) => {
     const [proposalName, setProposalName] = useState();

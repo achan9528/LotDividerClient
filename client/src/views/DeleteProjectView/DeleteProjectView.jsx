@@ -1,52 +1,25 @@
 import { Table, Button, Col, Row, Container } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams, Redirect } from 'react-router-dom'
-import useToken from '../components/hooks/useToken'
+import useToken from '../../components/hooks/useToken'
+import { 
+    getEntry,
+    deleteEntry,
+} from '../../components/helpers'
 
 export const DeleteProjectView = (props) =>{
     const [project, setProject] = useState({})
-    const [projectDeleted, setProjectDeleted] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const [deleted, setDeleted] = useState(false)
     const [messages, setMessages] = useState({})
     const { projectID } = useParams()
     const { token } = useToken()
 
     useEffect(()=>{
-        const url = `${process.env.REACT_APP_API_URL}:8000/api/projects/${projectID}/`
-        const data = {
-            method: 'GET',
-            headers: {
-                'Authorization': `Token ${token}`
-            }
-        }
-        fetch(url, data)
-        .then(res => res.json())
-        .then(data => setProject(data))
-        .catch(err => console.log(err));
+        getEntry('projects', projectID, setLoading, setProject, setMessages, token)
     }, [projectID, token])
 
-    const deleteProject = (e) => {
-        const url = `${process.env.REACT_APP_API_URL}:8000/api/projects/${projectID}/`
-        const data = {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Token ${token}`
-            }
-        }
-        fetch(url, data)
-        .then(res => {
-            console.log(res)
-            if (res.status === 204){
-                setProjectDeleted(true)
-            } else {
-                setMessages({...res.json()})
-            }
-        })
-        .catch(err => console.log(err));
-    }
-
-
     let tableData;
-    console.log(project);
     if (!project.proposals){
         tableData = 
             <tr>
@@ -73,7 +46,7 @@ export const DeleteProjectView = (props) =>{
             })
     }
 
-    if (projectDeleted){
+    if (deleted){
         return <Redirect to="/dashboard"></Redirect>
     }
 
@@ -100,7 +73,7 @@ export const DeleteProjectView = (props) =>{
                     </Table>
                     <Button 
                     variant="danger"
-                    onClick={e=>deleteProject(e)}>Delete Project</Button>
+                    onClick={e=>deleteEntry(e, 'projects', projectID, setDeleted, setMessages, token)}>Delete Project</Button>
                 </Col>
             </Row>
         </Container>

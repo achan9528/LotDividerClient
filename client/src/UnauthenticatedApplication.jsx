@@ -1,6 +1,6 @@
-import RegistrationForm from './views/registration'
-import HomePage from './views/home'
-import Login from './views/login'
+import RegistrationForm from './views/Registration/registration'
+import HomePage from './views/home/home'
+import Login from './views/login/login'
 import React from 'react';
 import {
     BrowserRouter as Router,

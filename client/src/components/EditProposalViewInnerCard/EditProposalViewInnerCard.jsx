@@ -38,7 +38,7 @@ const EditProposalViewInnerCard = (props) => {
                                                     <td>
                                                         <Form.Control
                                                         value={props.taxLots[[taxLot]][[item]].units}
-                                                        onChange={e => props.changeHandler(e, props.productType, props.ticker, taxLot, item)}></Form.Control>
+                                                        onChange={e => props.changeHandler(e, props.productType, props.ticker, taxLot, item, props.holdings, props.setHoldings)}></Form.Control>
                                                     </td>
                                                 )
                                             })

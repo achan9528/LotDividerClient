@@ -1,9 +1,10 @@
 import { Button, Row, Form } from 'react-bootstrap'
 import React, { useState, useEffect } from 'react'
-import useToken from '../components/hooks/useToken'
+import useToken from '../../components/hooks/useToken'
 import { Redirect } from 'react-router-dom'
-import MultiStepFormHoldingsTable from '../components/MultiStepFormHoldingsTable'
-import MultiStepFormAccountTable from '../components/MultiStepFormAccountTable'
+import MultiStepFormHoldingsTable from '../../components/MultiStepFormHoldingsTable/MultiStepFormHoldingsTable'
+import MultiStepFormAccountTable from '../../components/MultiStepFormAccountTable/MultiStepFormAccountTable'
+import { createPortfolio, fileHandler } from '../../components/helpers'
 
 const NewPortfolioForm = (props) => {
     const [step, setStep] = useState("");
@@ -13,50 +14,12 @@ const NewPortfolioForm = (props) => {
     const [files, setFiles] = useState([]);
     const [currentAccount, setCurrentAccount] = useState();
     const {token} = useToken();
-    const [successfulCreation, setSuccessfulCreation] = useState(false)
+    const [successfulCreate, setSuccessfulCreate] = useState(false)
     const [messages, setMessages] = useState({})
 
     useEffect(()=>{
         setStep(0);
     }, [])
-    
-    const submitHandler = (e) => {
-        e.preventDefault();
-        let formData = new FormData();
-        formData.append('portfolioName', portfolioName);
-        formData.append('accounts', accounts);
-        formData.append('holdings', holdings);
-        for (let i = 0; i < files.length; i++){
-            if (files[i]){
-                formData.append(`${accounts[i].name}__holdings`, files[i].file);
-            }
-        }
-        let url = `${process.env.REACT_APP_API_URL}:8000/api/portfolios/`
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${token}`,
-            },
-            body: formData
-        })
-        .then(res => {
-            if (res.status === 200 || res.status === 204){
-                setSuccessfulCreation(true)
-            } else {
-                setMessages({...res.json()})
-            }
-        })
-        .catch(err=> console.log(err));
-    }
-    
-    const fileHandler = (e, targetAccount) => {
-        let updatedFiles = files;
-        updatedFiles[targetAccount] = {
-            name: e.target.files[0].name,
-            file: e.target.files[0],
-        };
-        setFiles([...updatedFiles])
-    }
 
     // step process
     const nextStep = (e) => {
@@ -131,13 +94,12 @@ const NewPortfolioForm = (props) => {
                 <Form.Label>Upload Holdings</Form.Label>
                 <Form.File 
                 name={"account-" + currentAccount + "-holdings"}
-                onChange={e=>fileHandler(e, currentAccount)}></Form.File>
+                onChange={e=>fileHandler(e, currentAccount, files, setFiles)}></Form.File>
             </Form.Group>
         )
         content.push(
             <MultiStepFormHoldingsTable
             headers={[
-                
                 "Ticker",
                 "CUSIP",
                 "Tax Lot Number",
@@ -157,13 +119,25 @@ const NewPortfolioForm = (props) => {
         )
     }
 
-    if (successfulCreation){
+    if (successfulCreate){
         return <Redirect to="/dashboard"></Redirect>
     }
 
     return(
         <Row className="justify-content-md-center">
-            <Form onSubmit={e=>submitHandler(e)}>
+            <Form 
+            onSubmit={e=>createPortfolio(
+                e, 
+                {
+                    portfolioName: portfolioName,
+                    accounts: accounts,
+                    holdings: holdings,
+                    files: files,
+                },
+                setSuccessfulCreate,
+                setMessages,
+                token
+            )}>
                 {
                     content.map((item, key)=>{
                         return(

@@ -1,5 +1,5 @@
 import { Button, Col, Row, Accordion, Card } from 'react-bootstrap'
-import EditProposalViewInnerCard from './EditProposalViewInnerCard'
+import EditProposalViewInnerCard from '../EditProposalViewInnerCard/EditProposalViewInnerCard'
 import React from 'react';
 
 export const EditProposalViewOuterCard = (props) =>{
@@ -35,6 +35,8 @@ export const EditProposalViewOuterCard = (props) =>{
                                 taxLots={props.tickers[[item]]}
                                 productType={props.productType}
                                 ticker={item}
+                                holdings={props.holdings}
+                                setHoldings={props.setHoldings}
                                 changeHandler={props.changeHandler}></EditProposalViewInnerCard>
                             )
                             
