@@ -14,7 +14,7 @@ const ProposalViewInnerCard = (props) => {
                 </Card.Header>
                 <Accordion.Collapse eventKey={`${props.eventKey}`}>
                     <Card.Body>
-                        <Table striped bordered hover>
+                        <Table striped bordered hover responsive>
                             <thead>
                                 <tr>
                                     <th>Tax Lot Number</th>
@@ -39,21 +39,6 @@ const ProposalViewInnerCard = (props) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* {
-                                    Object.keys(props.holdings).map((item,key)=>{
-                                        let taxLot = item;
-                                        let component = props.accounts.map((item,key)=>{
-                                            return(
-                                                <tr>
-                                                    <td>{taxLot}</td>
-                                                    <td>{props.holdings[[taxLot]][[item]].units}</td>
-                                                    <td>{props.holdings[[taxLot]][[item]].marketValue}</td>
-                                                </tr>
-                                            )
-                                        })
-                                        return component
-                                    })
-                                } */}
                                 {
                                     Object.keys(props.taxLots).map((item,key)=>{
                                         let taxLot = item;

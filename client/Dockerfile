@@ -1,12 +1,13 @@
 FROM node as build
 WORKDIR /LotDividerClient
 ENV PATH /node_modules/.bin:$PATH
+ENV API_URL .env.production:REACT_APP_API_URL
 COPY package.json .
 COPY package-lock.json .
 RUN npm install
 RUN npm install react-scripts@3.4.1
 COPY . .
-RUN npm run build
+RUN REACT_APP_API_URL=$API_URL npm run build
 
 FROM nginx:stable-alpine
 COPY --from=build /LotDividerClient/build /usr/share/nginx/html
