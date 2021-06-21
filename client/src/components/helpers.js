@@ -177,6 +177,7 @@ export const batchEdit = (e, model, updatedEntries, setSuccessfulUpdate, setMess
 }
 
 export const getProposalSections =  (proposal, setHoldings, setDraftAccounts) =>{
+    console.log(proposal)
     let holdings = {
         stocks: {},
         mutualFunds: {},
