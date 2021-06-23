@@ -1,24 +1,29 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
-import { Row, Container, Jumbotron, Col } from 'react-bootstrap'
+import { Row, Container, Jumbotron, Col, Button } from 'react-bootstrap'
+import { getHomePageText } from '../../components/helpers'
 
-export const HomePage = (props) => {
+export const Home = (props) => {
+    let description = getHomePageText().description
+    // useEffect(()=>{
+    //     description = getHomePageText().description
+    // }, [])
     return (
-            <Container>
+        <Container>
                 <Row className="justify-content-md-center">
-                    <Col>
-                        <Jumbotron>
-                            <h1>Welcome!</h1>
-                            <h2>Here are some links below:</h2>
-                            <ul>
-                                <li><Link to="/login">Login</Link></li>
-                                <li><Link to="/registration">Register</Link></li>
-                            </ul>
-                        </Jumbotron>
+                    <Col className="text-align-center">
+                        <h1>Lot Divider</h1>
+                        <p>{description}</p>
+                        <Button variant="link">
+                            How it works
+                        </Button>
+                        <Link to="/login">
+                            <Button variant="link">
+                                Get Started
+                            </Button>
+                        </Link>
                     </Col>
                 </Row>
-            </Container>
+        </Container>
     )
 }
-
-export default HomePage;

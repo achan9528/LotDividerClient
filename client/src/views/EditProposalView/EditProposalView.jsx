@@ -33,6 +33,8 @@ export const EditProposalView = (props) =>{
         stocks: 'Stocks',
         mutualFunds: 'Mutual Funds',
         bonds: 'Bonds',
+        etfs: 'Exchange Traded Funds (ETF)',
+        cash: 'Cash'
     }
 
     if (successfulUpdate){

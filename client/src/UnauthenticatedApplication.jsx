@@ -1,5 +1,5 @@
 import RegistrationForm from './views/Registration/registration'
-import HomePage from './views/home/home'
+import { Home } from './views/Home/Home'
 import Login from './views/login/login'
 import React from 'react';
 import {
@@ -14,7 +14,7 @@ const UnauthenticatedApplication = (props) => {
         <Router>
             <Switch>
                 <Route exact path="/">
-                    <HomePage></HomePage>
+                    <Home></Home>
                 </Route>
                 <Route exact path="/login">
                     <Login setToken={props.setToken}></Login>

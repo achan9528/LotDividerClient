@@ -45,3 +45,8 @@
 .full-height {
   height: 100vh;
 }
+
+.center-title{
+  display: inline-block;
+  width: auto;
+}

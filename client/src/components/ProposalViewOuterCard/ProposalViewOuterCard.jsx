@@ -14,12 +14,12 @@ export const ProposalViewOuterCard = (props) =>{
                         {props.heading}
                         </Accordion.Toggle>
                     </Col>
-                    <Col>
+                    {/* <Col>
                         <h6>Total</h6>
                     </Col>
                     <Col>
                         <h6>Another Total</h6>
-                    </Col>
+                    </Col> */}
                 </Row>
             </Card.Header>
             <Accordion.Collapse eventKey={`${props.eventKey}`}>
