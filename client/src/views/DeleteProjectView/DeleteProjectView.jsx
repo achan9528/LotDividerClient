@@ -6,6 +6,7 @@ import {
     getEntry,
     deleteEntry,
 } from '../../components/helpers'
+import { Loading } from '../../components/Loading/Loading'
 
 export const DeleteProjectView = (props) =>{
     const [project, setProject] = useState({})
@@ -50,34 +51,38 @@ export const DeleteProjectView = (props) =>{
         return <Redirect to="/dashboard"></Redirect>
     }
 
-    return (
-        <Container>
-            <Row>
-                <Col>
-                    <h2>Are you sure you want to delete Project "{project.name}"?</h2>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tableData}
-                        </tbody>
-                    </Table>
-                    <Button 
-                    variant="danger"
-                    onClick={e=>deleteEntry(e, 'projects', projectID, setDeleted, setMessages, token)}>Delete Project</Button>
-                </Col>
-            </Row>
-        </Container>
-    )
+    if (loading){
+        return <Loading></Loading>
+    } else {
+        return (
+            <Container>
+                <Row>
+                    <Col>
+                        <h2>Are you sure you want to delete Project "{project.name}"?</h2>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tableData}
+                            </tbody>
+                        </Table>
+                        <Button 
+                        variant="danger"
+                        onClick={e=>deleteEntry(e, 'projects', projectID, setDeleted, setMessages, token)}>Delete Project</Button>
+                    </Col>
+                </Row>
+            </Container>
+        )
+    }
 }
 
 export default DeleteProjectView;

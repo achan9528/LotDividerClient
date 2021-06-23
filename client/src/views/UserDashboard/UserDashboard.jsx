@@ -3,6 +3,7 @@ import useToken from '../../components/hooks/useToken'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getEntries } from '../../components/helpers'
+import { Loading } from '../../components/Loading/Loading'
 
 const UserDashboard = (props) => {
     const { token } = useToken()
@@ -13,7 +14,7 @@ const UserDashboard = (props) => {
     useEffect(() => {
         loading
         ? getEntries('projects', setProjects, setLoading, setMessages, token)
-        : setLoading(false)
+        : setProjects(false)
     }, [])
 
     let tableData;
@@ -34,41 +35,45 @@ const UserDashboard = (props) => {
         })
     }
 
-    return (
-        <Container>
-            <Row>
-                <Col>
-                    <h1>Welcome back!</h1>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>Project ID</th>
-                                <th>Project Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tableData}
-                        </tbody>
-                    </Table>
-                    <Link to='/projects/new'>
-                        <Button>New Project</Button>
-                    </Link>
-                    <Link to='/portfolios/new'>
-                        <Button>New Portfolio</Button>
-                    </Link>
-                </Col>
-                <Col>
-                    <h2>Latest Activity:</h2>
-                    <p>Go Go Squid is a good show (deep cuts)</p>
-                </Col>
-            </Row>
-        </Container>
-    )
+    if (loading){
+        return <Loading></Loading>
+    } else {
+        return (
+            <Container>
+                <Row>
+                    <Col>
+                        <h1>Welcome back!</h1>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>Project ID</th>
+                                    <th>Project Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tableData}
+                            </tbody>
+                        </Table>
+                        <Link to='/projects/new'>
+                            <Button>New Project</Button>
+                        </Link>
+                        <Link to='/portfolios/new'>
+                            <Button>New Portfolio</Button>
+                        </Link>
+                    </Col>
+                    <Col>
+                        <h2>Latest Activity:</h2>
+                        <p>Go Go Squid is a good show (deep cuts)</p>
+                    </Col>
+                </Row>
+            </Container>
+        )
+    }
 }
 
 export default UserDashboard;

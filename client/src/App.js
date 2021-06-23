@@ -3,6 +3,7 @@ import UnauthenticatedApplication from './UnauthenticatedApplication'
 import useToken from './components/hooks/useToken'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
+import './App.css'
 
 function App() {
   const {token, setToken} = useToken();

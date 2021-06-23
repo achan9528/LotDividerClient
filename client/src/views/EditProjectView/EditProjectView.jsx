@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, Redirect } from 'react-router-dom'
 import useToken from '../../components/hooks/useToken'
 import { editEntry, getEntry } from '../../components/helpers'
+import { Loading } from '../../components/Loading/Loading'
 
 export const EditProjectView = (props) =>{
     const [project, setProject] = useState({})
@@ -43,46 +44,52 @@ export const EditProjectView = (props) =>{
         return <Redirect to="/dashboard"></Redirect>
     }
 
-    return (
-        <Container>
-            <Row>
-                <Col>
-                    <Form onSubmit={e=>editEntry(e, 'projects', projectID, {name: projectName},setSuccessfulUpdate, setMessages, token)}>
-                        <Form.Group>
-                            <Form.Label>Project Name</Form.Label>
-                            <Form.Control
-                            value={projectName}
-                            onChange={e=>setProjectName(e.target.value)}></Form.Control>
-                        </Form.Group>
-                        <Row>
-                            <Col>
-                                <Table striped bordered hover>
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {tableData}
-                                    </tbody>
-                                </Table>
-                                
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Button 
-                                    variant="success"
-                                    type="submit">Update</Button>
-                            </Col>
-                        </Row>
-                    </Form>
-                </Col>
-            </Row>
-            
-        </Container>
-    )
+    if (loading) {
+        return <Loading></Loading>
+    } else {
+        return (
+            <Container>
+                <Row>
+                    <Col>
+                        <Form onSubmit={e=>editEntry(e, 'projects', projectID, {name: projectName},setSuccessfulUpdate, setMessages, token)}>
+                            <Form.Group>
+                                <Form.Label>Project Name</Form.Label>
+                                <Form.Control
+                                value={projectName}
+                                onChange={e=>setProjectName(e.target.value)}></Form.Control>
+                            </Form.Group>
+                            <Row>
+                                <Col>
+                                    <Table striped bordered hover>
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {tableData}
+                                        </tbody>
+                                    </Table>
+                                    
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Button 
+                                        variant="success"
+                                        type="submit">Update</Button>
+                                </Col>
+                            </Row>
+                        </Form>
+                    </Col>
+                </Row>
+                
+            </Container>
+        )
+    }
+
+
 }
 
 export default EditProjectView;

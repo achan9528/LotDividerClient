@@ -39,6 +39,7 @@ export const DownloadProposalModal = (props) => {
                         name="fileFormat"></Form.Check>
                         <Form.Check 
                         inline 
+                        disabled
                         type="radio" 
                         label=".csv"
                         onClick={e=>setFileFormat('csv')}

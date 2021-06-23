@@ -49,7 +49,7 @@ export const aggregateFormData = (data) => {
     return formData
 }
 
-export const getEntry = (model, modelID, setLoading, setEntry, setMessage, token) => {
+export const getEntry = (model, modelID, setLoading, setEntry, setMessages, token) => {
     const url = `http://${process.env.REACT_APP_API_URL}/api/${model}/${modelID}/`
     const data = {
         method: 'GET',
@@ -59,11 +59,14 @@ export const getEntry = (model, modelID, setLoading, setEntry, setMessage, token
     }
     fetch(url, data)
     .then(res=> res.json())
-    .then(data=>setEntry(data))
+    .then(data=>{
+        data.hasOwnProperty('status')
+        ? setMessages(data)
+        : setEntry(data)
+    })
     .then(data=>setLoading(false))
     .catch(err=>{
-        console.log(err);
-        setMessage(err);
+        setMessages(err);
     })
 }
 
@@ -78,14 +81,14 @@ export const getEntries = (model, setEntries, setLoading, setMessages, token) =>
     fetch(url, data)
     .then(res => res.json())
     .then(data => {
-        console.log(data)
         data.hasOwnProperty('status')
         ? setMessages(data)
         : setEntries(data)
     })
-    .catch(err => {
-        return err;
+    .then(res => {
+        setLoading(false)
     })
+    .catch(err => setMessages(err))
 }
 
 export const createEntry = (e, model, payload, setSuccessfulCreate, setMessages, token, stringify=true) => {

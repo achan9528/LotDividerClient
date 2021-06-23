@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useToken from '../../components/hooks/useToken'
 import { getEntry } from '../../components/helpers'
+import { Loading } from '../../components/Loading/Loading'
 
 export const ProjectView = (props) =>{
     const [project, setProject] = useState({})
@@ -52,40 +53,44 @@ export const ProjectView = (props) =>{
                 )
             })
     }
-
-    return (
-        <Container>
-            <Row>
-                <h2>Proposals in Project "{project.name}"</h2>
-            </Row>
-            <Row>
-                <Col>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tableData}
-                        </tbody>
-                    </Table>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Link to={`/dashboard`}>Back to Dashboard</Link>
-                </Col>
-                <Col>
-                    <Link to={`/projects/${projectID}/proposals/new`}>  
-                        <Button>New Proposal</Button>
-                    </Link>
-                </Col>
-            </Row>
-        </Container>
-    )
+    if (loading){
+        return <Loading></Loading>
+    } else {
+        return (
+            <Container>
+                <Row>
+                    <h2>Proposals in Project "{project.name}"</h2>
+                </Row>
+                <Row>
+                    <Col>
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tableData}
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Link to={`/dashboard`}>Back to Dashboard</Link>
+                    </Col>
+                    <Col>
+                        <Link to={`/projects/${projectID}/proposals/new`}>  
+                            <Button>New Proposal</Button>
+                        </Link>
+                    </Col>
+                </Row>
+            </Container>
+        )
+    }
+    
 }
 
 export default ProjectView;

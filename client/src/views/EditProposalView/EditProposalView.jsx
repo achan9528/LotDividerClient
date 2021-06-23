@@ -9,6 +9,7 @@ import {
     batchEdit,
     draftTaxLotChangeHandler
 } from '../../components/helpers'
+import {Loading} from '../../components/Loading/Loading'
 
 export const EditProposalView = (props) =>{
     const [loading, setLoading] = useState(true)
@@ -40,7 +41,9 @@ export const EditProposalView = (props) =>{
         )
     }
 
-    if (!loading){
+    if (loading) {
+        return <Loading></Loading>
+    } else {
         return (
             <Container>
                 <Row>
@@ -84,12 +87,6 @@ export const EditProposalView = (props) =>{
                     </Col>
                 </Row>
             </Container>
-        )
-    } else {
-        return (
-            <div>
-                <h1>Loading Proposal...</h1>
-            </div>
         )
     }
 }

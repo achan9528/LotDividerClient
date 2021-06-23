@@ -8,6 +8,7 @@ import {
     deleteEntry, 
     getProposalSections
 } from '../../components/helpers'
+import { Loading } from '../../components/Loading/Loading'
 
 export const DeleteProposalView = (props) =>{
     const [loading, setLoading] = useState(true)
@@ -40,7 +41,9 @@ export const DeleteProposalView = (props) =>{
         )
     }
 
-    if (!loading){
+    if (loading) {
+        return <Loading></Loading>
+    } else {
         return (
             <Container>
                 <h2>Are you sure you want to delete the following proposal?</h2>
@@ -83,14 +86,7 @@ export const DeleteProposalView = (props) =>{
                 </Row>
             </Container>
         )
-    } else {
-        return (
-            <div>
-                <h1>Loading Proposal...</h1>
-            </div>
-        )
     }
-    
 }
 
 export default DeleteProposalView;
