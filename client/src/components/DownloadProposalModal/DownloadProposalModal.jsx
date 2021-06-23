@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { useToken } from '../hooks/useToken'
 
 export const DownloadProposalModal = (props) => {
-    const [fileFormat, setFileFormat] = useState()
-    const [fileName, setFileName] = useState()
+    const [fileFormat, setFileFormat] = useState('xlsx')
+    const [fileName, setFileName] = useState(`Lot_Divider_Proposal_${props.proposalID}`)
     const { token, setToken } = useToken()
     return (
         <Modal show={props.show} onHide={e => handleModalClose(e, props.setShow)} centered>

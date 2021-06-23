@@ -234,6 +234,10 @@ export const draftTaxLotChangeHandler = (e, productType, ticker, taxLot, account
 
 export const downloadProposal = (e, inputs, token) => {
     e.preventDefault();
+    inputs.fileName === ''
+    ? inputs.fileName = `Lot_Divider_Proposal_${inputs.proposalID}`
+    : inputs.fileName = inputs.fileName
+
     let url = `http://${process.env.REACT_APP_API_URL}/api/proposals/${inputs.proposalID}/download/?fileFormat=${inputs.fileFormat}&fileName=${inputs.fileName}`
     // let data = {
     //     method: 'GET',
