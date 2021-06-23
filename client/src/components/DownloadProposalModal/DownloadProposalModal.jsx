@@ -19,11 +19,30 @@ export const DownloadProposalModal = (props) => {
                 token
             )}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Download Proposal</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group>
-                        <Form.Label>File Path</Form.Label>
+                        <Form.Label>File Name</Form.Label>
+                        <Form.Control 
+                        placeholder="File Name"
+                        onChange={e=>setFileName(e.target.value)}
+                        value={fileName}></Form.Control>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Check 
+                        defaultChecked 
+                        inline 
+                        type="radio" 
+                        label=".xlsx"
+                        onClick={e=>setFileFormat('xlsx')}
+                        name="fileFormat"></Form.Check>
+                        <Form.Check 
+                        inline 
+                        type="radio" 
+                        label=".csv"
+                        onClick={e=>setFileFormat('csv')}
+                        name="fileFormat"></Form.Check>
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>

@@ -234,8 +234,6 @@ export const draftTaxLotChangeHandler = (e, productType, ticker, taxLot, account
 
 export const downloadProposal = (e, inputs, token) => {
     e.preventDefault();
-    inputs.fileFormat = 'xlsx'
-    inputs.fileName='test'
     let url = `http://${process.env.REACT_APP_API_URL}/api/proposals/${inputs.proposalID}/download/?fileFormat=${inputs.fileFormat}&fileName=${inputs.fileName}`
     // let data = {
     //     method: 'GET',
@@ -257,9 +255,9 @@ export const downloadProposal = (e, inputs, token) => {
         let fileName = inputs.fileName
         let link=document.createElement("a")
         e.target.append(link)
-        console.log(link)
         link.href=window.URL.createObjectURL(blob);
-        link.download="test.xlsx";
+        link.download=`${inputs.fileName}.${inputs.fileFormat}`;
+        console.log(link)
         link.click();
         e.target.removeChild(link)
     };
