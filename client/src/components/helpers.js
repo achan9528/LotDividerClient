@@ -231,3 +231,42 @@ export const draftTaxLotChangeHandler = (e, productType, ticker, taxLot, account
     console.log(updatedHoldings)
     setHoldings({...updatedHoldings})
 }
+
+export const downloadProposal = (e, inputs, token) => {
+    e.preventDefault();
+    inputs.fileFormat = 'xlsx'
+    inputs.fileName='test'
+    let url = `http://${process.env.REACT_APP_API_URL}/api/proposals/${inputs.proposalID}/download/?fileFormat=${inputs.fileFormat}&fileName=${inputs.fileName}`
+    // let data = {
+    //     method: 'GET',
+    //     headers: {
+    //         'Authorization': `Token ${token}`,
+    //     },
+    // }
+    // e.target.submit()
+
+
+
+    let req = new XMLHttpRequest();
+    req.open("GET", url, true);
+    req.responseType = "blob";
+    req.setRequestHeader('Authorization',`Token ${token}`)
+    req.onload = function (event) {
+        e.preventDefault();
+        let blob = req.response;
+        let fileName = inputs.fileName
+        let link=document.createElement("a")
+        e.target.append(link)
+        console.log(link)
+        link.href=window.URL.createObjectURL(blob);
+        link.download="test.xlsx";
+        link.click();
+        e.target.removeChild(link)
+    };
+
+    req.send();
+}
+
+export const handleModalClose = (e, setShow) => {
+    setShow(false);
+}

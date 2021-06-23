@@ -1,9 +1,14 @@
-import { Col, Row, Container, Accordion } from 'react-bootstrap'
+import { Col, Row, Container, Accordion, Button } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useToken from '../../components/hooks/useToken'
 import { ProposalViewOuterCard } from '../../components/ProposalViewOuterCard/ProposalViewOuterCard'
-import { getEntry, getProposalSections } from '../../components/helpers';
+import { DownloadProposalModal } from '../../components/DownloadProposalModal/DownloadProposalModal'
+import { 
+    getEntry, 
+    getProposalSections,
+    downloadProposalModal
+} from '../../components/helpers';
 
 export const ProposalView = (props) =>{
     const [loading, setLoading] = useState(true)
@@ -11,6 +16,7 @@ export const ProposalView = (props) =>{
     const [accounts, setAccounts] = useState([])
     const [messages, setMessages] = useState()
     const [holdings, setHoldings] = useState({})
+    const [show, setShow] = useState(false)
     const { projectID, proposalID } = useParams()
     const { token } = useToken()
 
@@ -40,6 +46,12 @@ export const ProposalView = (props) =>{
                     </Col>
                 </Row>
                 <Row>
+                    <DownloadProposalModal 
+                    show={show} 
+                    setShow={setShow}
+                    proposalID={proposalID}></DownloadProposalModal>
+                </Row>
+                <Row>
                     <Col>
                             {
                                 Object.keys(holdings).map((item,key)=>{
@@ -62,6 +74,9 @@ export const ProposalView = (props) =>{
                     </Col>
                     <Col>
                         <Link to={`/projects/${projectID}`}>Back to Project</Link>
+                    </Col>
+                    <Col>
+                        <Button onClick={e=> setShow(true)}>Download</Button> 
                     </Col>
                 </Row>
             </Container>

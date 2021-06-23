@@ -21,48 +21,47 @@ const AuthenticatedApplication = (props) => {
     return(
         <Router>
             <NavBar setToken={props.setToken}></NavBar>
-            <Switch>
-                <Route exact path="/dashboard">
-                    <UserDashboard></UserDashboard>
-                </Route>
-                <Route exact path="/projects/new">
-                    <NewProjectForm></NewProjectForm>
-                </Route>
-                <Route exact path="/projects/:projectID/proposals/new">
-                    <NewProposalForm></NewProposalForm>
-                </Route>
-                <Route exact path="/projects/:projectID">
-                    <ProjectView></ProjectView>
-                </Route>
-                <Route exact path="/projects/:projectID/edit">
-                    <EditProjectView></EditProjectView>
-                </Route>
-                <Route exact path="/projects/:projectID/delete">
-                    <DeleteProjectView></DeleteProjectView>
-                </Route>
-                <Route exact path="/portfolios/new">
-                    <NewPortfolioForm></NewPortfolioForm>
-                </Route>
-                <Route exact path="/projects/:projectID/proposals/:proposalID">
-                    <ProposalView></ProposalView>
-                </Route>
-                <Route exact path="/projects/:projectID/proposals/:proposalID/edit">
-                    <EditProposalView></EditProposalView>
-                </Route>
-                <Route exact path="/projects/:projectID/proposals/:proposalID/delete">
-                    <DeleteProposalView></DeleteProposalView>
-                </Route>
-                <Route exact path="/">
-                    <Redirect to="/dashboard"></Redirect>
-                </Route>
-                <Route exact path="/login">
-                    <Redirect to="/dashboard"></Redirect>
-                </Route>
-                <Route exact path="/registration">
-                    <Redirect to="/dashboard"></Redirect>
-                </Route>
-            </Switch>
-
+                <Switch>
+                    <Route exact path="/dashboard">
+                        <UserDashboard></UserDashboard>
+                    </Route>
+                    <Route exact path="/projects/new">
+                        <NewProjectForm></NewProjectForm>
+                    </Route>
+                    <Route exact path="/projects/:projectID/proposals/new">
+                        <NewProposalForm></NewProposalForm>
+                    </Route>
+                    <Route exact path="/projects/:projectID">
+                        <ProjectView></ProjectView>
+                    </Route>
+                    <Route exact path="/projects/:projectID/edit">
+                        <EditProjectView></EditProjectView>
+                    </Route>
+                    <Route exact path="/projects/:projectID/delete">
+                        <DeleteProjectView></DeleteProjectView>
+                    </Route>
+                    <Route exact path="/portfolios/new">
+                        <NewPortfolioForm></NewPortfolioForm>
+                    </Route>
+                    <Route exact path="/projects/:projectID/proposals/:proposalID">
+                        <ProposalView></ProposalView>
+                    </Route>
+                    <Route exact path="/projects/:projectID/proposals/:proposalID/edit">
+                        <EditProposalView></EditProposalView>
+                    </Route>
+                    <Route exact path="/projects/:projectID/proposals/:proposalID/delete">
+                        <DeleteProposalView></DeleteProposalView>
+                    </Route>
+                    <Route exact path="/">
+                        <Redirect to="/dashboard"></Redirect>
+                    </Route>
+                    <Route exact path="/login">
+                        <Redirect to="/dashboard"></Redirect>
+                    </Route>
+                    <Route exact path="/registration">
+                        <Redirect to="/dashboard"></Redirect>
+                    </Route>
+                </Switch>
         </Router>
     )
 }
