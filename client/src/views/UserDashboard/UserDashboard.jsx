@@ -39,7 +39,7 @@ const UserDashboard = (props) => {
         return <Loading></Loading>
     } else {
         return (
-            <Container>
+            <Container className="justify-content-md-center">
                 <Row>
                     <Col>
                         <h1>Welcome back!</h1>
@@ -59,16 +59,34 @@ const UserDashboard = (props) => {
                                 {tableData}
                             </tbody>
                         </Table>
-                        <Link to='/projects/new'>
-                            <Button>New Project</Button>
-                        </Link>
-                        <Link to='/portfolios/new'>
-                            <Button>New Portfolio</Button>
-                        </Link>
                     </Col>
-                    <Col>
+                    {/* <Col>
                         <h2>Latest Activity:</h2>
                         <p>Go Go Squid is a good show (deep cuts)</p>
+                    </Col> */}
+                </Row>
+                <Row className="justify-content-md-center">
+                    <Col>
+                        <Row>
+                            <Col>
+                                <Row className="justify-content-md-center">
+                                    <Col md="auto">
+                                        <Link to='/projects/new'>
+                                            New Project
+                                        </Link>
+                                    </Col>
+                                </Row>
+                            </Col>
+                            <Col className="justify-content-md-center">
+                                <Row className="justify-content-md-center">
+                                    <Col md="auto">
+                                        <Link to='/portfolios/new'>
+                                            New Portfoio
+                                        </Link>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
             </Container>
