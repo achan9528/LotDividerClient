@@ -1,5 +1,4 @@
 /node_modules/
 client/.env.development
-client/.env.production
 client/.env.test
 client/.dockerignore
