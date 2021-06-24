@@ -5,7 +5,7 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm install
 COPY . .
-RUN "REACT_APP_API_URL=ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000 npm run build"
+RUN REACT_APP_API_URL="ec2-18-118-227-247.us-east-2.compute.amazonaws.com:8000" npm run build
 
 FROM nginx:stable-alpine
 COPY --from=build /LotDividerClient/build /usr/share/nginx/html
