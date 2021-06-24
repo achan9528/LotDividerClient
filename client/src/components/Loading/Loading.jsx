@@ -1,4 +1,4 @@
-import { React } from 'react'
+import React from 'react'
 import { Container, Row, Col, Spinner } from 'react-bootstrap'
 
 export const Loading = (props) => {

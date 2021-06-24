@@ -1,6 +1,6 @@
 import { Form, Modal, Button } from 'react-bootstrap'
 import { downloadProposal, handleModalClose } from '../helpers'
-import { React, useState } from 'react'
+import React, { useState } from 'react'
 import { useToken } from '../hooks/useToken'
 
 export const DownloadProposalModal = (props) => {
