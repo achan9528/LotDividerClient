@@ -1,5 +1,5 @@
 import RegistrationForm from './views/Registration/registration'
-import { Home } from './views/Home/Home'
+import { Home } from './views/HomePage/Home'
 import Login from './views/login/login'
 import React from 'react';
 import {
