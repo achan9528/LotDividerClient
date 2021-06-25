@@ -9,10 +9,10 @@ const NavBar = (props) => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-                    <Nav.Link href="/portfolios/new">Add Portfolio</Nav.Link>
-                    <Nav.Link href="/projects/new">Add Project</Nav.Link>
-                    <Nav.Link>Add Proposal</Nav.Link>
+                    <Nav.Link href="/dashboard/">Dashboard</Nav.Link>
+                    <Nav.Link href="/projects/">Projects</Nav.Link>
+                    <Nav.Link href="/proposals/">Proposals</Nav.Link>
+                    <Nav.Link href="/portfolios/">Portfolios</Nav.Link>
                     <LogoutLink setToken={props.setToken}></LogoutLink>
                 </Nav>
             </Navbar.Collapse>

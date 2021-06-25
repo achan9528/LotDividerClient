@@ -72,8 +72,13 @@ export const getEntry = (model, modelID, setLoading, setEntry, setMessages, toke
 }
 
 
-export const getEntries = (model, setEntries, setLoading, setMessages, token) => {
-    const url = `http://${process.env.REACT_APP_API_URL}/api/${model}/`
+export const getEntries = (model, setEntries, setLoading, setMessages, token, searchParams={}) => {
+    let params = '';
+    if (searchParams != {}){
+        let p =  new URLSearchParams(searchParams)
+        params = `?${p.toString()}`
+    }
+    const url = `http://${process.env.REACT_APP_API_URL}/api/${model}/${params}`
     const data = {
         headers: {
             'Authorization': `Token ${token}`
@@ -90,6 +95,20 @@ export const getEntries = (model, setEntries, setLoading, setMessages, token) =>
             setLoading(false)
         })
         .catch(err => setMessages(err))
+}
+
+export const getGenericUserInfo = (token, setUserInfo) => {
+    const url = `http://${process.env.REACT_APP_API_URL}/api/get-user-info/`
+    const data = {
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    };
+    fetch(url, data)
+        .then(res => res.json())
+        .then(data => setUserInfo(data))
+        .catch(err => console.log(err));
+
 }
 
 export const getHoldingsForProposalForm = (e, targetAccount, setTargetAccount, setHoldings, step, setStep, token) => {

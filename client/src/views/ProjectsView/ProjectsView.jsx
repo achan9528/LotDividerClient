@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { getEntries, getEntry, getGenericUserInfo } from '../../components/helpers'
 import { Loading } from '../../components/Loading/Loading'
 
-const UserDashboard = (props) => {
+export const ProjectsView = (props) => {
     const { token } = useToken()
     const [ projects, setProjects ] = useState([])
     const [loading, setLoading] = useState(true)
@@ -14,8 +14,7 @@ const UserDashboard = (props) => {
 
     useEffect(() => {
         if (loading) {
-            getGenericUserInfo(token, setUserInfo);
-            getEntries('projects', setProjects, setLoading, setMessages, token, {userSpecific: true});
+            getEntries('projects', setProjects, setLoading, setMessages, token, {});
         }
     }, [])
 
@@ -44,8 +43,7 @@ const UserDashboard = (props) => {
             <Container className="justify-content-md-center">
                 <Row>
                     <Col>
-                        <h1>Hello {userInfo.username}!</h1>
-                        <h4>Here's a list of your projects</h4>
+                        <h1>Existing Projects</h1>
                     </Col>
                 </Row>
                 <Row>
@@ -68,9 +66,32 @@ const UserDashboard = (props) => {
                         <p>Go Go Squid is a good show (deep cuts)</p>
                     </Col> */}
                 </Row>
+                <Row className="justify-content-md-center">
+                    <Col>
+                        <Row>
+                            <Col className="justify-content-md-center">
+                                <Row className="justify-content-md-center">
+                                    <Col md="auto">
+                                        <Link to='/dashboard'>
+                                            Back to Dashboard
+                                        </Link>
+                                    </Col>
+                                </Row>
+                            </Col>
+                            <Col>
+                                <Row className="justify-content-md-center">
+                                    <Col md="auto">
+                                        <Link to='/projects/new'>
+                                            <Button variant="success">New Project</Button>
+                                        </Link>
+                                    </Col>
+                                </Row>
+                            </Col>
+
+                        </Row>
+                    </Col>
+                </Row>
             </Container>
         )
     }
 }
-
-export default UserDashboard;
