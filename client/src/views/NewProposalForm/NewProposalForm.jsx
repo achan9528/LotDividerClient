@@ -1,15 +1,17 @@
 import { Button, Row, Form, Col, Container } from 'react-bootstrap'
 import React, { useState, useEffect } from 'react'
 import useToken from '../../components/hooks/useToken'
-import { useHistory, useParams } from 'react-router-dom'
+import { Redirect, useHistory, useParams } from 'react-router-dom'
 import SelectAccount from '../../components/SelectAccount/SelectAccount'
 import MultiStepFormHoldingsSelectTable from '../../components/MultiStepFormHoldingsSelectTable/MultiStepFormHoldingsSelectTable'
 import TaxLotSelectionDetails from '../../components/TaxLotSelectionDetails/TaxLotSelectionDetails'
 import ProposalConfirmationPage from '../../components/ProposalConfirmationPage/ProposalConfirmationPage'
+import { getEntries, getHoldingsForProposalForm, createEntry } from '../../components/helpers'
+import { Loading } from '../../components/Loading/Loading'
 
 const NewProposalForm = (props) => {
     const [proposalName, setProposalName] = useState();
-    const {token} = useToken();
+    const {token, setToken} = useToken();
     const [step, setStep] = useState(0);
     const {projectID} = useParams();
     const [accounts, setAccounts] = useState();
@@ -18,79 +20,16 @@ const NewProposalForm = (props) => {
     const [targetHoldings, setTargetHoldings] = useState({});
     const [numberOfPortfolios, setNumberOfPortfolios] = useState();
     const [method, setMethod] = useState("HIFO");
+    const [loading, setLoading] = useState(true);
+    const [messages, setMessages] = useState();
+    const [successfulCreate, setSuccessfulCreate] = useState(false);
     let history = useHistory();
 
     useEffect(()=>{
-        let url = `${process.env.REACT_APP_API_URL}:8000/api/accounts/`
-        let data = {
-            headers:{
-                Authorization: `Token ${token}`
-            }
-        }
-        fetch(url, data)
-        .then(res => res.json())
-        .then(data => {
-            setAccounts(data);
-            console.log(data);
-        })
-        .catch(err=> console.log(err));
+        loading
+        ? getEntries('accounts', setAccounts, setLoading, setMessages, token)
+        : setLoading(false)
     }, [])
-
-    const getHoldings = (e, targetAccount) => {
-        let url = `${process.env.REACT_APP_API_URL}:8000/api/accounts/${targetAccount.id}/`
-        let data = {
-            headers:{
-                Authorization: `Token ${token}`
-            }
-        }
-        fetch(url,data)
-        .then(res=>res.json())
-        .then(data=>{
-            setHoldings([...data.holdings]);
-            setTargetAccount(targetAccount);
-            setStep(step+1);
-        })
-        .catch(err=>console.log(err))
-    }
-
-    const submitHandler = (e) => {
-        e.preventDefault();
-        const url = `${process.env.REACT_APP_API_URL}:8000/api/proposals/`
-        console.log({
-            projectID: parseInt(projectID),
-            proposalName: proposalName,
-            autoCalculate: 'true',
-            accountID: targetAccount.id,                
-            numberOfPortfolios: numberOfPortfolios,
-            targetShares: targetHoldings,
-            method: method,
-        })
-        const data = {
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${token}`,
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({
-                projectID: projectID,
-                proposalName: proposalName,
-                autoCalculate: 'true',
-                accountID: targetAccount.id,                
-                numberOfPortfolios: numberOfPortfolios,
-                targetShares: targetHoldings,
-                method: method,
-            })
-        };
-        fetch(url, data)
-        .then(res=>res.json())
-        .then(data=>{
-            console.log(data)
-            history.push('/dashboard')
-        })
-        .catch(err=>{
-            console.log(err);
-        });
-    }
 
     let content = [];
     if (step === 0){ // step 1: new proposal name
@@ -121,7 +60,11 @@ const NewProposalForm = (props) => {
         content.push(
             <SelectAccount
             accounts={accounts}
-            getHoldings={getHoldings}></SelectAccount>
+            setTargetAccount={setTargetAccount}
+            setHoldings={setHoldings}
+            step={step}
+            setStep={setStep}
+            token={token}></SelectAccount>
         )
         content.push(
             <Row>
@@ -142,7 +85,8 @@ const NewProposalForm = (props) => {
             <MultiStepFormHoldingsSelectTable
             holdings={holdings}
             targetHoldings={targetHoldings}
-            setTargetHoldings={setTargetHoldings}></MultiStepFormHoldingsSelectTable>
+            setTargetHoldings={setTargetHoldings}
+            ></MultiStepFormHoldingsSelectTable>
         )
         content.push(
             <Row>
@@ -195,7 +139,8 @@ const NewProposalForm = (props) => {
             account={targetAccount}
             holdings={targetHoldings}
             selectionMethod={method}
-            numberOfPortfolios={numberOfPortfolios}></ProposalConfirmationPage>
+            numberOfPortfolios={numberOfPortfolios}
+            ></ProposalConfirmationPage>
         )
         content.push(
             <Row>
@@ -206,12 +151,35 @@ const NewProposalForm = (props) => {
                 </Col>
                 <Col>
                     <Button
-                        onClick={e=>submitHandler(e)}>Submit</Button>
+                        onClick={e=>createEntry(
+                        e, 
+                        'proposals',
+                        {
+                            projectID: projectID,
+                            proposalName: proposalName,
+                            autoCalculate: 'true',
+                            accountID: targetAccount.id,                
+                            numberOfPortfolios: numberOfPortfolios,
+                            targetShares: targetHoldings,
+                            method: method,
+                        },
+                        setSuccessfulCreate,
+                        setMessages,
+                        token,
+                        true,
+                        false)}
+                    >Submit</Button>
                 </Col>
             </Row>
         )
     }
 
+    if (successfulCreate){
+        return <Redirect to="/dashboard"></Redirect>
+    }
+    if (loading){
+        return <Loading></Loading>
+    }
     return(
         <Container 
             className="justify-content-md-center">

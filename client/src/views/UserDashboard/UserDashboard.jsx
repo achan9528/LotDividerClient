@@ -81,7 +81,7 @@ const UserDashboard = (props) => {
                                 <Row className="justify-content-md-center">
                                     <Col md="auto">
                                         <Link to='/portfolios/new'>
-                                            New Portfoio
+                                            New Portfolio
                                         </Link>
                                     </Col>
                                 </Row>

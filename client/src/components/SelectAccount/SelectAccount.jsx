@@ -1,5 +1,6 @@
 import { Table, Button, Form } from 'react-bootstrap'
 import React from 'react';
+import { getHoldingsForProposalForm } from '../helpers'
 
 const SelectAccount = (props) => {
     return(
@@ -24,7 +25,14 @@ const SelectAccount = (props) => {
                                     <td>
                                         <Button
                                         variant='link'
-                                        onClick={e=>props.getHoldings(e, item)}>Select</Button>
+                                        onClick={e=>getHoldingsForProposalForm(
+                                            e, 
+                                            item,
+                                            props.setTargetAccount,
+                                            props.setHoldings,
+                                            props.step,
+                                            props.setStep,
+                                            props.token)}>Select</Button>
                                     </td>
                                 </tr>
                             )

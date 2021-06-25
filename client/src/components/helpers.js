@@ -33,7 +33,7 @@ export const fileHandler = (e, targetAccount, files, setFiles) => {
 export const createPortfolio = (e, data, setSuccessfulCreate, setMessages, token) => {
     e.preventDefault();
     const formData = aggregateFormData(data)
-    createEntry(e, 'portfolios', formData, setSuccessfulCreate, setMessages, token, false)
+    createEntry(e, 'portfolios', formData, setSuccessfulCreate, setMessages, token, false, true)
 }
 
 export const aggregateFormData = (data) => {
@@ -92,19 +92,70 @@ export const getEntries = (model, setEntries, setLoading, setMessages, token) =>
         .catch(err => setMessages(err))
 }
 
-export const createEntry = (e, model, payload, setSuccessfulCreate, setMessages, token, stringify = true) => {
+export const getHoldingsForProposalForm = (e, targetAccount, setTargetAccount, setHoldings, step, setStep, token) => {
+    let url = `http://${process.env.REACT_APP_API_URL}/api/accounts/${targetAccount.id}/`
+    let data = {
+        headers:{
+            Authorization: `Token ${token}`
+        }
+    }
+    fetch(url,data)
+    .then(res=>res.json())
+    .then(res=>{
+        setHoldings([...res.holdings]);
+        setTargetAccount(targetAccount);
+        setStep(step+1);
+    })
+    .catch(err=>console.log(err))
+}
+
+// export const submitHandler = (e) => {
+//     e.preventDefault();
+//     const url = `${process.env.REACT_APP_API_URL}:8000/api/proposals/`
+//     const data = {
+//         method: 'POST',
+//         headers: {
+//             'Authorization': `Token ${token}`,
+//             'Content-Type': "application/json"
+//         },
+//         body: JSON.stringify({
+//             projectID: projectID,
+//             proposalName: proposalName,
+//             autoCalculate: 'true',
+//             accountID: targetAccount.id,                
+//             numberOfPortfolios: numberOfPortfolios,
+//             targetShares: targetHoldings,
+//             method: method,
+//         })
+//     };
+//     fetch(url, data)
+//     .then(res=>res.json())
+//     .then(data=>{
+//         console.log(data)
+//         history.push('/dashboard')
+//     })
+//     .catch(err=>{
+//         console.log(err);
+//     });
+// }
+
+export const createEntry = (e, model, payload, setSuccessfulCreate, setMessages, token, stringify = true, multipart=false) => {
     e.preventDefault();
     const url = `http://${process.env.REACT_APP_API_URL}/api/${model}/`
     let body;
+    let headers;
     stringify
         ? body = JSON.stringify(payload)
         : body = payload
-    const data = {
-        method: 'POST',
-        headers: {
+    multipart
+        ? headers = {'Authorization': `Token ${token}`}
+        : headers = {
             'Authorization': `Token ${token}`,
             'Content-Type': "application/json"
-        },
+        }
+    const data = {
+        method: 'POST',
+        headers: headers,
         body: body
     };
     fetch(url, data)
@@ -219,7 +270,7 @@ export const getProposalSections = (proposal, setHoldings, setDraftAccounts) => 
                             draftTaxLotID: draftTaxLots[j].id
                         }
                     }
-                } if (productType === 'etfs') {
+                } if (productType === 'etf') {
                     if (!holdings['etfs'].hasOwnProperty(ticker)) {
                         holdings['etfs'][[ticker]] = {}
                     }
@@ -235,7 +286,7 @@ export const getProposalSections = (proposal, setHoldings, setDraftAccounts) => 
                             draftTaxLotID: draftTaxLots[j].id
                         }
                     }
-                } if (productType === 'bonds') {
+                } if (productType === 'bond') {
                     if (!holdings['bonds'].hasOwnProperty(ticker)) {
                         holdings['bonds'][[ticker]] = {}
                     }
