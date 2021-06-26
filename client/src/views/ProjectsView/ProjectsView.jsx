@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getEntries, getEntry, getGenericUserInfo } from '../../components/helpers'
 import { Loading } from '../../components/Loading/Loading'
+import { SearchBox } from '../../components/SearchBox/SearchBox'
 
 export const ProjectsView = (props) => {
     const { token } = useToken()
@@ -11,17 +12,22 @@ export const ProjectsView = (props) => {
     const [loading, setLoading] = useState(true)
     const [ messages, setMessages ] = useState()
     const [userInfo, setUserInfo] = useState()
+    const [pages, setPages] = useState()
 
     useEffect(() => {
         if (loading) {
-            getEntries('projects', setProjects, setLoading, setMessages, token, {});
+            getEntries('projects', setProjects, setPages, setLoading, setMessages, token);
         }
     }, [])
 
     let tableData;
-    if (projects.length === 0){
-        tableData = <tr><td>No projects</td><td></td></tr>
+    if (projects.length === 0 || projects.length === undefined){
+        tableData = <tr>
+                        <td>No projects</td>
+                        <td></td>
+                    </tr>
     } else {
+        console.log(projects);
         tableData = projects.map((item,key) => {
             return(
                 <tr key={key}>
@@ -48,6 +54,12 @@ export const ProjectsView = (props) => {
                 </Row>
                 <Row>
                     <Col>
+                        <SearchBox 
+                        setProjects={setProjects}
+                        setLoading={setLoading}
+                        setMessages={setMessages}
+                        setPages={setPages}
+                        token={token}></SearchBox>
                         <Table striped bordered hover>
                             <thead>
                                 <tr>

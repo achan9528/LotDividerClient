@@ -72,9 +72,15 @@ export const getEntry = (model, modelID, setLoading, setEntry, setMessages, toke
 }
 
 
-export const getEntries = (model, setEntries, setLoading, setMessages, token, searchParams={}) => {
+export const getEntries = (model, setEntries, setPages, setLoading, setMessages, token, searchParams={}) => {
     let params = '';
     if (searchParams != {}){
+        console.log(searchParams);
+        for (const [key,value] of Object.entries(searchParams)){
+            if (value === '' || value === null || value === undefined){
+                delete searchParams[[key]]
+            }
+        }
         let p =  new URLSearchParams(searchParams)
         params = `?${p.toString()}`
     }
@@ -87,9 +93,12 @@ export const getEntries = (model, setEntries, setLoading, setMessages, token, se
     fetch(url, data)
         .then(res => res.json())
         .then(data => {
-            data.hasOwnProperty('status')
-                ? setMessages(data)
-                : setEntries(data)
+            if (data.hasOwnProperty('status')){
+                setMessages(data)
+            } else{
+                setEntries([...data.results])
+                setPages(data.count)
+            }
         })
         .then(res => {
             setLoading(false)

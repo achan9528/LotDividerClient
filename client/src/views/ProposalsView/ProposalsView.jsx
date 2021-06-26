@@ -10,10 +10,11 @@ export const ProposalsView = (props) => {
     const [ proposals, setProposals ] = useState([])
     const [loading, setLoading] = useState(true)
     const [ messages, setMessages ] = useState()
+    const [pages, setPages] = useState()
 
     useEffect(() => {
         if (loading) {
-            getEntries('proposals', setProposals, setLoading, setMessages, token, {});
+            getEntries('proposals', setProposals, setPages, setLoading, setMessages, token, {});
         }
     }, [])
 

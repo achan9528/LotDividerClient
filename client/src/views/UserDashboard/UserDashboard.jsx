@@ -11,11 +11,12 @@ const UserDashboard = (props) => {
     const [loading, setLoading] = useState(true)
     const [ messages, setMessages ] = useState()
     const [userInfo, setUserInfo] = useState()
+    const [pages, setPages] = useState()
 
     useEffect(() => {
         if (loading) {
             getGenericUserInfo(token, setUserInfo);
-            getEntries('projects', setProjects, setLoading, setMessages, token, {userSpecific: true});
+            getEntries('projects', setProjects, setPages, setLoading, setMessages, token, {userSpecific: true});
         }
     }, [])
 
