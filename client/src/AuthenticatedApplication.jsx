@@ -58,6 +58,9 @@ const AuthenticatedApplication = (props) => {
                     <Route exact path="/proposals/">
                         <ProposalsView></ProposalsView>
                     </Route>
+                    <Route exact path="/proposals/new/">
+                        <NewProposalForm></NewProposalForm>
+                    </Route>
                     <Route exact path="/proposals/:proposalID/">
                         <ProposalView></ProposalView>
                     </Route>

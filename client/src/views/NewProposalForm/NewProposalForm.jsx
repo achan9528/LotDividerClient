@@ -8,6 +8,7 @@ import TaxLotSelectionDetails from '../../components/TaxLotSelectionDetails/TaxL
 import ProposalConfirmationPage from '../../components/ProposalConfirmationPage/ProposalConfirmationPage'
 import { getEntries, getHoldingsForProposalForm, createEntry } from '../../components/helpers'
 import { Loading } from '../../components/Loading/Loading'
+import { ProjectsTable } from '../../components/ProjectsTable/ProjectsTable'
 
 const NewProposalForm = (props) => {
     const [proposalName, setProposalName] = useState();
@@ -20,14 +21,17 @@ const NewProposalForm = (props) => {
     const [targetHoldings, setTargetHoldings] = useState({});
     const [numberOfPortfolios, setNumberOfPortfolios] = useState();
     const [method, setMethod] = useState("HIFO");
+    const [selectedProject, setSelectedProject ] = useState();
+    const [selectedProjectName, setSelectedProjectName ] = useState();
     const [loading, setLoading] = useState(true);
     const [messages, setMessages] = useState();
+    const [pages, setPages] = useState();
     const [successfulCreate, setSuccessfulCreate] = useState(false);
     let history = useHistory();
 
     useEffect(()=>{
         loading
-        ? getEntries('accounts', setAccounts, setLoading, setMessages, token)
+        ? getEntries('accounts', setAccounts, setPages, setLoading, setMessages, token)
         : setLoading(false)
     }, [])
 
@@ -129,7 +133,37 @@ const NewProposalForm = (props) => {
                 </Col>
             </Row>
         )
-    } else if (step === 4) { // Step 5: Confirmation Step
+    } else if (step === 4) { // Step 5: Set Project ID if none
+        if (projectID===undefined){
+            content.push(
+                <h2>Choose Project</h2>
+            )
+            content.push(
+                <ProjectsTable 
+                setSelectedProject={setSelectedProject}
+                setSelectedProjectName={setSelectedProjectName}
+                ></ProjectsTable>
+            )
+            content.push(
+                <Row>
+                    <Col>
+                        <Button
+                        variant="link"
+                        onClick={e=>setStep(step-1)}>Back</Button>
+
+                    </Col>
+                    <Col>
+                        <Button
+                            variant="link"
+                            onClick={e=>setStep(step+1)}>Next</Button>
+                    </Col>
+                </Row>
+            )
+        } else {
+            setSelectedProject(projectID)
+            setStep(step+1);
+        }
+    } else { // Step 6: Confirmation Step
         content.push(
             <h2>Confirm Proposal Details</h2>
         )
@@ -140,6 +174,8 @@ const NewProposalForm = (props) => {
             holdings={targetHoldings}
             selectionMethod={method}
             numberOfPortfolios={numberOfPortfolios}
+            selectedProject={selectedProject}
+            selectedProjectName={selectedProjectName}
             ></ProposalConfirmationPage>
         )
         content.push(
@@ -155,7 +191,7 @@ const NewProposalForm = (props) => {
                         e, 
                         'proposals',
                         {
-                            projectID: projectID,
+                            projectID: selectedProject,
                             proposalName: proposalName,
                             autoCalculate: 'true',
                             accountID: targetAccount.id,                

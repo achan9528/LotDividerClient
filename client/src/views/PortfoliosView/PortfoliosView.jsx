@@ -90,13 +90,12 @@ export const PortfoliosView = (props) => {
                             <Col>
                                 <Row className="justify-content-md-center">
                                     <Col md="auto">
-                                        <Link to='/projects/new'>
-                                            <Button variant="success">New Project</Button>
+                                        <Link to='/portfolios/new/'>
+                                            <Button variant="success">Add Portfolio</Button>
                                         </Link>
                                     </Col>
                                 </Row>
                             </Col>
-
                         </Row>
                     </Col>
                 </Row>

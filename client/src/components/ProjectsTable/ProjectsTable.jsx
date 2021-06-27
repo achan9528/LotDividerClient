@@ -1,4 +1,4 @@
-import { Row, Col, Table, Button, Container } from 'react-bootstrap'
+import { Row, Col, Table, Button, Container, Form } from 'react-bootstrap'
 import useToken from '../../components/hooks/useToken'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -6,7 +6,7 @@ import { getEntries, getEntry, getGenericUserInfo } from '../../components/helpe
 import { Loading } from '../../components/Loading/Loading'
 import { SearchBox } from '../../components/SearchBox/SearchBox'
 
-export const ProjectsView = (props) => {
+export const ProjectsTable = (props) => {
     const { token } = useToken()
     const [ projects, setProjects ] = useState([])
     const [loading, setLoading] = useState(true)
@@ -31,11 +31,15 @@ export const ProjectsView = (props) => {
             return(
                 <tr key={key}>
                     <td>{item.id}</td>
-                    <td><Link to={'/projects/'+item.id+"/"}>{item.name}</Link></td>
+                    <td>{item.name}</td>
                     <td>
-                        <Link to={'/projects/'+item.id+"/"}>View</Link>
-                        <Link to={'/projects/'+item.id+"/edit/"}>Edit</Link>
-                        <Link to={'/projects/'+item.id+"/delete/"}>Remove</Link>
+                        <Form.Check 
+                        name="selectedProject" 
+                        type="radio"
+                        onClick={e=>{
+                            props.setSelectedProject(item.id)
+                            props.setSelectedProjectName(item.name)
+                        }}></Form.Check>
                     </td>
                 </tr>
             )
@@ -47,11 +51,6 @@ export const ProjectsView = (props) => {
     } else {
         return (
             <Container className="justify-content-md-center">
-                <Row>
-                    <Col>
-                        <h1>Projects</h1>
-                    </Col>
-                </Row>
                 <Row>
                     <Col>
                         <SearchBox 
@@ -73,35 +72,6 @@ export const ProjectsView = (props) => {
                                 {tableData}
                             </tbody>
                         </Table>
-                    </Col>
-                    {/* <Col>
-                        <h2>Latest Activity:</h2>
-                        <p>Go Go Squid is a good show (deep cuts)</p>
-                    </Col> */}
-                </Row>
-                <Row className="justify-content-md-center">
-                    <Col>
-                        <Row>
-                            <Col className="justify-content-md-center">
-                                <Row className="justify-content-md-center">
-                                    <Col md="auto">
-                                        <Link to='/dashboard'>
-                                            Back to Dashboard
-                                        </Link>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col>
-                                <Row className="justify-content-md-center">
-                                    <Col md="auto">
-                                        <Link to='/projects/new'>
-                                            <Button variant="success">New Project</Button>
-                                        </Link>
-                                    </Col>
-                                </Row>
-                            </Col>
-
-                        </Row>
                     </Col>
                 </Row>
             </Container>

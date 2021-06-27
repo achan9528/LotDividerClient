@@ -58,7 +58,12 @@ const ProposalConfirmationPage = (props)=>{
                 defaultValue={props.numberOfPortfolios}></Form.Control>
                 <Form.Control plaintext readOnly
                 defaultValue={props.selectionMethod}></Form.Control>
-            </Form.Group>
+            </Form.Group>            
+            {/* <Form.Group>
+                <h4>Project to Assign Proposal To</h4>
+                <Form.Control plaintext readOnly
+                defaultValue={`${props.selectedProject} - ${props.selectedProjectName}`}></Form.Control>
+            </Form.Group> */}
         </Form>        
     )
 }

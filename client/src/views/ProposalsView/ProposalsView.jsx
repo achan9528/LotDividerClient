@@ -94,8 +94,8 @@ export const ProposalsView = (props) => {
                             <Col>
                                 <Row className="justify-content-md-center">
                                     <Col md="auto">
-                                        <Link to='/projects/new'>
-                                            <Button variant="success">New Project</Button>
+                                        <Link to='/proposals/new/'>
+                                            <Button variant="success">Add Proposal</Button>
                                         </Link>
                                     </Col>
                                 </Row>
