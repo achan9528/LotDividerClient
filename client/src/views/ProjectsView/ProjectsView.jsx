@@ -11,7 +11,6 @@ export const ProjectsView = (props) => {
     const [ projects, setProjects ] = useState([])
     const [loading, setLoading] = useState(true)
     const [ messages, setMessages ] = useState()
-    const [userInfo, setUserInfo] = useState()
     const [pages, setPages] = useState()
 
     useEffect(() => {
@@ -34,8 +33,8 @@ export const ProjectsView = (props) => {
                     <td>{item.id}</td>
                     <td><Link to={'/projects/'+item.id+"/"}>{item.name}</Link></td>
                     <td>
-                        <Link to={'/projects/'+item.id+"/edit"}>Edit Project | </Link>
-                        <Link to={'/projects/'+item.id+"/delete"}>Remove Project</Link>
+                        <Link to={'/projects/'+item.id+"/edit/"}>Edit Project | </Link>
+                        <Link to={'/projects/'+item.id+"/delete/"}>Remove Project</Link>
                     </td>
                 </tr>
             )
@@ -49,13 +48,14 @@ export const ProjectsView = (props) => {
             <Container className="justify-content-md-center">
                 <Row>
                     <Col>
-                        <h1>Existing Projects</h1>
+                        <h1>Projects</h1>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
                         <SearchBox 
-                        setProjects={setProjects}
+                        model={'projects'}
+                        setEntries={setProjects}
                         setLoading={setLoading}
                         setMessages={setMessages}
                         setPages={setPages}

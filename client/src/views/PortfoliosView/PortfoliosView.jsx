@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getEntries, getEntry, getGenericUserInfo } from '../../components/helpers'
 import { Loading } from '../../components/Loading/Loading'
+import { SearchBox } from '../../components/SearchBox/SearchBox'
 
 export const PortfoliosView = (props) => {
     const { token } = useToken()
@@ -29,8 +30,8 @@ export const PortfoliosView = (props) => {
                     <td>{item.name}</td>
                     <td>
                         <Link to={'/portfolios/'+item.id+"/"}>View | </Link>
-                        <Link to={'/portfolios/'+item.id+"/edit"}>Edit Portfolio | </Link>
-                        <Link to={'/portfolios/'+item.id+"/delete"}>Remove Portfolio</Link>
+                        <Link to={'/portfolios/'+item.id+"/edit/"}>Edit Portfolio | </Link>
+                        <Link to={'/portfolios/'+item.id+"/delete/"}>Remove Portfolio</Link>
                     </td>
                 </tr>
             )
@@ -49,6 +50,13 @@ export const PortfoliosView = (props) => {
                 </Row>
                 <Row>
                     <Col>
+                        <SearchBox 
+                            model={'portfolios'}
+                            setEntries={setPortfolios}
+                            setLoading={setLoading}
+                            setMessages={setMessages}
+                            setPages={setPages}
+                            token={token}></SearchBox>
                         <Table striped bordered hover>
                             <thead>
                                 <tr>

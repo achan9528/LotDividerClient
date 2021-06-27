@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getEntries } from '../../components/helpers'
 import { Loading } from '../../components/Loading/Loading'
+import { SearchBox } from '../../components/SearchBox/SearchBox'
 
 export const ProposalsView = (props) => {
     const { token } = useToken()
@@ -20,7 +21,11 @@ export const ProposalsView = (props) => {
 
     let tableData;
     if (proposals.length === 0){
-        tableData = <tr><td>No Proposals</td><td></td></tr>
+        tableData = <tr>
+                <td>No Proposals</td>
+                <td></td>
+                <td></td>
+            </tr>
     } else {
         tableData = proposals.map((item,key) => {
             return(
@@ -44,11 +49,18 @@ export const ProposalsView = (props) => {
             <Container className="justify-content-md-center">
                 <Row>
                     <Col>
-                        <h1>Existing Proposals</h1>
+                        <h1>Proposals</h1>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
+                        <SearchBox 
+                            model={'proposals'}
+                            setEntries={setProposals}
+                            setLoading={setLoading}
+                            setMessages={setMessages}
+                            setPages={setPages}
+                            token={token}></SearchBox>
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
