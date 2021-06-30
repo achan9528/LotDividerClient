@@ -21,6 +21,24 @@ export const authenticate = (e, method, payload, setMessages, setToken) => {
         })
 }
 
+export const validate = (field, userInput, validators, inputMessages, setInputMessages) => {
+    let isValid = true;
+    let updatedMessages = inputMessages
+    delete updatedMessages[[field]]
+    validators.forEach(validator=>{
+        let input = validator(userInput)
+        if (!input.valid){
+            isValid=false
+            updatedMessages.hasOwnProperty(field)
+            ? updatedMessages[[field]] = updatedMessages[[field]].push(input.message)
+            : updatedMessages[[field]] = [input.message]
+            console.log(updatedMessages)
+            setInputMessages({...updatedMessages})
+        }
+    })
+    return isValid
+}
+
 export const fileHandler = (e, targetAccount, files, setFiles) => {
     let updatedFiles = files;
     updatedFiles[targetAccount] = {
@@ -192,7 +210,10 @@ export const createEntry = (e, model, payload, setSuccessfulCreate, setMessages,
                 ? setSuccessfulCreate(true)
                 : setMessages(res.statusText)
         })
-        .catch(err => setMessages(err));
+        .catch(err => {
+            console.log(err)
+            setMessages(err)
+        });
 }
 
 export const deleteEntry = (e, model, modelID, setDeleted, setMessages, token) => {

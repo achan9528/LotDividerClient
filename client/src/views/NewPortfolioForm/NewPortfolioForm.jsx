@@ -4,11 +4,13 @@ import useToken from '../../components/hooks/useToken'
 import { Redirect } from 'react-router-dom'
 import MultiStepFormHoldingsTable from '../../components/MultiStepFormHoldingsTable/MultiStepFormHoldingsTable'
 import MultiStepFormAccountTable from '../../components/MultiStepFormAccountTable/MultiStepFormAccountTable'
-import { createPortfolio, fileHandler } from '../../components/helpers'
+import { createPortfolio, fileHandler, validate } from '../../components/helpers'
+import { portfolioNameValidators } from '../../components/validators'
 
 const NewPortfolioForm = (props) => {
     const [step, setStep] = useState("");
     const [portfolioName, setPortfolioName] = useState("");
+    const [portfolioNameIsInvalid, setPortfolioNameIsInvalid] = useState();
     const [holdings, setHoldings] = useState([]);
     const [accounts, setAccounts] = useState([]);
     const [files, setFiles] = useState([]);
@@ -16,6 +18,7 @@ const NewPortfolioForm = (props) => {
     const {token} = useToken();
     const [successfulCreate, setSuccessfulCreate] = useState(false)
     const [messages, setMessages] = useState({})
+    const [inputMessages, setInputMessages] = useState({})
 
     useEffect(()=>{
         setStep(0);
@@ -23,8 +26,17 @@ const NewPortfolioForm = (props) => {
 
     // step process
     const nextStep = (e) => {
-        e.preventDefault()
-        setStep(step+1);
+        e.preventDefault();
+        const valid = validate("portfolioName",portfolioName, portfolioNameValidators, inputMessages, setInputMessages)
+        let updatedInputMessages = inputMessages
+        if (valid){
+            setStep(step+1)
+            setPortfolioNameIsInvalid(false)
+            delete updatedInputMessages.portfolioName
+            setInputMessages({...updatedInputMessages})
+        } else {
+            setPortfolioNameIsInvalid(true)
+        }
     }
 
     const toHoldingsStep = (e, key) => {
@@ -46,10 +58,16 @@ const NewPortfolioForm = (props) => {
         )
         content.push(
             <Form.Group>
-                <Form.Label>Portfolio Name</Form.Label>
+                <Form.Label htmlFor="portfolioName">Portfolio Name</Form.Label>
                 <Form.Control
+                    name="portfolioName"
+                    type="text"
                     value={portfolioName}
-                    onChange={e=>setPortfolioName(e.target.value)}></Form.Control>
+                    onChange={e=>setPortfolioName(e.target.value)}
+                    isInvalid={portfolioNameIsInvalid}></Form.Control>
+                <Form.Control.Feedback type="invalid" role="error-messages">
+                    {inputMessages.portfolioName}
+                </Form.Control.Feedback>
             </Form.Group>
         );
         content.push(
