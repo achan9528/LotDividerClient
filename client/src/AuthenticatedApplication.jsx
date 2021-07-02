@@ -25,14 +25,35 @@ const AuthenticatedApplication = (props) => {
         <Router>
             <NavBar setToken={props.setToken}></NavBar>
                 <Switch>
+                    <Route exact path="/">
+                        <Redirect to="/dashboard/"></Redirect>
+                    </Route>
+                    <Route exact path="/login">
+                        <Redirect to="/dashboard/"></Redirect>
+                    </Route>
+                    <Route exact path="/registration">
+                        <Redirect to="/dashboard/"></Redirect>
+                    </Route>
                     <Route exact path="/dashboard/">
                         <UserDashboard></UserDashboard>
                     </Route>
                     <Route exact path="/projects/">
                         <ProjectsView></ProjectsView>
                     </Route>
+                    <Route exact path="/portfolios/">
+                        <PortfoliosView></PortfoliosView>
+                    </Route>
+                    <Route exact path="/proposals/">
+                        <ProposalsView></ProposalsView>
+                    </Route>
                     <Route exact path="/projects/new/">
                         <NewProjectForm></NewProjectForm>
+                    </Route>
+                    <Route exact path="/portfolios/new/">
+                        <NewPortfolioForm></NewPortfolioForm>
+                    </Route>
+                    <Route exact path="/proposals/new/">
+                        <NewProposalForm></NewProposalForm>
                     </Route>
                     <Route exact path="/projects/:projectID/">
                         <ProjectView></ProjectView>
@@ -45,12 +66,6 @@ const AuthenticatedApplication = (props) => {
                     </Route>
                     <Route exact path="/projects/:projectID/proposals/new/">
                         <NewProposalForm></NewProposalForm>
-                    </Route>
-                    <Route exact path="/portfolios/new/">
-                        <NewPortfolioForm></NewPortfolioForm>
-                    </Route>
-                    <Route exact path="/portfolios/">
-                        <PortfoliosView></PortfoliosView>
                     </Route>
                     <Route exact path="/portfolios/:portfolioID/">
                         {/* <PortfolioView></PortfolioView> */}
@@ -66,21 +81,6 @@ const AuthenticatedApplication = (props) => {
                     </Route>
                     <Route exact path="/projects/:projectID/proposals/:proposalID/delete/">
                         <DeleteProposalView></DeleteProposalView>
-                    </Route>
-                    <Route exact path="/proposals/new/">
-                        <NewProposalForm></NewProposalForm>
-                    </Route>
-                    <Route exact path="/proposals/">
-                        <ProposalsView></ProposalsView>
-                    </Route>
-                    <Route exact path="/">
-                        <Redirect to="/dashboard/"></Redirect>
-                    </Route>
-                    <Route exact path="/login">
-                        <Redirect to="/dashboard/"></Redirect>
-                    </Route>
-                    <Route exact path="/registration">
-                        <Redirect to="/dashboard/"></Redirect>
                     </Route>
                 </Switch>
         </Router>

@@ -21,24 +21,6 @@ export const authenticate = (e, method, payload, setMessages, setToken) => {
         })
 }
 
-export const validate = (field, userInput, validators, inputMessages, setInputMessages) => {
-    let isValid = true;
-    let updatedMessages = inputMessages
-    delete updatedMessages[[field]]
-    validators.forEach(validator=>{
-        let input = validator(userInput)
-        if (!input.valid){
-            isValid=false
-            updatedMessages.hasOwnProperty(field)
-            ? updatedMessages[[field]] = updatedMessages[[field]].push(input.message)
-            : updatedMessages[[field]] = [input.message]
-            console.log(updatedMessages)
-            setInputMessages({...updatedMessages})
-        }
-    })
-    return isValid
-}
-
 export const fileHandler = (e, targetAccount, files, setFiles) => {
     let updatedFiles = files;
     updatedFiles[targetAccount] = {
@@ -206,6 +188,7 @@ export const createEntry = (e, model, payload, setSuccessfulCreate, setMessages,
     };
     fetch(url, data)
         .then(res => {
+            console.log('here')
             res.status === 200 || res.status === 201 || res.status === 204
                 ? setSuccessfulCreate(true)
                 : setMessages(res.statusText)
@@ -436,5 +419,47 @@ export const handleModalClose = (e, setShow) => {
 export const getHomePageText = () => {
     return {
         description: 'This is a project designed to help automate the tax lot selection process during portfolio transfers. The main idea was to help speed things up, but the applicaiton is quickly growing.' 
+    }
+}
+
+export const validateSingleInput = (userInput, validators) => {
+    let result = {
+        valid: true
+    }
+    console.log(validators)
+    validators.forEach(validator=>{
+        let input = validator(userInput)
+        if (!input.valid){
+            result.hasOwnProperty('message')
+            ? result.message = result.message.push(input.message)
+            : result.message = [input.message]
+            result.valid = false
+        }
+    })
+    result.valid
+    ? result.message = "good to go"
+    : result.message = result.message
+    return result
+}
+
+export const validate = (fieldsAndInputs, validators, setInputMessages) => {
+    let isValid = true
+    let updatedMessages = {}
+    Object.keys(fieldsAndInputs).forEach(key=>{
+        updatedMessages[[key]] = validateSingleInput(fieldsAndInputs[[key]], validators[[key]])
+        !updatedMessages[[key]].valid
+        ? isValid=false
+        : isValid=true 
+    })
+    setInputMessages({...updatedMessages})
+    return isValid
+}
+
+// step process
+export const nextStep = (e, fieldsAndInputs, validators, setInputMessages, step, setStep) => {
+    e.preventDefault();
+    const valid = validate(fieldsAndInputs, validators, setInputMessages)
+    if (valid){
+        setStep(step+1)
     }
 }

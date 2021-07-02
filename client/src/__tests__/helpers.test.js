@@ -85,25 +85,38 @@ describe('createEntry', ()=>{
 
 describe('validate function', ()=>{
 
-    const field = 'someField'
-    const userInput = 'someUserInput'
-    let validators = []
-    let inputMessages = []
-    const setInputMessages = jest.fn()
-
     it('should call validators', ()=>{
-        validators.push(
-            jest.fn(input=>input)
-        )
+        const fieldsAndInputs = {
+            field1: 'input1',
+            field2: 'input2'
+        }
+        const validator1 = jest.fn(x=>{
+            return {
+                valid: true,
+                message: 'good to go'
+            }
+        })
+        const validator2 = jest.fn(x=>{
+            return {
+                valid: true,
+                message: 'good to go'
+            }
+        })
+        let validators = {
+            field1: [validator1],
+            field2: [validator1, validator2]
+        }
+        let inputMessages = []
+        const setInputMessages = jest.fn()
         helpers.validate(
-            field,
-            userInput,
+            fieldsAndInputs,
             validators,
-            inputMessages,
             setInputMessages
         )
-        expect(validators[0]).toHaveBeenCalled()
-        expect(validators[0]).toHaveBeenCalledWith(userInput)
+        expect(validator1).toHaveBeenCalledTimes(2)
+        expect(validator2).toHaveBeenCalledTimes(1)
+        expect(validator1).toHaveBeenNthCalledWith(1,fieldsAndInputs.field1)
+        expect(validator1).toHaveBeenNthCalledWith(2,fieldsAndInputs.field2)
     })
 
 })
@@ -183,11 +196,10 @@ describe('New Portfolio Form', ()=>{
             // second step (back to first screen)
             const backButton = screen.getByRole('button', {name: 'Previous'})
             userEvent.click(backButton)
-            expect(screen.getByRole('error-messages').innerHTML).toBe("")
+            expect(screen.getByRole('error-messages').innerHTML).toBe("good to go")
             expect(screen.getByRole('heading').innerHTML).toBe(heading)
             inputField = screen.getByRole('textbox')
             userEvent.clear(inputField)
-            expect(inputField).toHaveAttribute('value', '')
             userEvent.type(inputField, 'Te')
             userEvent.click(nextButton)
             expect(screen.getByRole('error-messages')).toBeInTheDocument()
@@ -196,18 +208,109 @@ describe('New Portfolio Form', ()=>{
     })
 
     describe('second step', ()=>{
-        beforeEach(()=>{
+
+        it('user should see new account name field on add account button', ()=>{
+            // first step 
             render(<NewPortfolioForm></NewPortfolioForm>)
+            let inputField = screen.getByRole('textbox')
+            const nextButton = screen.getByRole('button', {name: 'Next'})
+            userEvent.type(inputField, 'Test')
+            userEvent.click(nextButton)
+            // second step (back to first screen)
+            const addAccountButton = screen.getByRole('button', {name: 'Add Account'})
+            expect(screen.getAllByRole('row').length).toBe(1)
+            userEvent.click(addAccountButton)
+            expect(screen.getAllByRole('row').length).toBe(2)
+            expect(screen.getAllByRole('textbox').length).toBe(1)
         })
 
-        it('should require minimum 4 character account name', ()=>{
-            let addAccountButton = screen.getByRole('button',{name:"Add Account"}))
-            userEvent.click(addAccountButton)
+        it('user should be allowed to create empty portfolio with no accounts, be redirected to portfolios list, and see success message ', ()=>{
+            // first step 
+            render(<NewPortfolioForm></NewPortfolioForm>)
             let inputField = screen.getByRole('textbox')
-            userEvent.type(inputField, 'tes')
-            expect(screen.getByRole('error-messages', {name:'error-messages-1'})).toBeInDocument()
-            expect(screen.getByRole('error-messages', {name:'error-messages-1'})).toBeInDocument("Must be at least 4 characters")
+            const nextButton = screen.getByRole('button', {name: 'Next'})
+            let portfolioName = 'Test Portfolio'
+            userEvent.type(inputField, portfolioName)
+            userEvent.click(nextButton)
+            // second step (back to first screen)
+            const submitButton = screen.getByRole('button', {name: 'Submit'})
+            userEvent.click(submitButton)
+            expect(helpers.)
+            let heading = screen.getByRole('heading')
+            let messages = screen.getByRole('alert')
+            expect(heading).toBe('Portfolios') // should be redirected back
+            expect(messages.innerHTML).toBe(`Portfolio ${portfolioName} successfully created!`)
         })
     })
 
+})
+
+describe('nextStep function', ()=>{
+    it('should setInputMessages and setStep by 1 on valid inputs', ()=>{
+        const e = document.createEvent('Event')
+        const fieldsAndInputs = {
+            field1: 'input1'
+        }
+        const validator1 = jest.fn(x=>{
+            return {
+                valid: true,
+                message: "good to go"
+            }
+        })
+        const validators = {
+            field1: [validator1],
+            field2: [validator1]
+        }
+        const inputMessages = {}
+        const setInputMessages = jest.fn()
+        const step = 0
+        const setStep = jest.fn()
+        helpers.nextStep(
+            e,
+            fieldsAndInputs,
+            validators,
+            setInputMessages,
+            step,
+            setStep
+        )
+        expect(setStep).toHaveBeenCalledWith(step+1)
+    })
+})
+
+describe('validate', ()=>{
+    it('should setInputMessages and return true given valid inputs and validators', ()=>{
+        const fieldsAndInputs = {
+            field1: 'input1',
+            field2: 'input2'
+        }
+        const validator1 = jest.fn(x=>{
+            return {
+                valid: true,
+                message: "good to go"
+            }
+        })
+        const validators = {
+            field1: [validator1],
+            field2: [validator1]
+        }
+        const setInputMessages = jest.fn(x=>x)
+        const result = helpers.validate(
+            fieldsAndInputs,
+            validators,
+            setInputMessages
+        )
+        expect(result).toBeTruthy()
+        expect(setInputMessages).toBeCalledWith(
+            {
+                field1: {
+                    valid: true,
+                    message: "good to go"
+                },
+                field2: {
+                    valid: true,
+                    message: "good to go"
+                }
+            }
+        )
+    })
 })

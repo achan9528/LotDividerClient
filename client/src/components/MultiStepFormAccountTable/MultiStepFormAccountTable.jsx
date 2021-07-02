@@ -91,7 +91,7 @@ const MultiStepFormAccountTable = (props)=>{
                     }
                 </tbody>
             </Table>
-            <Button onClick={e=>addRow(e)}>+</Button>
+            <Button onClick={e=>addRow(e)}>Add Account</Button>
         </Form.Group>
         
     )

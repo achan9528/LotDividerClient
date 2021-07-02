@@ -1,7 +1,7 @@
-import { Row, Col, Table, Button, Container } from 'react-bootstrap'
+import { Row, Col, Table, Button, Container, Alert } from 'react-bootstrap'
 import useToken from '../../components/hooks/useToken'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { getEntries, getEntry, getGenericUserInfo } from '../../components/helpers'
 import { Loading } from '../../components/Loading/Loading'
 import { SearchBox } from '../../components/SearchBox/SearchBox'
@@ -10,12 +10,18 @@ export const PortfoliosView = (props) => {
     const { token } = useToken()
     const [ portfolios, setPortfolios ] = useState([])
     const [loading, setLoading] = useState(true)
-    const [ messages, setMessages ] = useState()
+    const [ messages, setMessages ] = useState({})
+    const [ showMessages, setShowMessages ] = useState(false)
     const [pages, setPages] = useState()
+    let location = useLocation()
 
     useEffect(() => {
         if (loading) {
             getEntries('portfolios', setPortfolios, setPages, setLoading, setMessages, token, {});
+            if (location.state.messages){
+                setMessages({...location.state.messages})
+                setShowMessages(true)
+            }
         }
     }, [])
 
@@ -41,8 +47,15 @@ export const PortfoliosView = (props) => {
     if (loading){
         return <Loading></Loading>
     } else {
+        console.log(messages)
         return (
             <Container className="justify-content-md-center">
+                <Alert 
+                    dismissible
+                    show={showMessages}
+                    variant={messages.variant}
+                    onClose={()=>setShowMessages(false)}
+                    >{messages.text}</Alert>
                 <Row>
                     <Col>
                         <h1>Portfolios</h1>
@@ -70,10 +83,6 @@ export const PortfoliosView = (props) => {
                             </tbody>
                         </Table>
                     </Col>
-                    {/* <Col>
-                        <h2>Latest Activity:</h2>
-                        <p>Go Go Squid is a good show (deep cuts)</p>
-                    </Col> */}
                 </Row>
                 <Row className="justify-content-md-center">
                     <Col>

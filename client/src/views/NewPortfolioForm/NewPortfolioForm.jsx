@@ -4,13 +4,12 @@ import useToken from '../../components/hooks/useToken'
 import { Redirect } from 'react-router-dom'
 import MultiStepFormHoldingsTable from '../../components/MultiStepFormHoldingsTable/MultiStepFormHoldingsTable'
 import MultiStepFormAccountTable from '../../components/MultiStepFormAccountTable/MultiStepFormAccountTable'
-import { createPortfolio, fileHandler, validate } from '../../components/helpers'
+import { createPortfolio, fileHandler, nextStep } from '../../components/helpers'
 import { portfolioNameValidators } from '../../components/validators'
 
 const NewPortfolioForm = (props) => {
     const [step, setStep] = useState("");
     const [portfolioName, setPortfolioName] = useState("");
-    const [portfolioNameIsInvalid, setPortfolioNameIsInvalid] = useState();
     const [holdings, setHoldings] = useState([]);
     const [accounts, setAccounts] = useState([]);
     const [files, setFiles] = useState([]);
@@ -18,26 +17,31 @@ const NewPortfolioForm = (props) => {
     const {token} = useToken();
     const [successfulCreate, setSuccessfulCreate] = useState(false)
     const [messages, setMessages] = useState({})
-    const [inputMessages, setInputMessages] = useState({})
+    const [inputMessages, setInputMessages] = useState({
+        portfolioName: {
+            valid: true,
+            message: "good to go"
+        }
+    })
 
     useEffect(()=>{
         setStep(0);
     }, [])
 
     // step process
-    const nextStep = (e) => {
-        e.preventDefault();
-        const valid = validate("portfolioName",portfolioName, portfolioNameValidators, inputMessages, setInputMessages)
-        let updatedInputMessages = inputMessages
-        if (valid){
-            setStep(step+1)
-            setPortfolioNameIsInvalid(false)
-            delete updatedInputMessages.portfolioName
-            setInputMessages({...updatedInputMessages})
-        } else {
-            setPortfolioNameIsInvalid(true)
-        }
-    }
+    // const nextStep = (e) => {
+    //     e.preventDefault();
+    //     const valid = validate2("portfolioName",portfolioName, portfolioNameValidators, inputMessages, setInputMessages)
+    //     let updatedInputMessages = inputMessages
+    //     if (valid){
+    //         setStep(step+1)
+    //         setPortfolioNameIsInvalid(false)
+    //         delete updatedInputMessages.portfolioName
+    //         setInputMessages({...updatedInputMessages})
+    //     } else {
+    //         setPortfolioNameIsInvalid(true)
+    //     }
+    // }
 
     const toHoldingsStep = (e, key) => {
         setCurrentAccount(key);
@@ -64,15 +68,26 @@ const NewPortfolioForm = (props) => {
                     type="text"
                     value={portfolioName}
                     onChange={e=>setPortfolioName(e.target.value)}
-                    isInvalid={portfolioNameIsInvalid}></Form.Control>
+                    isInvalid={!inputMessages.portfolioName.valid}></Form.Control>
                 <Form.Control.Feedback type="invalid" role="error-messages">
-                    {inputMessages.portfolioName}
+                    {inputMessages.portfolioName.message}
                 </Form.Control.Feedback>
             </Form.Group>
         );
         content.push(
             <Button 
-            onClick={e=>nextStep(e)}
+            onClick={e=>nextStep(
+                e,
+                {
+                    portfolioName: portfolioName
+                },
+                {
+                    portfolioName: portfolioNameValidators
+                },
+                setInputMessages,
+                step,
+                setStep
+            )}
             variant="link">
                 Next
             </Button>
@@ -138,7 +153,15 @@ const NewPortfolioForm = (props) => {
     }
 
     if (successfulCreate){
-        return <Redirect to="/dashboard"></Redirect>
+        return <Redirect to={{
+            pathname:"/portfolios/",
+            state: {
+                messages: {
+                    text: `Portfolio "${portfolioName}" successfully created!`,
+                    variant: 'success'
+                }
+            }
+        }}></Redirect>
     }
 
     return(
