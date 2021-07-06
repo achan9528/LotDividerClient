@@ -55,7 +55,7 @@ export const PortfoliosView = (props) => {
                     show={showMessages}
                     variant={messages.variant}
                     onClose={()=>setShowMessages(false)}
-                    >{messages.text}</Alert>
+                    ><p role="alert">{messages.text}</p></Alert>
                 <Row>
                     <Col>
                         <h1>Portfolios</h1>

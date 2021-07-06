@@ -1,9 +1,14 @@
-import { logRoles, getRoles, render, screen } from '@testing-library/react'
+import { logRoles, getRoles, render, screen, waitForElementToBeRemoved, waitFor, waitForElement, findByAltText } from '@testing-library/react'
 import NewPortfolioForm from '../views/NewPortfolioForm/NewPortfolioForm'
+import { PortfoliosView } from '../views/PortfoliosView/PortfoliosView'
 import * as helpers from '../components/helpers'
 import * as validators from '../components/validators'
+import { useToken } from '../components/hooks/useToken'
 import userEvent from '@testing-library/user-event'
 import MultiStepFormAccountTable from '../components/MultiStepFormAccountTable/MultiStepFormAccountTable'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { act } from 'react-dom/test-utils'
+const { Readable } = require("stream")
 
 
 
@@ -158,12 +163,10 @@ describe('New Portfolio Form', ()=>{
             userEvent.type(inputField, 'Test')
             userEvent.click(nextButton)
             expect(screen.getByRole('heading').innerHTML).not.toBe(heading)
-            screen.debug()
         })
     
         it('should show error messages if validators not satisfied', ()=>{
             const { getByRole, getAllByRole, getRoles } = render(<NewPortfolioForm></NewPortfolioForm>)
-            screen.debug()
             const inputField = getByRole('textbox')
             const nextButton = getByRole('button', {name: 'Next'})
             userEvent.type(inputField, 'te')
@@ -173,7 +176,6 @@ describe('New Portfolio Form', ()=>{
 
         it('should not double error messages on multiple clicks', ()=>{
             const { getByRole, getAllByRole, getRoles } = render(<NewPortfolioForm></NewPortfolioForm>)
-            screen.debug()
             const inputField = getByRole('textbox')
             const nextButton = getByRole('button', {name: 'Next'})
             userEvent.type(inputField, 'te')
@@ -224,22 +226,62 @@ describe('New Portfolio Form', ()=>{
             expect(screen.getAllByRole('textbox').length).toBe(1)
         })
 
-        it('user should be allowed to create empty portfolio with no accounts, be redirected to portfolios list, and see success message ', ()=>{
+        it('user should be allowed to create empty portfolio with no accounts, be redirected to portfolios list, and see success message ', async ()=>{
             // first step 
-            render(<NewPortfolioForm></NewPortfolioForm>)
+            render(
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact path="/">
+                            <NewPortfolioForm></NewPortfolioForm>
+                        </Route>
+                        <Route exact path="/portfolios/">
+                            <PortfoliosView></PortfoliosView>
+                        </Route>
+                    </Switch>
+                </BrowserRouter>
+            )
             let inputField = screen.getByRole('textbox')
             const nextButton = screen.getByRole('button', {name: 'Next'})
             let portfolioName = 'Test Portfolio'
+            let heading = screen.getByRole('heading')
             userEvent.type(inputField, portfolioName)
             userEvent.click(nextButton)
             // second step (back to first screen)
+            screen.debug()
             const submitButton = screen.getByRole('button', {name: 'Submit'})
+            let fakeBody = JSON.stringify(
+                {
+                    results: [
+                        {
+                            portfolioName: 1,
+                            portfolioName: portfolioName 
+                        }
+                    ], count: 20
+
+                }
+            )
+            const blob = new Blob([fakeBody])
+            const fakeResponse = new Response(blob)
+            const mockFetch = jest.fn()
+            mockFetch.mockReturnValueOnce(
+                new Promise((resolve,reject)=>{
+                    resolve({
+                        status: 200
+                    })
+                })
+            ).mockReturnValueOnce(
+                new Promise((resolve, reject)=>{
+                    console.log("second mock function call")
+                    resolve(fakeResponse)
+                })
+            )
+            const originalFetch = global.fetch
+            global.fetch = mockFetch
             userEvent.click(submitButton)
-            expect(helpers.)
-            let heading = screen.getByRole('heading')
-            let messages = screen.getByRole('alert')
-            expect(heading).toBe('Portfolios') // should be redirected back
-            expect(messages.innerHTML).toBe(`Portfolio ${portfolioName} successfully created!`)
+            await waitForElementToBeRemoved(heading)
+            expect(window.location.pathname).toBe('/portfolios/')
+            expect(await screen.findByText(`Portfolio "${portfolioName}" successfully created!`,{}, {timeout: 2000})).toBeInTheDocument()
+            global.fetch = originalFetch
         })
     })
 

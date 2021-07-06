@@ -90,12 +90,17 @@ export const getEntries = (model, setEntries, setPages, setLoading, setMessages,
             'Authorization': `Token ${token}`
         }
     };
+    console.log("about to fetch")
     fetch(url, data)
-        .then(res => res.json())
+        .then(res => {
+            console.log("trying to turn to json")
+            return res.json()
+        })
         .then(data => {
             if (data.hasOwnProperty('status')){
                 setMessages(data)
             } else{
+                console.log(data)
                 setEntries([...data.results])
                 setPages(data.count)
             }
@@ -103,7 +108,11 @@ export const getEntries = (model, setEntries, setPages, setLoading, setMessages,
         .then(res => {
             setLoading(false)
         })
-        .catch(err => setMessages(err))
+        .catch(err => {
+            console.log('catching error getEntries')
+            console.log(err)
+            setMessages(err)
+        })
 }
 
 export const getGenericUserInfo = (token, setUserInfo) => {
@@ -188,7 +197,6 @@ export const createEntry = (e, model, payload, setSuccessfulCreate, setMessages,
     };
     fetch(url, data)
         .then(res => {
-            console.log('here')
             res.status === 200 || res.status === 201 || res.status === 204
                 ? setSuccessfulCreate(true)
                 : setMessages(res.statusText)
@@ -426,7 +434,6 @@ export const validateSingleInput = (userInput, validators) => {
     let result = {
         valid: true
     }
-    console.log(validators)
     validators.forEach(validator=>{
         let input = validator(userInput)
         if (!input.valid){
