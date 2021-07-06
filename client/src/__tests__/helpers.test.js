@@ -152,6 +152,35 @@ describe('minStringLength function', ()=>{
     })
 })
 
+describe('Portfolios View', ()=>{
+    it('should render page', async ()=>{
+        let fakeBody = JSON.stringify(
+            {
+                results: [
+                    {
+                        portfolioName: 1,
+                        portfolioName: portfolioName 
+                    }
+                ], count: 20
+
+            }
+        )
+        const blob = new Blob([fakeBody])
+        const fakeResponse = new Response(blob)
+        const mockFetch = jest.fn()
+        mockFetch.mockReturnValueOnce(
+            new Promise((resolve, reject)=>{
+                console.log("second mock function call")
+                resolve(fakeResponse)
+            })
+        )
+        let originalFetch = global.fetch
+        global.fetch = mockFetch
+        render(<PortfoliosView></PortfoliosView>)
+        expect(await screen.findByRole('heading', {}, {timeout: 2000}).innerHTML).toBe('Portfolios')
+        global.fetch = originalFetch
+    })
+})
 
 describe('New Portfolio Form', ()=>{
     describe('first step', ()=>{

@@ -18,9 +18,11 @@ export const PortfoliosView = (props) => {
     useEffect(() => {
         if (loading) {
             getEntries('portfolios', setPortfolios, setPages, setLoading, setMessages, token, {});
-            if (location.state.messages){
-                setMessages({...location.state.messages})
-                setShowMessages(true)
+            if (location.state != undefined){
+                if (location.state.hasOwnProperty('messages')){
+                    setMessages({...location.state.messages})
+                    setShowMessages(true)
+                }
             }
         }
     }, [])

@@ -2,9 +2,11 @@ FROM node as build
 WORKDIR /LotDividerClient
 ENV PATH /node_modules/.bin:$PATH
 COPY package.json .
-COPY package-lock.json .
-RUN npm ci
-RUN npm install react-scripts@3.4.1
+# COPY package-lock.json .
+COPY yarn.lock .
+# RUN npm ci
+# RUN npm install react-scripts@3.4.1
+RUN yarn install
 COPY . .
 RUN npm run build
 
